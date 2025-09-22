@@ -1,13 +1,13 @@
-FROM golang:1.20-alpine AS builder
+FROM golang:1.23 AS builder
 RUN mkdir /app
 WORKDIR /app
 COPY . /app
 RUN go mod tidy
-RUN go build -o /app/main main.go
+RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o /app/main main.go
 
-FROM alpine
+FROM gcr.io/distroless/static-debian12
 RUN mkdir /app
 WORKDIR /app
 COPY --from=builder /app/main /app/main
-EXPOSE 4001
+EXPOSE 8080
 CMD ["/app/main"]
