@@ -1,14 +1,8 @@
 {
-  "buildCommand": "",
-  "outputDirectory": "",
-  "installCommand": "",
   "builds": [
-    {
-      "src": "Dockerfile",
-      "use": "@vercel/docker"
-    }
+    { "src": "main.go", "use": "@vercel/go" }
   ],
   "routes": [
-    { "src": "/(.*)", "dest": "/" }
+    { "src": "/(.*)", "dest": "main.go" }
   ]
 }
