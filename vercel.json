@@ -1,0 +1,14 @@
+{
+  "buildCommand": "",
+  "outputDirectory": "",
+  "installCommand": "",
+  "builds": [
+    {
+      "src": "Dockerfile",
+      "use": "@vercel/docker"
+    }
+  ],
+  "routes": [
+    { "src": "/(.*)", "dest": "/" }
+  ]
+}
