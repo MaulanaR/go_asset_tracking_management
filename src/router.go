@@ -1,0 +1,67 @@
+package src
+
+import (
+	"github.com/maulanar/go_asset_tracking_management/app"
+	"github.com/maulanar/go_asset_tracking_management/src/asset"
+	"github.com/maulanar/go_asset_tracking_management/src/branch"
+	"github.com/maulanar/go_asset_tracking_management/src/category"
+	"github.com/maulanar/go_asset_tracking_management/src/condition"
+	"github.com/maulanar/go_asset_tracking_management/src/department"
+	// import : DONT REMOVE THIS COMMENT
+)
+
+func Router() *routerUtil {
+	if router == nil {
+		router = &routerUtil{}
+		router.Configure()
+		router.isConfigured = true
+	}
+	return router
+}
+
+var router *routerUtil
+
+type routerUtil struct {
+	isConfigured bool
+}
+
+func (r *routerUtil) Configure() {
+	app.Server().AddRoute("/api/version", "GET", app.VersionHandler, nil)
+
+	app.Server().AddRoute("/api/v1/departments", "POST", department.REST().Create, department.OpenAPI().Create())
+	app.Server().AddRoute("/api/v1/departments", "GET", department.REST().Get, department.OpenAPI().Get())
+	app.Server().AddRoute("/api/v1/departments/{id}", "GET", department.REST().GetByID, department.OpenAPI().GetByID())
+	app.Server().AddRoute("/api/v1/departments/{id}", "PUT", department.REST().UpdateByID, department.OpenAPI().UpdateByID())
+	app.Server().AddRoute("/api/v1/departments/{id}", "PATCH", department.REST().PartiallyUpdateByID, department.OpenAPI().PartiallyUpdateByID())
+	app.Server().AddRoute("/api/v1/departments/{id}", "DELETE", department.REST().DeleteByID, department.OpenAPI().DeleteByID())
+
+	app.Server().AddRoute("/api/v1/conditions", "POST", condition.REST().Create, condition.OpenAPI().Create())
+	app.Server().AddRoute("/api/v1/conditions", "GET", condition.REST().Get, condition.OpenAPI().Get())
+	app.Server().AddRoute("/api/v1/conditions/{id}", "GET", condition.REST().GetByID, condition.OpenAPI().GetByID())
+	app.Server().AddRoute("/api/v1/conditions/{id}", "PUT", condition.REST().UpdateByID, condition.OpenAPI().UpdateByID())
+	app.Server().AddRoute("/api/v1/conditions/{id}", "PATCH", condition.REST().PartiallyUpdateByID, condition.OpenAPI().PartiallyUpdateByID())
+	app.Server().AddRoute("/api/v1/conditions/{id}", "DELETE", condition.REST().DeleteByID, condition.OpenAPI().DeleteByID())
+
+	app.Server().AddRoute("/api/v1/categories", "POST", category.REST().Create, category.OpenAPI().Create())
+	app.Server().AddRoute("/api/v1/categories", "GET", category.REST().Get, category.OpenAPI().Get())
+	app.Server().AddRoute("/api/v1/categories/{id}", "GET", category.REST().GetByID, category.OpenAPI().GetByID())
+	app.Server().AddRoute("/api/v1/categories/{id}", "PUT", category.REST().UpdateByID, category.OpenAPI().UpdateByID())
+	app.Server().AddRoute("/api/v1/categories/{id}", "PATCH", category.REST().PartiallyUpdateByID, category.OpenAPI().PartiallyUpdateByID())
+	app.Server().AddRoute("/api/v1/categories/{id}", "DELETE", category.REST().DeleteByID, category.OpenAPI().DeleteByID())
+
+	app.Server().AddRoute("/api/v1/branches", "POST", branch.REST().Create, branch.OpenAPI().Create())
+	app.Server().AddRoute("/api/v1/branches", "GET", branch.REST().Get, branch.OpenAPI().Get())
+	app.Server().AddRoute("/api/v1/branches/{id}", "GET", branch.REST().GetByID, branch.OpenAPI().GetByID())
+	app.Server().AddRoute("/api/v1/branches/{id}", "PUT", branch.REST().UpdateByID, branch.OpenAPI().UpdateByID())
+	app.Server().AddRoute("/api/v1/branches/{id}", "PATCH", branch.REST().PartiallyUpdateByID, branch.OpenAPI().PartiallyUpdateByID())
+	app.Server().AddRoute("/api/v1/branches/{id}", "DELETE", branch.REST().DeleteByID, branch.OpenAPI().DeleteByID())
+
+	app.Server().AddRoute("/api/v1/assets", "POST", asset.REST().Create, asset.OpenAPI().Create())
+	app.Server().AddRoute("/api/v1/assets", "GET", asset.REST().Get, asset.OpenAPI().Get())
+	app.Server().AddRoute("/api/v1/assets/{id}", "GET", asset.REST().GetByID, asset.OpenAPI().GetByID())
+	app.Server().AddRoute("/api/v1/assets/{id}", "PUT", asset.REST().UpdateByID, asset.OpenAPI().UpdateByID())
+	app.Server().AddRoute("/api/v1/assets/{id}", "PATCH", asset.REST().PartiallyUpdateByID, asset.OpenAPI().PartiallyUpdateByID())
+	app.Server().AddRoute("/api/v1/assets/{id}", "DELETE", asset.REST().DeleteByID, asset.OpenAPI().DeleteByID())
+
+	// AddRoute : DONT REMOVE THIS COMMENT
+}
