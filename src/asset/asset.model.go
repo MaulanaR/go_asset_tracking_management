@@ -5,23 +5,23 @@ import "github.com/maulanar/go_asset_tracking_management/app"
 // Asset is the main model of Asset data. It provides a convenient interface for app.ModelInterface
 type Asset struct {
 	app.Model
-	ID                    app.NullUUID     `json:"id"            db:"m.id"              gorm:"column:id;primaryKey"`
-	Code                  app.NullString   `json:"code"          db:"m.code"            gorm:"column:code"`
-	Name                  app.NullString   `json:"name"          db:"m.name"            gorm:"column:name"`
-	Price                 app.NullFloat64  `json:"price"         db:"m.price"           gorm:"column:price"`
-	Attachment            app.NullText     `json:"attachment"    db:"m.attachment"      gorm:"column:attachment"`
-	CategoryID            app.NullUUID     `json:"category.id"   db:"m.category_id"     gorm:"column:category_id"`
-	CategoryCode          app.NullString   `json:"category.code"        db:"cat.code"            gorm:"-"`
-	CategoryName          app.NullString   `json:"category.name"        db:"cat.name"            gorm:"-"`
-	CategoryDescription   app.NullText     `json:"category.description" db:"cat.description"     gorm:"-"`
-	Status                app.NullString   `json:"status"        db:"m.status"          gorm:"column:status" validate:"omitempty, oneof=available reserved lost"`
-	DepartmentID          app.NullUUID     `json:"department_id" db:"m.department_id"   gorm:"column:department_id"`
-	DepartmentCode        app.NullString   `json:"department.code"        db:"dep.code"            gorm:"-"`
-	DepartmentName        app.NullString   `json:"department.name"        db:"dep.name"            gorm:"-"`
-	DepartmentDescription app.NullText     `json:"department.description" db:"dep.description"     gorm:"-"`
-	CreatedAt             app.NullDateTime `json:"created_at"    db:"m.created_at"      gorm:"column:created_at"`
-	UpdatedAt             app.NullDateTime `json:"updated_at"    db:"m.updated_at"      gorm:"column:updated_at"`
-	DeletedAt             app.NullDateTime `json:"deleted_at"    db:"m.deleted_at,hide" gorm:"column:deleted_at"`
+	ID                    app.NullUUID     `json:"id"                     db:"m.id"              gorm:"column:id;primaryKey"`
+	Code                  app.NullString   `json:"code"                   db:"m.code"            gorm:"column:code"`
+	Name                  app.NullString   `json:"name"                   db:"m.name"            gorm:"column:name"`
+	Price                 app.NullFloat64  `json:"price"                  db:"m.price"           gorm:"column:price"`
+	Attachment            app.NullText     `json:"attachment"             db:"m.attachment"      gorm:"column:attachment"`
+	CategoryID            app.NullUUID     `json:"category.id"            db:"m.category_id"     gorm:"column:category_id"`
+	CategoryCode          app.NullString   `json:"category.code"          db:"cat.code"          gorm:"-"`
+	CategoryName          app.NullString   `json:"category.name"          db:"cat.name"          gorm:"-"`
+	CategoryDescription   app.NullText     `json:"category.description"   db:"cat.description"   gorm:"-"`
+	Status                app.NullString   `json:"status"                 db:"m.status"          gorm:"column:status"        validate:"omitempty, oneof=available reserved lost"`
+	DepartmentID          app.NullUUID     `json:"department.id"          db:"m.department_id"   gorm:"column:department_id"`
+	DepartmentCode        app.NullString   `json:"department.code"        db:"dep.code"          gorm:"-"`
+	DepartmentName        app.NullString   `json:"department.name"        db:"dep.name"          gorm:"-"`
+	DepartmentDescription app.NullText     `json:"department.description" db:"dep.description"   gorm:"-"`
+	CreatedAt             app.NullDateTime `json:"created_at"             db:"m.created_at"      gorm:"column:created_at"`
+	UpdatedAt             app.NullDateTime `json:"updated_at"             db:"m.updated_at"      gorm:"column:updated_at"`
+	DeletedAt             app.NullDateTime `json:"deleted_at"             db:"m.deleted_at,hide" gorm:"column:deleted_at"`
 }
 
 // EndPoint returns the Asset end point, it used for cache key, etc.
@@ -32,7 +32,7 @@ func (Asset) EndPoint() string {
 // TableVersion returns the versions of the Asset table in the database.
 // Change this value with date format YY.MM.DDHHii when any table structure changes.
 func (Asset) TableVersion() string {
-	return "28.06.291152"
+	return "25.09.241400"
 }
 
 // TableName returns the name of the Asset table in the database.
