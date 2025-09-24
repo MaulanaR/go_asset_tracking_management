@@ -8,5 +8,7 @@ func EnUS() map[string]string {
 		"404_not_found":                "The resource you have specified cannot be found.",
 		"500_internal_error":           "Failed to connect to the server, please try again later.",
 		"invalid_username_or_password": "Invalid username or password",
+		"duplicate_entity_key_value":   "The :entity with :key :value already exists",
+		`required_key`:                 `:key is required!`,
 	}
 }

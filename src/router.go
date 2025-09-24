@@ -71,5 +71,12 @@ func (r *routerUtil) Configure() {
 	app.Server().AddRoute("/api/v1/employees/{id}", "PATCH", employee.REST().PartiallyUpdateByID, employee.OpenAPI().PartiallyUpdateByID())
 	app.Server().AddRoute("/api/v1/employees/{id}", "DELETE", employee.REST().DeleteByID, employee.OpenAPI().DeleteByID())
 
+	app.Server().AddRoute("/api/v1/assets", "POST", asset.REST().Create, asset.OpenAPI().Create())
+	app.Server().AddRoute("/api/v1/assets", "GET", asset.REST().Get, asset.OpenAPI().Get())
+	app.Server().AddRoute("/api/v1/assets/{id}", "GET", asset.REST().GetByID, asset.OpenAPI().GetByID())
+	app.Server().AddRoute("/api/v1/assets/{id}", "PUT", asset.REST().UpdateByID, asset.OpenAPI().UpdateByID())
+	app.Server().AddRoute("/api/v1/assets/{id}", "PATCH", asset.REST().PartiallyUpdateByID, asset.OpenAPI().PartiallyUpdateByID())
+	app.Server().AddRoute("/api/v1/assets/{id}", "DELETE", asset.REST().DeleteByID, asset.OpenAPI().DeleteByID())
+
 	// AddRoute : DONT REMOVE THIS COMMENT
 }

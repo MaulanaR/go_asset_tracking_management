@@ -6,6 +6,8 @@ import (
 	"time"
 
 	"github.com/maulanar/go_asset_tracking_management/app"
+	"github.com/maulanar/go_asset_tracking_management/src/category"
+	"github.com/maulanar/go_asset_tracking_management/src/department"
 )
 
 // UseCase returns a UseCaseHandler for expected use case functional.
@@ -300,10 +302,58 @@ func (u UseCaseHandler) DeleteByID(id string, p *ParamDelete) error {
 
 // setDefaultValue set default value of undefined field when create or update Asset data.
 func (u *UseCaseHandler) setDefaultValue(old Asset) error {
+
 	if !old.ID.Valid {
 		u.ID = app.NewNullUUID()
 	} else {
 		u.ID = old.ID
+	}
+
+	// validate department
+	dptKey := u.DepartmentID.String
+	if !u.DepartmentID.Valid || u.DepartmentID.String == "" {
+		dptKey = u.DepartmentCode.String
+	}
+	if dptKey != "" {
+		_, err := department.UseCaseHandler{Ctx: u.Ctx, Query: url.Values{}}.GetByID(dptKey)
+		if err != nil {
+			return err
+		}
+	}
+
+	// validate department
+	catKey := u.CategoryID.String
+	if !u.CategoryID.Valid || u.CategoryID.String == "" {
+		catKey = u.CategoryCode.String
+	}
+	if catKey != "" {
+		_, err := category.UseCaseHandler{Ctx: u.Ctx, Query: url.Values{}}.GetByID(catKey)
+		if err != nil {
+			return err
+		}
+	}
+
+	if u.Ctx.Action.Method == "POST" {
+		if u.Code.Valid && u.Code.String != "" {
+			err := app.Common().IsFieldValueExists(u.Ctx, u.EndPoint(), "Code", u.TableName(), "code", u.Code.String)
+			if err != nil {
+				return err
+			}
+		} else {
+			newCode, err := app.Common().GenerateCode(u.Ctx, u.TableName(), "code", u.Name.String)
+			if err != nil {
+				return err
+			}
+			u.Code.Set(newCode)
+		}
+
+	} else {
+		if u.Code.Valid && u.Code.String != old.Code.String {
+			err := app.Common().IsFieldValueExists(u.Ctx, u.EndPoint(), "Code", u.TableName(), "code", u.Code.String)
+			if err != nil {
+				return err
+			}
+		}
 	}
 
 	return nil

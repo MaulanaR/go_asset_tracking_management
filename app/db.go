@@ -109,3 +109,7 @@ func (d *dbUtil) setupReplicas(db *gorm.DB, c grest.DBConfig) {
 func (*dbUtil) IsNotFoundError(err error) bool {
 	return errors.Is(err, gorm.ErrRecordNotFound)
 }
+
+func (d *dbUtil) HasTable(tx *gorm.DB, tableName string) bool {
+	return tx.Migrator().HasTable(tableName)
+}

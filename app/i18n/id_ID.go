@@ -8,5 +8,7 @@ func IdID() map[string]string {
 		"404_not_found":                "The resource you have specified cannot be found.",
 		"500_internal_error":           "Gagal terhubung ke server, silakan coba lagi nanti.",
 		"invalid_username_or_password": "Username atau kata sandi tidak valid",
+		`duplicate_entity_key_value`:   `Data :entity dengan :key = :value sudah ada.`,
+		`required_key`:                 `:key wajib diisi!`,
 	}
 }

@@ -5,19 +5,23 @@ import "github.com/maulanar/go_asset_tracking_management/app"
 // Asset is the main model of Asset data. It provides a convenient interface for app.ModelInterface
 type Asset struct {
 	app.Model
-	ID           app.NullUUID    `json:"id"            db:"m.id"              gorm:"column:id;primaryKey"`
-	Code         app.NullString  `json:"code"          db:"m.code"            gorm:"column:code"`
-	Name         app.NullString  `json:"name"          db:"m.name"            gorm:"column:name"`
-	Price        app.NullFloat64 `json:"price"         db:"m.price"           gorm:"column:price"`
-	Attachment   app.NullText    `json:"attachment"    db:"m.attachment"      gorm:"column:attachment"`
-	CategoryID   app.NullUUID    `json:"category.id"   db:"m.category_id"     gorm:"column:category_id"`
-	CategoryCode app.NullString  `json:"category.code" db:"c.code"            gorm:"-"`
-	CategoryName app.NullString  `json:"category.name" db:"c.name"            gorm:"-"`
-	Status       app.NullString  `json:"status"        db:"m.status"          gorm:"column:status"`
-
-	CreatedAt app.NullDateTime `json:"created_at"    db:"m.created_at"      gorm:"column:created_at"`
-	UpdatedAt app.NullDateTime `json:"updated_at"    db:"m.updated_at"      gorm:"column:updated_at"`
-	DeletedAt app.NullDateTime `json:"deleted_at"    db:"m.deleted_at,hide" gorm:"column:deleted_at"`
+	ID                    app.NullUUID     `json:"id"            db:"m.id"              gorm:"column:id;primaryKey"`
+	Code                  app.NullString   `json:"code"          db:"m.code"            gorm:"column:code"`
+	Name                  app.NullString   `json:"name"          db:"m.name"            gorm:"column:name"`
+	Price                 app.NullFloat64  `json:"price"         db:"m.price"           gorm:"column:price"`
+	Attachment            app.NullText     `json:"attachment"    db:"m.attachment"      gorm:"column:attachment"`
+	CategoryID            app.NullUUID     `json:"category.id"   db:"m.category_id"     gorm:"column:category_id"`
+	CategoryCode          app.NullString   `json:"category.code"        db:"cat.code"            gorm:"-"`
+	CategoryName          app.NullString   `json:"category.name"        db:"cat.name"            gorm:"-"`
+	CategoryDescription   app.NullText     `json:"category.description" db:"cat.description"     gorm:"-"`
+	Status                app.NullString   `json:"status"        db:"m.status"          gorm:"column:status" validate:"omitempty, oneof=available reserved lost"`
+	DepartmentID          app.NullUUID     `json:"department_id" db:"m.department_id"   gorm:"column:department_id"`
+	DepartmentCode        app.NullString   `json:"department.code"        db:"dep.code"            gorm:"-"`
+	DepartmentName        app.NullString   `json:"department.name"        db:"dep.name"            gorm:"-"`
+	DepartmentDescription app.NullText     `json:"department.description" db:"dep.description"     gorm:"-"`
+	CreatedAt             app.NullDateTime `json:"created_at"    db:"m.created_at"      gorm:"column:created_at"`
+	UpdatedAt             app.NullDateTime `json:"updated_at"    db:"m.updated_at"      gorm:"column:updated_at"`
+	DeletedAt             app.NullDateTime `json:"deleted_at"    db:"m.deleted_at,hide" gorm:"column:deleted_at"`
 }
 
 // EndPoint returns the Asset end point, it used for cache key, etc.
@@ -43,8 +47,8 @@ func (Asset) TableAliasName() string {
 
 // GetRelations returns the relations of the Asset data in the database, used for querying.
 func (m *Asset) GetRelations() map[string]map[string]any {
-	m.AddRelation("left", "categories", "c", []map[string]any{{"column1": "c.id", "column2": "m.category_id"}})
-	// m.AddRelation("left", "users", "uu", []map[string]any{{"column1": "uu.id", "column2": "m.updated_by_user_id"}})
+	m.AddRelation("left", "categories", "cat", []map[string]any{{"column1": "cat.id", "column2": "m.category_id"}})
+	m.AddRelation("left", "departments", "dep", []map[string]any{{"column1": "dep.id", "column2": "m.department_id"}})
 	return m.Relations
 }
 

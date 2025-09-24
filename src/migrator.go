@@ -36,6 +36,7 @@ func (*migratorUtil) Configure() {
 	app.DB().RegisterTable("main", branch.Branch{})
 	app.DB().RegisterTable("main", asset.Asset{})
 	app.DB().RegisterTable("main", employee.Employee{})
+	app.DB().RegisterTable("main", asset.Asset{})
 	// RegisterTable : DONT REMOVE THIS COMMENT
 }
 
