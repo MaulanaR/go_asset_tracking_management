@@ -99,17 +99,14 @@ type ParamCreate struct {
 // ParamUpdate is the expected parameters for update the Branch data.
 type ParamUpdate struct {
 	UseCaseHandler
-	Reason app.NullString `json:"reason" gorm:"-" validate:"required"`
 }
 
 // ParamPartiallyUpdate is the expected parameters for partially update the Branch data.
 type ParamPartiallyUpdate struct {
 	UseCaseHandler
-	Reason app.NullString `json:"reason" gorm:"-" validate:"required"`
 }
 
 // ParamDelete is the expected parameters for delete the Branch data.
 type ParamDelete struct {
 	UseCaseHandler
-	Reason app.NullString `json:"reason" gorm:"-" validate:"required"`
 }

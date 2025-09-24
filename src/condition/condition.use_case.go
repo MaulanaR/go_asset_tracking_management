@@ -206,7 +206,7 @@ func (u UseCaseHandler) UpdateByID(id string, p *ParamUpdate) error {
 	app.Cache().Invalidate(u.EndPoint(), old.ID.String)
 
 	// save history (user activity), send webhook, etc
-	go u.Ctx.Hook("PUT", p.Reason.String, old.ID.String, old)
+	go u.Ctx.Hook("PUT", "Update", old.ID.String, old)
 	return nil
 }
 
@@ -253,7 +253,7 @@ func (u UseCaseHandler) PartiallyUpdateByID(id string, p *ParamPartiallyUpdate) 
 	app.Cache().Invalidate(u.EndPoint(), old.ID.String)
 
 	// save history (user activity), send webhook, etc
-	go u.Ctx.Hook("PATCH", p.Reason.String, old.ID.String, old)
+	go u.Ctx.Hook("PATCH", "Partially Update", old.ID.String, old)
 	return nil
 }
 
@@ -294,7 +294,7 @@ func (u UseCaseHandler) DeleteByID(id string, p *ParamDelete) error {
 	app.Cache().Invalidate(u.EndPoint(), old.ID.String)
 
 	// save history (user activity), send webhook, etc
-	go u.Ctx.Hook("DELETE", p.Reason.String, old.ID.String, old)
+	go u.Ctx.Hook("DELETE", "DELETE", old.ID.String, old)
 	return nil
 }
 

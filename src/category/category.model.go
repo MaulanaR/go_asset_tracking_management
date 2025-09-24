@@ -9,7 +9,7 @@ type Category struct {
 	Code        app.NullString `json:"code"        db:"m.code"            gorm:"column:code"`
 	Name        app.NullString `json:"name"        db:"m.name"            gorm:"column:name"`
 	Description app.NullText   `json:"description" db:"m.description"     gorm:"column:description"`
-	IsActive    app.NullBool   `json:"is_active"   db:"m.is_active"       gorm:"column:is_active"`
+	IsActive    app.NullBool   `json:"is_active"   db:"m.is_active"       gorm:"column:is_active;default:true"`
 
 	CreatedAt app.NullDateTime `json:"created_at"  db:"m.created_at"      gorm:"column:created_at"`
 	UpdatedAt app.NullDateTime `json:"updated_at"  db:"m.updated_at"      gorm:"column:updated_at"`
@@ -99,17 +99,14 @@ type ParamCreate struct {
 // ParamUpdate is the expected parameters for update the Category data.
 type ParamUpdate struct {
 	UseCaseHandler
-	Reason app.NullString `json:"reason" gorm:"-" validate:"required"`
 }
 
 // ParamPartiallyUpdate is the expected parameters for partially update the Category data.
 type ParamPartiallyUpdate struct {
 	UseCaseHandler
-	Reason app.NullString `json:"reason" gorm:"-" validate:"required"`
 }
 
 // ParamDelete is the expected parameters for delete the Category data.
 type ParamDelete struct {
 	UseCaseHandler
-	Reason app.NullString `json:"reason" gorm:"-" validate:"required"`
 }

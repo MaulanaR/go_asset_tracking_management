@@ -20,7 +20,7 @@ type Employee struct {
 	Phone                 app.NullString `json:"phone"                  db:"m.phone"           gorm:"column:phone"`
 	Attachment            app.NullText   `json:"attachment"             db:"m.attachment"      gorm:"column:attachment"`
 	Email                 app.NullString `json:"email"                  db:"m.email"           gorm:"column:email"`
-	IsActive              app.NullBool   `json:"is_active"              db:"m.is_active"       gorm:"column:is_active"`
+	IsActive              app.NullBool   `json:"is_active"              db:"m.is_active"       gorm:"column:is_active;default:true"`
 
 	CreatedAt app.NullDateTime `json:"created_at"             db:"m.created_at"      gorm:"column:created_at"`
 	UpdatedAt app.NullDateTime `json:"updated_at"             db:"m.updated_at"      gorm:"column:updated_at"`
@@ -121,11 +121,9 @@ type ParamUpdate struct {
 // ParamPartiallyUpdate is the expected parameters for partially update the Employee data.
 type ParamPartiallyUpdate struct {
 	UseCaseHandler
-	Reason app.NullString `json:"reason" gorm:"-" validate:"required"`
 }
 
 // ParamDelete is the expected parameters for delete the Employee data.
 type ParamDelete struct {
 	UseCaseHandler
-	Reason app.NullString `json:"reason" gorm:"-" validate:"required"`
 }

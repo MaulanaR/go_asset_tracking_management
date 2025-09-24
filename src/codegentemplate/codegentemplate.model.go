@@ -95,17 +95,14 @@ type ParamCreate struct {
 // ParamUpdate is the expected parameters for update the CodeGenTemplate data.
 type ParamUpdate struct {
 	UseCaseHandler
-	Reason app.NullString `json:"reason" gorm:"-" validate:"required"`
 }
 
 // ParamPartiallyUpdate is the expected parameters for partially update the CodeGenTemplate data.
 type ParamPartiallyUpdate struct {
 	UseCaseHandler
-	Reason app.NullString `json:"reason" gorm:"-" validate:"required"`
 }
 
 // ParamDelete is the expected parameters for delete the CodeGenTemplate data.
 type ParamDelete struct {
 	UseCaseHandler
-	Reason app.NullString `json:"reason" gorm:"-" validate:"required"`
 }
