@@ -68,7 +68,7 @@ func (m *Employee) GetFilters() []map[string]any {
 
 // GetSorts returns the default sort of the Employee data in the database, used for querying.
 func (m *Employee) GetSorts() []map[string]any {
-	m.AddSort(map[string]any{"column": "m.updated_at", "direction": "desc"})
+	// m.AddSort(map[string]any{"column": "m.updated_at", "direction": "desc"})
 	return m.Sorts
 }
 

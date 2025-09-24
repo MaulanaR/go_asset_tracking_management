@@ -52,7 +52,7 @@ func (m *Category) GetFilters() []map[string]any {
 
 // GetSorts returns the default sort of the Category data in the database, used for querying.
 func (m *Category) GetSorts() []map[string]any {
-	m.AddSort(map[string]any{"column": "m.updated_at", "direction": "desc"})
+	// m.AddSort(map[string]any{"column": "m.updated_at", "direction": "desc"})
 	return m.Sorts
 }
 
