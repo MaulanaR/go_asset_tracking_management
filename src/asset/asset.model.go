@@ -9,7 +9,7 @@ type Asset struct {
 	Code                  app.NullString   `json:"code"                   db:"m.code"            gorm:"column:code"`
 	Name                  app.NullString   `json:"name"                   db:"m.name"            gorm:"column:name"`
 	Price                 app.NullFloat64  `json:"price"                  db:"m.price"           gorm:"column:price"`
-	AttachmentID          app.NullText     `json:"attachment.id"          db:"m.attachment_id"   gorm:"column:attachment_id"`
+	AttachmentID          app.NullUUID     `json:"attachment.id"          db:"m.attachment_id"   gorm:"column:attachment_id"`
 	AttachmentName        app.NullText     `json:"attachment.name"        db:"att.name"          gorm:"-"`
 	AttachmentPath        app.NullText     `json:"attachment.path"        db:"att.path"          gorm:"-"`
 	AttachmentURL         app.NullText     `json:"attachment.url"         db:"att.url"           gorm:"-"`
@@ -17,7 +17,7 @@ type Asset struct {
 	CategoryCode          app.NullString   `json:"category.code"          db:"cat.code"          gorm:"-"`
 	CategoryName          app.NullString   `json:"category.name"          db:"cat.name"          gorm:"-"`
 	CategoryDescription   app.NullText     `json:"category.description"   db:"cat.description"   gorm:"-"`
-	Status                app.NullString   `json:"status"                 db:"m.status"          gorm:"column:status"        validate:"omitempty, oneof=available reserved lost"`
+	Status                app.NullString   `json:"status"                 db:"m.status"          gorm:"column:status"`
 	DepartmentID          app.NullUUID     `json:"department.id"          db:"m.department_id"   gorm:"column:department_id"`
 	DepartmentCode        app.NullString   `json:"department.code"        db:"dep.code"          gorm:"-"`
 	DepartmentName        app.NullString   `json:"department.name"        db:"dep.name"          gorm:"-"`
@@ -35,7 +35,7 @@ func (Asset) EndPoint() string {
 // TableVersion returns the versions of the Asset table in the database.
 // Change this value with date format YY.MM.DDHHii when any table structure changes.
 func (Asset) TableVersion() string {
-	return "25.09.241400"
+	return "25.09.241730"
 }
 
 // TableName returns the name of the Asset table in the database.

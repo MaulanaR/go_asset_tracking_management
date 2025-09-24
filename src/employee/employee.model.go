@@ -18,7 +18,7 @@ type Employee struct {
 	BranchAddress         app.NullText   `json:"branch.address"         db:"brc.address"       gorm:"-"`
 	Address               app.NullText   `json:"address"                db:"m.address"         gorm:"column:address"`
 	Phone                 app.NullString `json:"phone"                  db:"m.phone"           gorm:"column:phone"`
-	AttachmentID          app.NullText   `json:"attachment.id"          db:"m.attachment_id"   gorm:"column:attachment_id"`
+	AttachmentID          app.NullUUID   `json:"attachment.id"          db:"m.attachment_id"   gorm:"column:attachment_id"`
 	AttachmentName        app.NullText   `json:"attachment.name"        db:"att.name"          gorm:"-"`
 	AttachmentPath        app.NullText   `json:"attachment.path"        db:"att.path"          gorm:"-"`
 	AttachmentURL         app.NullText   `json:"attachment.url"         db:"att.url"           gorm:"-"`
@@ -38,7 +38,7 @@ func (Employee) EndPoint() string {
 // TableVersion returns the versions of the Employee table in the database.
 // Change this value with date format YY.MM.DDHHii when any table structure changes.
 func (Employee) TableVersion() string {
-	return "25.09.241722"
+	return "25.09.241730"
 }
 
 // TableName returns the name of the Employee table in the database.
