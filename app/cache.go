@@ -2,6 +2,7 @@ package app
 
 import (
 	"context"
+	"crypto/tls"
 	"time"
 
 	"github.com/go-redis/redis/v8"
@@ -36,13 +37,19 @@ type cacheUtil struct {
 // If there is an error connecting to Redis, it logs the error and the Redis connection details.
 // Otherwise, it sets c.IsUseRedis to true and logs a successful cache configuration with Redis.
 func (c *cacheUtil) configure() {
-	c.Exp = 24 * time.Hour
-	c.RedisClient = redis.NewClient(&redis.Options{
+	c.Exp = 3600 * time.Hour
+	opts := &redis.Options{
 		Addr:     REDIS_HOST + ":" + REDIS_PORT,
 		Username: REDIS_USERNAME,
 		Password: REDIS_PASSWORD,
 		DB:       REDIS_CACHE_DB,
-	})
+	}
+
+	if APP_ENV != "local" {
+		opts.TLSConfig = &tls.Config{}
+	}
+
+	c.RedisClient = redis.NewClient(opts)
 	c.Ctx = context.Background()
 	err := c.RedisClient.Ping(c.Ctx).Err()
 	if err != nil {
