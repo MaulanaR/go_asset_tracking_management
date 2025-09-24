@@ -9,6 +9,7 @@ type Department struct {
 	Code        app.NullString `json:"code"        db:"m.code"            gorm:"column:code"`
 	Name        app.NullString `json:"name"        db:"m.name"            gorm:"column:name"`
 	Description app.NullText   `json:"description" db:"m.description"     gorm:"column:description"`
+	IsActive    app.NullBool   `json:"is_active"   db:"m.is_active"       gorm:"column:is_active"`
 
 	CreatedAt app.NullDateTime `json:"created_at"  db:"m.created_at"      gorm:"column:created_at"`
 	UpdatedAt app.NullDateTime `json:"updated_at"  db:"m.updated_at"      gorm:"column:updated_at"`
@@ -23,7 +24,7 @@ func (Department) EndPoint() string {
 // TableVersion returns the versions of the Department table in the database.
 // Change this value with date format YY.MM.DDHHii when any table structure changes.
 func (Department) TableVersion() string {
-	return "28.06.291152"
+	return "25.09.241152"
 }
 
 // TableName returns the name of the Department table in the database.

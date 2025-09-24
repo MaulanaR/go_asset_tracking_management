@@ -308,6 +308,10 @@ func (u *UseCaseHandler) setDefaultValue(old Category) error {
 	}
 
 	if u.Ctx.Action.Method == "POST" {
+		if !u.IsActive.Valid {
+			u.IsActive.Set(true)
+		}
+
 		if u.Code.Valid && u.Code.String != "" {
 			err := app.Common().IsFieldValueExists(u.Ctx, u.EndPoint(), "Code", u.TableName(), "code", u.Code.String)
 			if err != nil {

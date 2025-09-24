@@ -20,6 +20,7 @@ type Employee struct {
 	Phone                 app.NullString `json:"phone"                  db:"m.phone"           gorm:"column:phone"`
 	Attachment            app.NullText   `json:"attachment"             db:"m.attachment"      gorm:"column:attachment"`
 	Email                 app.NullString `json:"email"                  db:"m.email"           gorm:"column:email"`
+	IsActive              app.NullBool   `json:"is_active"              db:"m.is_active"       gorm:"column:is_active"`
 
 	CreatedAt app.NullDateTime `json:"created_at"             db:"m.created_at"      gorm:"column:created_at"`
 	UpdatedAt app.NullDateTime `json:"updated_at"             db:"m.updated_at"      gorm:"column:updated_at"`
@@ -34,7 +35,7 @@ func (Employee) EndPoint() string {
 // TableVersion returns the versions of the Employee table in the database.
 // Change this value with date format YY.MM.DDHHii when any table structure changes.
 func (Employee) TableVersion() string {
-	return "28.06.291152"
+	return "25.09.241152"
 }
 
 // TableName returns the name of the Employee table in the database.
@@ -105,16 +106,16 @@ func (p *EmployeeList) GetOpenAPISchema() map[string]any {
 // ParamCreate is the expected parameters for create a new Employee data.
 type ParamCreate struct {
 	UseCaseHandler
-	Name  app.NullString `json:"name"                   db:"m.name"            gorm:"column:name" validate:"required"`
-	Phone app.NullString `json:"phone"                  db:"m.phone"           gorm:"column:phone" validate:"required"`
+	Name  app.NullString `json:"name"  db:"m.name"  gorm:"column:name"  validate:"required"`
+	Phone app.NullString `json:"phone" db:"m.phone" gorm:"column:phone" validate:"required"`
 }
 
 // ParamUpdate is the expected parameters for update the Employee data.
 type ParamUpdate struct {
 	UseCaseHandler
-	Name   app.NullString `json:"name"                   db:"m.name"            gorm:"column:name" validate:"required"`
-	Phone  app.NullString `json:"phone"                  db:"m.phone"           gorm:"column:phone" validate:"required"`
-	Reason app.NullString `json:"reason" gorm:"-" validate:"required"`
+	Name   app.NullString `json:"name"   db:"m.name"  gorm:"column:name"  validate:"required"`
+	Phone  app.NullString `json:"phone"  db:"m.phone" gorm:"column:phone" validate:"required"`
+	Reason app.NullString `json:"reason" gorm:"-"            validate:"required"`
 }
 
 // ParamPartiallyUpdate is the expected parameters for partially update the Employee data.

@@ -9,6 +9,7 @@ type Category struct {
 	Code        app.NullString `json:"code"        db:"m.code"            gorm:"column:code"`
 	Name        app.NullString `json:"name"        db:"m.name"            gorm:"column:name"`
 	Description app.NullText   `json:"description" db:"m.description"     gorm:"column:description"`
+	IsActive    app.NullBool   `json:"is_active"   db:"m.is_active"       gorm:"column:is_active"`
 
 	CreatedAt app.NullDateTime `json:"created_at"  db:"m.created_at"      gorm:"column:created_at"`
 	UpdatedAt app.NullDateTime `json:"updated_at"  db:"m.updated_at"      gorm:"column:updated_at"`
@@ -23,7 +24,7 @@ func (Category) EndPoint() string {
 // TableVersion returns the versions of the Category table in the database.
 // Change this value with date format YY.MM.DDHHii when any table structure changes.
 func (Category) TableVersion() string {
-	return "28.06.291152"
+	return "25.09.241535"
 }
 
 // TableName returns the name of the Category table in the database.
