@@ -97,16 +97,16 @@ func (u UseCaseHandler) Get() (app.ListModel, error) {
 	}
 
 	// set pagination info
-	res.Count,
-		res.PageContext.Page,
-		res.PageContext.PerPage,
-		res.PageContext.PageCount,
+	res.Results.PageContext.Count,
+		res.Results.PageContext.Page,
+		res.Results.PageContext.PerPage,
+		res.Results.PageContext.PageCount,
 		err = app.Query().PaginationInfo(tx, &Asset{}, u.Query)
 	if err != nil {
 		return res, app.Error().New(http.StatusInternalServerError, err.Error())
 	}
 	// return data count if $per_page set to 0
-	if res.PageContext.PerPage == 0 {
+	if res.Results.PageContext.PerPage == 0 {
 		return res, err
 	}
 

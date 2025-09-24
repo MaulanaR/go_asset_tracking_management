@@ -1,4 +1,4 @@
-package condition
+package employee
 
 import (
 	"net/http"
@@ -6,6 +6,8 @@ import (
 	"time"
 
 	"github.com/maulanar/go_asset_tracking_management/app"
+	"github.com/maulanar/go_asset_tracking_management/src/branch"
+	"github.com/maulanar/go_asset_tracking_management/src/department"
 )
 
 // UseCase returns a UseCaseHandler for expected use case functional.
@@ -20,9 +22,9 @@ func UseCase(ctx app.Ctx, query ...url.Values) UseCaseHandler {
 	return u
 }
 
-// UseCaseHandler provides a convenient interface for Condition use case, use UseCase to access UseCaseHandler.
+// UseCaseHandler provides a convenient interface for Employee use case, use UseCase to access UseCaseHandler.
 type UseCaseHandler struct {
-	Condition
+	Employee
 
 	// injectable dependencies
 	Ctx   *app.Ctx   `json:"-" db:"-" gorm:"-"`
@@ -35,12 +37,12 @@ func (u UseCaseHandler) Async(ctx app.Ctx, query ...url.Values) UseCaseHandler {
 	return UseCase(ctx, query...)
 }
 
-// GetByID returns the Condition data for the specified ID.
-func (u UseCaseHandler) GetByID(id string) (Condition, error) {
-	res := Condition{}
+// GetByID returns the Employee data for the specified ID.
+func (u UseCaseHandler) GetByID(id string) (Employee, error) {
+	res := Employee{}
 
 	// check permission
-	err := u.Ctx.ValidatePermission("conditions.detail")
+	err := u.Ctx.ValidatePermission("employees.detail")
 	if err != nil {
 		return res, err
 	}
@@ -74,12 +76,12 @@ func (u UseCaseHandler) GetByID(id string) (Condition, error) {
 	return res, err
 }
 
-// Get returns the list of Condition data.
+// Get returns the list of Employee data.
 func (u UseCaseHandler) Get() (app.ListModel, error) {
 	res := app.ListModel{}
 
 	// check permission
-	err := u.Ctx.ValidatePermission("conditions.list")
+	err := u.Ctx.ValidatePermission("employees.list")
 	if err != nil {
 		return res, err
 	}
@@ -101,7 +103,7 @@ func (u UseCaseHandler) Get() (app.ListModel, error) {
 		res.Results.PageContext.Page,
 		res.Results.PageContext.PerPage,
 		res.Results.PageContext.PageCount,
-		err = app.Query().PaginationInfo(tx, &Condition{}, u.Query)
+		err = app.Query().PaginationInfo(tx, &Employee{}, u.Query)
 	if err != nil {
 		return res, app.Error().New(http.StatusInternalServerError, err.Error())
 	}
@@ -111,7 +113,7 @@ func (u UseCaseHandler) Get() (app.ListModel, error) {
 	}
 
 	// find data
-	data, err := app.Query().Find(tx, &Condition{}, u.Query)
+	data, err := app.Query().Find(tx, &Employee{}, u.Query)
 	if err != nil {
 		return res, app.Error().New(http.StatusInternalServerError, err.Error())
 	}
@@ -122,11 +124,11 @@ func (u UseCaseHandler) Get() (app.ListModel, error) {
 	return res, err
 }
 
-// Create creates a new data Condition with specified parameters.
+// Create creates a new data Employee with specified parameters.
 func (u UseCaseHandler) Create(p *ParamCreate) error {
 
 	// check permission
-	err := u.Ctx.ValidatePermission("conditions.create")
+	err := u.Ctx.ValidatePermission("employees.create")
 	if err != nil {
 		return err
 	}
@@ -138,7 +140,7 @@ func (u UseCaseHandler) Create(p *ParamCreate) error {
 	}
 
 	// set default value for undefined field
-	err = p.setDefaultValue(Condition{})
+	err = p.setDefaultValue(Employee{})
 	if err != nil {
 		return err
 	}
@@ -163,11 +165,11 @@ func (u UseCaseHandler) Create(p *ParamCreate) error {
 	return nil
 }
 
-// UpdateByID updates the Condition data for the specified ID with specified parameters.
+// UpdateByID updates the Employee data for the specified ID with specified parameters.
 func (u UseCaseHandler) UpdateByID(id string, p *ParamUpdate) error {
 
 	// check permission
-	err := u.Ctx.ValidatePermission("conditions.edit")
+	err := u.Ctx.ValidatePermission("employees.edit")
 	if err != nil {
 		return err
 	}
@@ -210,11 +212,11 @@ func (u UseCaseHandler) UpdateByID(id string, p *ParamUpdate) error {
 	return nil
 }
 
-// PartiallyUpdateByID updates the Condition data for the specified ID with specified parameters.
+// PartiallyUpdateByID updates the Employee data for the specified ID with specified parameters.
 func (u UseCaseHandler) PartiallyUpdateByID(id string, p *ParamPartiallyUpdate) error {
 
 	// check permission
-	err := u.Ctx.ValidatePermission("conditions.edit")
+	err := u.Ctx.ValidatePermission("employees.edit")
 	if err != nil {
 		return err
 	}
@@ -257,11 +259,11 @@ func (u UseCaseHandler) PartiallyUpdateByID(id string, p *ParamPartiallyUpdate) 
 	return nil
 }
 
-// DeleteByID deletes the Condition data for the specified ID.
+// DeleteByID deletes the Employee data for the specified ID.
 func (u UseCaseHandler) DeleteByID(id string, p *ParamDelete) error {
 
 	// check permission
-	err := u.Ctx.ValidatePermission("conditions.delete")
+	err := u.Ctx.ValidatePermission("employees.delete")
 	if err != nil {
 		return err
 	}
@@ -298,13 +300,37 @@ func (u UseCaseHandler) DeleteByID(id string, p *ParamDelete) error {
 	return nil
 }
 
-// setDefaultValue set default value of undefined field when create or update Condition data.
-func (u *UseCaseHandler) setDefaultValue(old Condition) error {
+// setDefaultValue set default value of undefined field when create or update Employee data.
+func (u *UseCaseHandler) setDefaultValue(old Employee) error {
 
 	if !old.ID.Valid {
 		u.ID = app.NewNullUUID()
 	} else {
 		u.ID = old.ID
+	}
+
+	// validate department
+	dptKey := u.DepartmentID.String
+	if !u.DepartmentID.Valid || u.DepartmentID.String == "" {
+		dptKey = u.DepartmentCode.String
+	}
+	if dptKey != "" {
+		_, err := department.UseCaseHandler{Ctx: u.Ctx, Query: url.Values{}}.GetByID(dptKey)
+		if err != nil {
+			return err
+		}
+	}
+
+	// validate branch
+	brKey := u.BranchID.String
+	if !u.BranchID.Valid || u.BranchID.String == "" {
+		brKey = u.BranchCode.String
+	}
+	if brKey != "" {
+		_, err := branch.UseCaseHandler{Ctx: u.Ctx, Query: url.Values{}}.GetByID(brKey)
+		if err != nil {
+			return err
+		}
 	}
 
 	if u.Ctx.Action.Method == "POST" {

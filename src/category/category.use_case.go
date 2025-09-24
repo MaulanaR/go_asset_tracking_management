@@ -97,16 +97,16 @@ func (u UseCaseHandler) Get() (app.ListModel, error) {
 	}
 
 	// set pagination info
-	res.Count,
-		res.PageContext.Page,
-		res.PageContext.PerPage,
-		res.PageContext.PageCount,
+	res.Results.PageContext.Count,
+		res.Results.PageContext.Page,
+		res.Results.PageContext.PerPage,
+		res.Results.PageContext.PageCount,
 		err = app.Query().PaginationInfo(tx, &Category{}, u.Query)
 	if err != nil {
 		return res, app.Error().New(http.StatusInternalServerError, err.Error())
 	}
 	// return data count if $per_page set to 0
-	if res.PageContext.PerPage == 0 {
+	if res.Results.PageContext.PerPage == 0 {
 		return res, err
 	}
 
@@ -300,10 +300,34 @@ func (u UseCaseHandler) DeleteByID(id string, p *ParamDelete) error {
 
 // setDefaultValue set default value of undefined field when create or update Category data.
 func (u *UseCaseHandler) setDefaultValue(old Category) error {
+
 	if !old.ID.Valid {
 		u.ID = app.NewNullUUID()
 	} else {
 		u.ID = old.ID
+	}
+
+	if u.Ctx.Action.Method == "POST" {
+		if u.Code.Valid && u.Code.String != "" {
+			err := app.Common().IsFieldValueExists(u.Ctx, u.EndPoint(), "Code", u.TableName(), "code", u.Code.String)
+			if err != nil {
+				return err
+			}
+		} else {
+			newCode, err := app.Common().GenerateCode(u.Ctx, u.TableName(), "code", u.Name.String)
+			if err != nil {
+				return err
+			}
+			u.Code.Set(newCode)
+		}
+
+	} else {
+		if u.Code.Valid && u.Code.String != old.Code.String {
+			err := app.Common().IsFieldValueExists(u.Ctx, u.EndPoint(), "Code", u.TableName(), "code", u.Code.String)
+			if err != nil {
+				return err
+			}
+		}
 	}
 
 	return nil

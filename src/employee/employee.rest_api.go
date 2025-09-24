@@ -1,4 +1,4 @@
-package codegentemplate
+package employee
 
 import (
 	"net/http"
@@ -13,12 +13,12 @@ func REST() *RESTAPIHandler {
 	return &RESTAPIHandler{}
 }
 
-// RESTAPIHandler provides a convenient interface for CodeGenTemplate REST API handler.
+// RESTAPIHandler provides a convenient interface for Employee REST API handler.
 type RESTAPIHandler struct {
 	UseCase UseCaseHandler
 }
 
-// injectDeps inject the dependencies of the CodeGenTemplate REST API handler.
+// injectDeps inject the dependencies of the Employee REST API handler.
 func (r *RESTAPIHandler) injectDeps(c *fiber.Ctx) error {
 	ctx, ok := c.Locals(app.CtxKey).(*app.Ctx)
 	if !ok {
@@ -28,7 +28,7 @@ func (r *RESTAPIHandler) injectDeps(c *fiber.Ctx) error {
 	return nil
 }
 
-// GetByID is the REST API handler for `GET /api/end_point/{id}`.
+// GetByID is the REST API handler for `GET /api/employees/{id}`.
 func (r *RESTAPIHandler) GetByID(c *fiber.Ctx) error {
 	err := r.injectDeps(c)
 	if err != nil {
@@ -49,7 +49,7 @@ func (r *RESTAPIHandler) GetByID(c *fiber.Ctx) error {
 	return c.JSON(app.NewJSON(resp).ToStructured().Data)
 }
 
-// Get is the REST API handler for `GET /api/end_point`.
+// Get is the REST API handler for `GET /api/employees`.
 func (r *RESTAPIHandler) Get(c *fiber.Ctx) error {
 	err := r.injectDeps(c)
 	if err != nil {
@@ -66,7 +66,7 @@ func (r *RESTAPIHandler) Get(c *fiber.Ctx) error {
 	return c.JSON(app.NewJSON(res).ToStructured().Data)
 }
 
-// Create is the REST API handler for `POST /api/end_point`.
+// Create is the REST API handler for `POST /api/employees`.
 func (r *RESTAPIHandler) Create(c *fiber.Ctx) error {
 	err := r.injectDeps(c)
 	if err != nil {
@@ -100,7 +100,7 @@ func (r *RESTAPIHandler) Create(c *fiber.Ctx) error {
 	return c.Status(http.StatusCreated).JSON(app.NewJSON(resp).ToStructured().Data)
 }
 
-// UpdateByID is the REST API handler for `PUT /api/end_point/{id}`.
+// UpdateByID is the REST API handler for `PUT /api/employees/{id}`.
 func (r *RESTAPIHandler) UpdateByID(c *fiber.Ctx) error {
 	err := r.injectDeps(c)
 	if err != nil {
@@ -136,7 +136,7 @@ func (r *RESTAPIHandler) UpdateByID(c *fiber.Ctx) error {
 	return c.JSON(app.NewJSON(resp).ToStructured().Data)
 }
 
-// PartiallyUpdateByID is the REST API handler for `PATCH /api/end_point/{id}`.
+// PartiallyUpdateByID is the REST API handler for `PATCH /api/employees/{id}`.
 func (r *RESTAPIHandler) PartiallyUpdateByID(c *fiber.Ctx) error {
 	err := r.injectDeps(c)
 	if err != nil {
@@ -172,7 +172,7 @@ func (r *RESTAPIHandler) PartiallyUpdateByID(c *fiber.Ctx) error {
 	return c.JSON(app.NewJSON(resp).ToStructured().Data)
 }
 
-// DeleteByID is the REST API handler for `DELETE /api/end_point/{id}`.
+// DeleteByID is the REST API handler for `DELETE /api/employees/{id}`.
 func (r *RESTAPIHandler) DeleteByID(c *fiber.Ctx) error {
 	err := r.injectDeps(c)
 	if err != nil {
@@ -193,7 +193,7 @@ func (r *RESTAPIHandler) DeleteByID(c *fiber.Ctx) error {
 	res := map[string]any{
 		"code": http.StatusOK,
 		"message": r.UseCase.Ctx.Trans("deleted", map[string]string{
-			"end_point": p.EndPoint(),
+			"employees": p.EndPoint(),
 			"id":        c.Params("id"),
 		}),
 	}

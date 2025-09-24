@@ -7,14 +7,15 @@ import (
 	"time"
 
 	"gorm.io/gorm"
-	"grest.dev/grest"
 )
 
 const CtxKey = "ctx"
 
 type Ctx struct {
-	Lang   string // language code
-	Action Action // general request info
+	RequestID string // id per masing-masing request
+	Lang      string // bahasa yang digunakan oleh user ybs
+	Action    Action // informasi umum terkait request
+	Err       error
 
 	IsAsync bool     // for async use, autocommit
 	mainTx  *gorm.DB // for normal use, commit & rollback from middleware
@@ -24,6 +25,11 @@ type Action struct {
 	Method   string
 	EndPoint string
 	DataID   string
+	BaseURL  string
+	Referer  string
+	URL      string
+	Path     string
+	IP       string
 }
 
 // TxBegin begins a new transaction using the main database connection.
@@ -129,7 +135,7 @@ func (c Ctx) Hook(method, reason, id string, old any) {
 
 	oldData := old
 	if !isFlat {
-		oldData = grest.NewJSON(old).ToStructured().Data
+		oldData = NewJSON(old).ToStructured().Data
 	}
 	oldJSON, _ := json.MarshalIndent(oldData, "", "  ")
 	newJSON := []byte{}
@@ -143,7 +149,7 @@ func (c Ctx) Hook(method, reason, id string, old any) {
 				if len(val) > 0 {
 					new := val[0].Interface()
 					if !isFlat {
-						new = grest.NewJSON(new).ToStructured().Data
+						new = NewJSON(new).ToStructured().Data
 					}
 					newJSON, _ = json.MarshalIndent(new, "", "  ")
 				}

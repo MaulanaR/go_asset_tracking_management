@@ -5,14 +5,14 @@ import "github.com/maulanar/go_asset_tracking_management/app"
 // Category is the main model of Category data. It provides a convenient interface for app.ModelInterface
 type Category struct {
 	app.Model
-	ID          app.NullUUID   `json:"id"         db:"m.id"              gorm:"column:id;primaryKey"`
-	Code        app.NullString `json:"code"       db:"m.code"            gorm:"column:code"`
-	Name        app.NullString `json:"name"       db:"m.name"            gorm:"column:name"`
+	ID          app.NullUUID   `json:"id"          db:"m.id"              gorm:"column:id;primaryKey"`
+	Code        app.NullString `json:"code"        db:"m.code"            gorm:"column:code"`
+	Name        app.NullString `json:"name"        db:"m.name"            gorm:"column:name"`
 	Description app.NullText   `json:"description" db:"m.description"     gorm:"column:description"`
 
-	CreatedAt app.NullDateTime `json:"created_at" db:"m.created_at"      gorm:"column:created_at"`
-	UpdatedAt app.NullDateTime `json:"updated_at" db:"m.updated_at"      gorm:"column:updated_at"`
-	DeletedAt app.NullDateTime `json:"deleted_at" db:"m.deleted_at,hide" gorm:"column:deleted_at"`
+	CreatedAt app.NullDateTime `json:"created_at"  db:"m.created_at"      gorm:"column:created_at"`
+	UpdatedAt app.NullDateTime `json:"updated_at"  db:"m.updated_at"      gorm:"column:updated_at"`
+	DeletedAt app.NullDateTime `json:"deleted_at"  db:"m.deleted_at,hide" gorm:"column:deleted_at"`
 }
 
 // EndPoint returns the Category end point, it used for cache key, etc.

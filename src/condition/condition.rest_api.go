@@ -4,7 +4,6 @@ import (
 	"net/http"
 
 	"github.com/gofiber/fiber/v2"
-	"grest.dev/grest"
 
 	"github.com/maulanar/go_asset_tracking_management/app"
 )
@@ -39,10 +38,15 @@ func (r *RESTAPIHandler) GetByID(c *fiber.Ctx) error {
 	if err != nil {
 		return app.Error().Handler(c, err)
 	}
+	resp := app.ListSingleModel{}
+	resp.Ctx = r.UseCase.Ctx
+	resp.SetData(res, r.UseCase.Query)
+
 	if r.UseCase.IsFlat() {
-		return c.JSON(res)
+		return c.JSON(resp)
 	}
-	return c.JSON(grest.NewJSON(res).ToStructured().Data)
+
+	return c.JSON(app.NewJSON(resp).ToStructured().Data)
 }
 
 // Get is the REST API handler for `GET /api/conditions`.
@@ -59,7 +63,7 @@ func (r *RESTAPIHandler) Get(c *fiber.Ctx) error {
 	if r.UseCase.IsFlat() {
 		return c.JSON(res)
 	}
-	return c.JSON(grest.NewJSON(res).ToStructured().Data)
+	return c.JSON(app.NewJSON(res).ToStructured().Data)
 }
 
 // Create is the REST API handler for `POST /api/conditions`.
@@ -69,10 +73,13 @@ func (r *RESTAPIHandler) Create(c *fiber.Ctx) error {
 		return app.Error().Handler(c, err)
 	}
 	p := ParamCreate{}
-	err = grest.NewJSON(c.Body()).ToFlat().Unmarshal(&p)
+	err = app.NewJSON(c.Body()).ToFlat().Unmarshal(&p)
 	if err != nil {
 		return app.Error().Handler(c, app.Error().New(http.StatusBadRequest, err.Error()))
 	}
+	p.Ctx = r.UseCase.Ctx
+	p.Query = r.UseCase.Query
+
 	err = r.UseCase.Create(&p)
 	if err != nil {
 		return app.Error().Handler(c, err)
@@ -84,10 +91,13 @@ func (r *RESTAPIHandler) Create(c *fiber.Ctx) error {
 	if err != nil {
 		return app.Error().Handler(c, err)
 	}
+	resp := app.ListSingleModel{}
+	resp.Ctx = r.UseCase.Ctx
+	resp.SetData(res, r.UseCase.Query)
 	if r.UseCase.IsFlat() {
-		return c.Status(http.StatusCreated).JSON(res)
+		return c.Status(http.StatusCreated).JSON(resp)
 	}
-	return c.Status(http.StatusCreated).JSON(grest.NewJSON(res).ToStructured().Data)
+	return c.Status(http.StatusCreated).JSON(app.NewJSON(resp).ToStructured().Data)
 }
 
 // UpdateByID is the REST API handler for `PUT /api/conditions/{id}`.
@@ -97,10 +107,13 @@ func (r *RESTAPIHandler) UpdateByID(c *fiber.Ctx) error {
 		return app.Error().Handler(c, err)
 	}
 	p := ParamUpdate{}
-	err = grest.NewJSON(c.Body()).ToFlat().Unmarshal(&p)
+	err = app.NewJSON(c.Body()).ToFlat().Unmarshal(&p)
 	if err != nil {
 		return app.Error().Handler(c, app.Error().New(http.StatusBadRequest, err.Error()))
 	}
+	p.Ctx = r.UseCase.Ctx
+	p.Query = r.UseCase.Query
+
 	err = r.UseCase.UpdateByID(c.Params("id"), &p)
 	if err != nil {
 		return app.Error().Handler(c, err)
@@ -112,10 +125,15 @@ func (r *RESTAPIHandler) UpdateByID(c *fiber.Ctx) error {
 	if err != nil {
 		return app.Error().Handler(c, err)
 	}
+	resp := app.ListSingleModel{}
+	resp.Ctx = r.UseCase.Ctx
+	resp.SetData(res, r.UseCase.Query)
+
 	if r.UseCase.IsFlat() {
-		return c.JSON(res)
+		return c.JSON(resp)
 	}
-	return c.JSON(grest.NewJSON(res).ToStructured().Data)
+
+	return c.JSON(app.NewJSON(resp).ToStructured().Data)
 }
 
 // PartiallyUpdateByID is the REST API handler for `PATCH /api/conditions/{id}`.
@@ -125,10 +143,13 @@ func (r *RESTAPIHandler) PartiallyUpdateByID(c *fiber.Ctx) error {
 		return app.Error().Handler(c, err)
 	}
 	p := ParamPartiallyUpdate{}
-	err = grest.NewJSON(c.Body()).ToFlat().Unmarshal(&p)
+	err = app.NewJSON(c.Body()).ToFlat().Unmarshal(&p)
 	if err != nil {
 		return app.Error().Handler(c, app.Error().New(http.StatusBadRequest, err.Error()))
 	}
+	p.Ctx = r.UseCase.Ctx
+	p.Query = r.UseCase.Query
+
 	err = r.UseCase.PartiallyUpdateByID(c.Params("id"), &p)
 	if err != nil {
 		return app.Error().Handler(c, err)
@@ -140,10 +161,15 @@ func (r *RESTAPIHandler) PartiallyUpdateByID(c *fiber.Ctx) error {
 	if err != nil {
 		return app.Error().Handler(c, err)
 	}
+	resp := app.ListSingleModel{}
+	resp.Ctx = r.UseCase.Ctx
+	resp.SetData(res, r.UseCase.Query)
+
 	if r.UseCase.IsFlat() {
-		return c.JSON(res)
+		return c.JSON(resp)
 	}
-	return c.JSON(grest.NewJSON(res).ToStructured().Data)
+
+	return c.JSON(app.NewJSON(resp).ToStructured().Data)
 }
 
 // DeleteByID is the REST API handler for `DELETE /api/conditions/{id}`.
@@ -153,10 +179,13 @@ func (r *RESTAPIHandler) DeleteByID(c *fiber.Ctx) error {
 		return app.Error().Handler(c, err)
 	}
 	p := ParamDelete{}
-	err = grest.NewJSON(c.Body()).ToFlat().Unmarshal(&p)
+	err = app.NewJSON(c.Body()).ToFlat().Unmarshal(&p)
 	if err != nil {
 		return app.Error().Handler(c, app.Error().New(http.StatusBadRequest, err.Error()))
 	}
+	p.Ctx = r.UseCase.Ctx
+	p.Query = r.UseCase.Query
+
 	err = r.UseCase.DeleteByID(c.Params("id"), &p)
 	if err != nil {
 		return app.Error().Handler(c, err)

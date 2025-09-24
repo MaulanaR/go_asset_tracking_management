@@ -7,6 +7,7 @@ import (
 	"github.com/maulanar/go_asset_tracking_management/src/category"
 	"github.com/maulanar/go_asset_tracking_management/src/condition"
 	"github.com/maulanar/go_asset_tracking_management/src/department"
+	"github.com/maulanar/go_asset_tracking_management/src/employee"
 	// import : DONT REMOVE THIS COMMENT
 )
 
@@ -62,6 +63,13 @@ func (r *routerUtil) Configure() {
 	app.Server().AddRoute("/api/v1/assets/{id}", "PUT", asset.REST().UpdateByID, asset.OpenAPI().UpdateByID())
 	app.Server().AddRoute("/api/v1/assets/{id}", "PATCH", asset.REST().PartiallyUpdateByID, asset.OpenAPI().PartiallyUpdateByID())
 	app.Server().AddRoute("/api/v1/assets/{id}", "DELETE", asset.REST().DeleteByID, asset.OpenAPI().DeleteByID())
+
+	app.Server().AddRoute("/api/v1/employees", "POST", employee.REST().Create, employee.OpenAPI().Create())
+	app.Server().AddRoute("/api/v1/employees", "GET", employee.REST().Get, employee.OpenAPI().Get())
+	app.Server().AddRoute("/api/v1/employees/{id}", "GET", employee.REST().GetByID, employee.OpenAPI().GetByID())
+	app.Server().AddRoute("/api/v1/employees/{id}", "PUT", employee.REST().UpdateByID, employee.OpenAPI().UpdateByID())
+	app.Server().AddRoute("/api/v1/employees/{id}", "PATCH", employee.REST().PartiallyUpdateByID, employee.OpenAPI().PartiallyUpdateByID())
+	app.Server().AddRoute("/api/v1/employees/{id}", "DELETE", employee.REST().DeleteByID, employee.OpenAPI().DeleteByID())
 
 	// AddRoute : DONT REMOVE THIS COMMENT
 }
