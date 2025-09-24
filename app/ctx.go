@@ -6,6 +6,7 @@ import (
 	"reflect"
 	"time"
 
+	"github.com/gofiber/fiber/v2"
 	"gorm.io/gorm"
 )
 
@@ -17,8 +18,9 @@ type Ctx struct {
 	Action    Action // informasi umum terkait request
 	Err       error
 
-	IsAsync bool     // for async use, autocommit
-	mainTx  *gorm.DB // for normal use, commit & rollback from middleware
+	IsAsync  bool     // for async use, autocommit
+	mainTx   *gorm.DB // for normal use, commit & rollback from middleware
+	FiberCtx *fiber.Ctx
 }
 
 type Action struct {

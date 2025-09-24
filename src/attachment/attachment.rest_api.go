@@ -1,4 +1,4 @@
-package department
+package attachment
 
 import (
 	"net/http"
@@ -13,12 +13,12 @@ func REST() *RESTAPIHandler {
 	return &RESTAPIHandler{}
 }
 
-// RESTAPIHandler provides a convenient interface for Department REST API handler.
+// RESTAPIHandler provides a convenient interface for Attachment REST API handler.
 type RESTAPIHandler struct {
 	UseCase UseCaseHandler
 }
 
-// injectDeps inject the dependencies of the Department REST API handler.
+// injectDeps inject the dependencies of the Attachment REST API handler.
 func (r *RESTAPIHandler) injectDeps(c *fiber.Ctx) error {
 	ctx, ok := c.Locals(app.CtxKey).(*app.Ctx)
 	if !ok {
@@ -29,7 +29,7 @@ func (r *RESTAPIHandler) injectDeps(c *fiber.Ctx) error {
 	return nil
 }
 
-// GetByID is the REST API handler for `GET /api/departments/{id}`.
+// GetByID is the REST API handler for `GET /api/attachments/{id}`.
 func (r *RESTAPIHandler) GetByID(c *fiber.Ctx) error {
 	err := r.injectDeps(c)
 	if err != nil {
@@ -50,7 +50,7 @@ func (r *RESTAPIHandler) GetByID(c *fiber.Ctx) error {
 	return c.JSON(app.NewJSON(resp).ToStructured().Data)
 }
 
-// Get is the REST API handler for `GET /api/departments`.
+// Get is the REST API handler for `GET /api/attachments`.
 func (r *RESTAPIHandler) Get(c *fiber.Ctx) error {
 	err := r.injectDeps(c)
 	if err != nil {
@@ -67,17 +67,13 @@ func (r *RESTAPIHandler) Get(c *fiber.Ctx) error {
 	return c.JSON(app.NewJSON(res).ToStructured().Data)
 }
 
-// Create is the REST API handler for `POST /api/departments`.
+// Create is the REST API handler for `POST /api/attachments`.
 func (r *RESTAPIHandler) Create(c *fiber.Ctx) error {
 	err := r.injectDeps(c)
 	if err != nil {
 		return app.Error().Handler(c, err)
 	}
 	p := ParamCreate{}
-	err = app.NewJSON(c.Body()).ToFlat().Unmarshal(&p)
-	if err != nil {
-		return app.Error().Handler(c, app.Error().New(http.StatusBadRequest, err.Error()))
-	}
 	p.Ctx = r.UseCase.Ctx
 	p.Query = r.UseCase.Query
 
@@ -101,7 +97,7 @@ func (r *RESTAPIHandler) Create(c *fiber.Ctx) error {
 	return c.Status(http.StatusCreated).JSON(app.NewJSON(resp).ToStructured().Data)
 }
 
-// UpdateByID is the REST API handler for `PUT /api/departments/{id}`.
+// UpdateByID is the REST API handler for `PUT /api/attachments/{id}`.
 func (r *RESTAPIHandler) UpdateByID(c *fiber.Ctx) error {
 	err := r.injectDeps(c)
 	if err != nil {
@@ -137,7 +133,7 @@ func (r *RESTAPIHandler) UpdateByID(c *fiber.Ctx) error {
 	return c.JSON(app.NewJSON(resp).ToStructured().Data)
 }
 
-// PartiallyUpdateByID is the REST API handler for `PATCH /api/departments/{id}`.
+// PartiallyUpdateByID is the REST API handler for `PATCH /api/attachments/{id}`.
 func (r *RESTAPIHandler) PartiallyUpdateByID(c *fiber.Ctx) error {
 	err := r.injectDeps(c)
 	if err != nil {
@@ -173,7 +169,7 @@ func (r *RESTAPIHandler) PartiallyUpdateByID(c *fiber.Ctx) error {
 	return c.JSON(app.NewJSON(resp).ToStructured().Data)
 }
 
-// DeleteByID is the REST API handler for `DELETE /api/departments/{id}`.
+// DeleteByID is the REST API handler for `DELETE /api/attachments/{id}`.
 func (r *RESTAPIHandler) DeleteByID(c *fiber.Ctx) error {
 	err := r.injectDeps(c)
 	if err != nil {
@@ -194,7 +190,7 @@ func (r *RESTAPIHandler) DeleteByID(c *fiber.Ctx) error {
 	res := map[string]any{
 		"code": http.StatusOK,
 		"message": r.UseCase.Ctx.Trans("deleted", map[string]string{
-			"departments": p.EndPoint(),
+			"attachments": p.EndPoint(),
 			"id":          c.Params("id"),
 		}),
 	}

@@ -9,7 +9,10 @@ type Asset struct {
 	Code                  app.NullString   `json:"code"                   db:"m.code"            gorm:"column:code"`
 	Name                  app.NullString   `json:"name"                   db:"m.name"            gorm:"column:name"`
 	Price                 app.NullFloat64  `json:"price"                  db:"m.price"           gorm:"column:price"`
-	Attachment            app.NullText     `json:"attachment"             db:"m.attachment"      gorm:"column:attachment"`
+	AttachmentID          app.NullText     `json:"attachment.id"          db:"m.attachment_id"   gorm:"column:attachment_id"`
+	AttachmentName        app.NullText     `json:"attachment.name"        db:"att.name"          gorm:"-"`
+	AttachmentPath        app.NullText     `json:"attachment.path"        db:"att.path"          gorm:"-"`
+	AttachmentURL         app.NullText     `json:"attachment.url"         db:"att.url"           gorm:"-"`
 	CategoryID            app.NullUUID     `json:"category.id"            db:"m.category_id"     gorm:"column:category_id"`
 	CategoryCode          app.NullString   `json:"category.code"          db:"cat.code"          gorm:"-"`
 	CategoryName          app.NullString   `json:"category.name"          db:"cat.name"          gorm:"-"`
@@ -49,6 +52,7 @@ func (Asset) TableAliasName() string {
 func (m *Asset) GetRelations() map[string]map[string]any {
 	m.AddRelation("left", "categories", "cat", []map[string]any{{"column1": "cat.id", "column2": "m.category_id"}})
 	m.AddRelation("left", "departments", "dep", []map[string]any{{"column1": "dep.id", "column2": "m.department_id"}})
+	m.AddRelation("left", "attachments", "att", []map[string]any{{"column1": "att.id", "column2": "m.attachment_id"}})
 	return m.Relations
 }
 

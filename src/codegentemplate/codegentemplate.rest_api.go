@@ -24,6 +24,7 @@ func (r *RESTAPIHandler) injectDeps(c *fiber.Ctx) error {
 	if !ok {
 		return app.Error().New(http.StatusInternalServerError, "ctx is not found")
 	}
+	ctx.FiberCtx = c
 	r.UseCase = UseCase(*ctx, app.Query().Parse(c.OriginalURL()))
 	return nil
 }

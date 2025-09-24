@@ -6,6 +6,7 @@ import (
 	"time"
 
 	"github.com/maulanar/go_asset_tracking_management/app"
+	"github.com/maulanar/go_asset_tracking_management/src/attachment"
 	"github.com/maulanar/go_asset_tracking_management/src/branch"
 	"github.com/maulanar/go_asset_tracking_management/src/department"
 )
@@ -301,7 +302,7 @@ func (u UseCaseHandler) DeleteByID(id string, p *ParamDelete) error {
 }
 
 // setDefaultValue set default value of undefined field when create or update Employee data.
-func (u *UseCaseHandler) setDefaultValue(old Employee) error {
+func (u *UseCaseHandler) setDefaultValue(old Employee) (err error) {
 
 	if !old.ID.Valid {
 		u.ID = app.NewNullUUID()
@@ -328,6 +329,14 @@ func (u *UseCaseHandler) setDefaultValue(old Employee) error {
 	}
 	if brKey != "" {
 		_, err := branch.UseCaseHandler{Ctx: u.Ctx, Query: url.Values{}}.GetByID(brKey)
+		if err != nil {
+			return err
+		}
+	}
+
+	// validate attachment
+	if u.AttachmentID.Valid && u.AttachmentID.String != "" {
+		_, err := attachment.UseCaseHandler{Ctx: u.Ctx, Query: url.Values{}}.GetByID(u.AttachmentID.String)
 		if err != nil {
 			return err
 		}

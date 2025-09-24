@@ -35,6 +35,7 @@ func (s *serverUtil) configure() {
 	s.Fiber = fiber.New(fiber.Config{
 		ErrorHandler:          Error().Handler,
 		ReadBufferSize:        16384,
+		BodyLimit:             26 * 1024 * 1024,
 		DisableStartupMessage: true,
 	})
 	s.AddMiddleware(Error().Recover)

@@ -18,7 +18,10 @@ type Employee struct {
 	BranchAddress         app.NullText   `json:"branch.address"         db:"brc.address"       gorm:"-"`
 	Address               app.NullText   `json:"address"                db:"m.address"         gorm:"column:address"`
 	Phone                 app.NullString `json:"phone"                  db:"m.phone"           gorm:"column:phone"`
-	Attachment            app.NullText   `json:"attachment"             db:"m.attachment"      gorm:"column:attachment"`
+	AttachmentID          app.NullText   `json:"attachment.id"          db:"m.attachment_id"   gorm:"column:attachment_id"`
+	AttachmentName        app.NullText   `json:"attachment.name"        db:"att.name"          gorm:"-"`
+	AttachmentPath        app.NullText   `json:"attachment.path"        db:"att.path"          gorm:"-"`
+	AttachmentURL         app.NullText   `json:"attachment.url"         db:"att.url"           gorm:"-"`
 	Email                 app.NullString `json:"email"                  db:"m.email"           gorm:"column:email"`
 	IsActive              app.NullBool   `json:"is_active"              db:"m.is_active"       gorm:"column:is_active;default:true"`
 
@@ -35,7 +38,7 @@ func (Employee) EndPoint() string {
 // TableVersion returns the versions of the Employee table in the database.
 // Change this value with date format YY.MM.DDHHii when any table structure changes.
 func (Employee) TableVersion() string {
-	return "25.09.241152"
+	return "25.09.241722"
 }
 
 // TableName returns the name of the Employee table in the database.
@@ -52,6 +55,7 @@ func (Employee) TableAliasName() string {
 func (m *Employee) GetRelations() map[string]map[string]any {
 	m.AddRelation("left", "departments", "dpt", []map[string]any{{"column1": "dpt.id", "column2": "m.department_id"}})
 	m.AddRelation("left", "branches", "brc", []map[string]any{{"column1": "brc.id", "column2": "m.branch_id"}})
+	m.AddRelation("left", "attachments", "att", []map[string]any{{"column1": "att.id", "column2": "m.attachment_id"}})
 	// m.AddRelation("left", "users", "uu", []map[string]any{{"column1": "uu.id", "column2": "m.updated_by_user_id"}})
 	return m.Relations
 }

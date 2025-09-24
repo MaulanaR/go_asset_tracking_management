@@ -33,6 +33,8 @@ func main() {
 	src.Router()
 	app.Server().AddOpenAPIDoc("/api/docs", f)
 
+	app.Server().Fiber.Static("/storages", "./storages")
+
 	src.Migrator()
 	src.Seeder()
 	src.Scheduler()

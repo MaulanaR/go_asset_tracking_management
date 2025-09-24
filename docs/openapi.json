@@ -772,6 +772,253 @@
         ]
       }
     },
+    "/api/v1/attachments": {
+      "post": {
+        "description": "Use this method to create Attachment",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/headerParam.Accept-Language"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Attachment"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Attachment"
+                }
+              }
+            },
+            "description": "Success"
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error.BadRequest"
+                }
+              }
+            },
+            "description": "A validation exception has occurred."
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error.Unauthorized"
+                }
+              }
+            },
+            "description": "Invalid authorization credentials."
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error.Forbidden"
+                }
+              }
+            },
+            "description": "User doesn't have permission to access the resource."
+          }
+        },
+        "summary": "Create Attachment",
+        "tags": [
+          "Attachment"
+        ]
+      },
+      "get": {
+        "description": "Use this method to get list of Attachment",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/headerParam.Accept-Language"
+          },
+          {
+            "$ref": "#/components/parameters/queryParam.Any"
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AttachmentList"
+                }
+              }
+            },
+            "description": "Success"
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error.BadRequest"
+                }
+              }
+            },
+            "description": "A validation exception has occurred."
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error.Unauthorized"
+                }
+              }
+            },
+            "description": "Invalid authorization credentials."
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error.Forbidden"
+                }
+              }
+            },
+            "description": "User doesn't have permission to access the resource."
+          }
+        },
+        "summary": "Get Attachment",
+        "tags": [
+          "Attachment"
+        ]
+      }
+    },
+    "/api/v1/attachments/{id}": {
+      "get": {
+        "description": "Use this method to get Attachment by id",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/pathParam.ID"
+          },
+          {
+            "$ref": "#/components/parameters/headerParam.Accept-Language"
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Attachment"
+                }
+              }
+            },
+            "description": "Success"
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error.BadRequest"
+                }
+              }
+            },
+            "description": "A validation exception has occurred."
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error.Unauthorized"
+                }
+              }
+            },
+            "description": "Invalid authorization credentials."
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error.Forbidden"
+                }
+              }
+            },
+            "description": "User doesn't have permission to access the resource."
+          }
+        },
+        "summary": "Get Attachment By ID",
+        "tags": [
+          "Attachment"
+        ]
+      },
+      "delete": {
+        "description": "Use this method to delete Attachment by id",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/pathParam.ID"
+          },
+          {
+            "$ref": "#/components/parameters/headerParam.Accept-Language"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Attachment"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Attachment"
+                }
+              }
+            },
+            "description": "Success"
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error.BadRequest"
+                }
+              }
+            },
+            "description": "A validation exception has occurred."
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error.Unauthorized"
+                }
+              }
+            },
+            "description": "Invalid authorization credentials."
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error.Forbidden"
+                }
+              }
+            },
+            "description": "User doesn't have permission to access the resource."
+          }
+        },
+        "summary": "Delete Attachment By ID",
+        "tags": [
+          "Attachment"
+        ]
+      }
+    },
     "/api/v1/branches": {
       "post": {
         "description": "Use this method to create Branch",
@@ -2709,7 +2956,21 @@
       "Asset": {
         "properties": {
           "attachment": {
-            "type": "string"
+            "properties": {
+              "id": {
+                "type": "string"
+              },
+              "name": {
+                "type": "string"
+              },
+              "path": {
+                "type": "string"
+              },
+              "url": {
+                "type": "string"
+              }
+            },
+            "type": "object"
           },
           "category": {
             "properties": {
@@ -2744,15 +3005,15 @@
               "description": {
                 "type": "string"
               },
+              "id": {
+                "format": "uuid",
+                "type": "string"
+              },
               "name": {
                 "type": "string"
               }
             },
             "type": "object"
-          },
-          "department_id": {
-            "format": "uuid",
-            "type": "string"
           },
           "id": {
             "format": "uuid",
@@ -2785,7 +3046,21 @@
                 "items": {
                   "properties": {
                     "attachment": {
-                      "type": "string"
+                      "properties": {
+                        "id": {
+                          "type": "string"
+                        },
+                        "name": {
+                          "type": "string"
+                        },
+                        "path": {
+                          "type": "string"
+                        },
+                        "url": {
+                          "type": "string"
+                        }
+                      },
+                      "type": "object"
                     },
                     "category": {
                       "properties": {
@@ -2820,15 +3095,15 @@
                         "description": {
                           "type": "string"
                         },
+                        "id": {
+                          "format": "uuid",
+                          "type": "string"
+                        },
                         "name": {
                           "type": "string"
                         }
                       },
                       "type": "object"
-                    },
-                    "department_id": {
-                      "format": "uuid",
-                      "type": "string"
                     },
                     "id": {
                       "format": "uuid",
@@ -2898,6 +3173,134 @@
         },
         "type": "object"
       },
+      "Attachment": {
+        "properties": {
+          "created_at": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "data_id": {
+            "format": "uuid",
+            "type": "string"
+          },
+          "endpoint": {
+            "type": "string"
+          },
+          "extension": {
+            "type": "string"
+          },
+          "id": {
+            "format": "uuid",
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "path": {
+            "type": "string"
+          },
+          "updated_at": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "url": {
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "AttachmentList": {
+        "properties": {
+          "message": {
+            "type": "string"
+          },
+          "results": {
+            "properties": {
+              "list": {
+                "items": {
+                  "properties": {
+                    "created_at": {
+                      "format": "date-time",
+                      "type": "string"
+                    },
+                    "data_id": {
+                      "format": "uuid",
+                      "type": "string"
+                    },
+                    "endpoint": {
+                      "type": "string"
+                    },
+                    "extension": {
+                      "type": "string"
+                    },
+                    "id": {
+                      "format": "uuid",
+                      "type": "string"
+                    },
+                    "name": {
+                      "type": "string"
+                    },
+                    "path": {
+                      "type": "string"
+                    },
+                    "updated_at": {
+                      "format": "date-time",
+                      "type": "string"
+                    },
+                    "url": {
+                      "type": "string"
+                    }
+                  },
+                  "type": "object"
+                },
+                "type": "array"
+              },
+              "pagination": {
+                "properties": {
+                  "limit": {
+                    "type": "integer"
+                  },
+                  "links": {
+                    "properties": {
+                      "first": {
+                        "type": "string"
+                      },
+                      "last": {
+                        "type": "string"
+                      },
+                      "next": {
+                        "type": "string"
+                      },
+                      "previous": {
+                        "type": "string"
+                      }
+                    },
+                    "type": "object"
+                  },
+                  "page": {
+                    "type": "integer"
+                  },
+                  "total": {
+                    "type": "integer"
+                  },
+                  "total_pages": {
+                    "type": "integer"
+                  }
+                },
+                "type": "object"
+              }
+            },
+            "type": "object"
+          },
+          "status": {
+            "type": "string"
+          },
+          "timestamp": {
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
       "Branch": {
         "properties": {
           "address": {
@@ -2913,6 +3316,9 @@
           "id": {
             "format": "uuid",
             "type": "string"
+          },
+          "is_active": {
+            "type": "boolean"
           },
           "name": {
             "type": "string"
@@ -2947,6 +3353,9 @@
                     "id": {
                       "format": "uuid",
                       "type": "string"
+                    },
+                    "is_active": {
+                      "type": "boolean"
                     },
                     "name": {
                       "type": "string"
@@ -3022,6 +3431,9 @@
             "format": "uuid",
             "type": "string"
           },
+          "is_active": {
+            "type": "boolean"
+          },
           "name": {
             "type": "string"
           },
@@ -3055,6 +3467,9 @@
                     "id": {
                       "format": "uuid",
                       "type": "string"
+                    },
+                    "is_active": {
+                      "type": "boolean"
                     },
                     "name": {
                       "type": "string"
@@ -3130,6 +3545,9 @@
             "format": "uuid",
             "type": "string"
           },
+          "is_active": {
+            "type": "boolean"
+          },
           "name": {
             "type": "string"
           },
@@ -3163,6 +3581,9 @@
                     "id": {
                       "format": "uuid",
                       "type": "string"
+                    },
+                    "is_active": {
+                      "type": "boolean"
                     },
                     "name": {
                       "type": "string"
@@ -3238,6 +3659,9 @@
             "format": "uuid",
             "type": "string"
           },
+          "is_active": {
+            "type": "boolean"
+          },
           "name": {
             "type": "string"
           },
@@ -3271,6 +3695,9 @@
                     "id": {
                       "format": "uuid",
                       "type": "string"
+                    },
+                    "is_active": {
+                      "type": "boolean"
                     },
                     "name": {
                       "type": "string"
@@ -3336,7 +3763,21 @@
             "type": "string"
           },
           "attachment": {
-            "type": "string"
+            "properties": {
+              "id": {
+                "type": "string"
+              },
+              "name": {
+                "type": "string"
+              },
+              "path": {
+                "type": "string"
+              },
+              "url": {
+                "type": "string"
+              }
+            },
+            "type": "object"
           },
           "branch": {
             "properties": {
@@ -3388,6 +3829,9 @@
             "format": "uuid",
             "type": "string"
           },
+          "is_active": {
+            "type": "boolean"
+          },
           "name": {
             "type": "string"
           },
@@ -3415,7 +3859,21 @@
                       "type": "string"
                     },
                     "attachment": {
-                      "type": "string"
+                      "properties": {
+                        "id": {
+                          "type": "string"
+                        },
+                        "name": {
+                          "type": "string"
+                        },
+                        "path": {
+                          "type": "string"
+                        },
+                        "url": {
+                          "type": "string"
+                        }
+                      },
+                      "type": "object"
                     },
                     "branch": {
                       "properties": {
@@ -3466,6 +3924,9 @@
                     "id": {
                       "format": "uuid",
                       "type": "string"
+                    },
+                    "is_active": {
+                      "type": "boolean"
                     },
                     "name": {
                       "type": "string"
@@ -3616,6 +4077,9 @@
     },
     {
       "name": "Employee"
+    },
+    {
+      "name": "Attachment"
     }
   ],
   "externalDocs": {

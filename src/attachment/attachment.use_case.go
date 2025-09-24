@@ -1,14 +1,15 @@
-package asset
+package attachment
 
 import (
+	"fmt"
 	"net/http"
 	"net/url"
+	"os"
+	"path/filepath"
+	"strings"
 	"time"
 
 	"github.com/maulanar/go_asset_tracking_management/app"
-	"github.com/maulanar/go_asset_tracking_management/src/attachment"
-	"github.com/maulanar/go_asset_tracking_management/src/category"
-	"github.com/maulanar/go_asset_tracking_management/src/department"
 )
 
 // UseCase returns a UseCaseHandler for expected use case functional.
@@ -23,9 +24,9 @@ func UseCase(ctx app.Ctx, query ...url.Values) UseCaseHandler {
 	return u
 }
 
-// UseCaseHandler provides a convenient interface for Asset use case, use UseCase to access UseCaseHandler.
+// UseCaseHandler provides a convenient interface for Attachment use case, use UseCase to access UseCaseHandler.
 type UseCaseHandler struct {
-	Asset
+	Attachment
 
 	// injectable dependencies
 	Ctx   *app.Ctx   `json:"-" db:"-" gorm:"-"`
@@ -38,12 +39,12 @@ func (u UseCaseHandler) Async(ctx app.Ctx, query ...url.Values) UseCaseHandler {
 	return UseCase(ctx, query...)
 }
 
-// GetByID returns the Asset data for the specified ID.
-func (u UseCaseHandler) GetByID(id string) (Asset, error) {
-	res := Asset{}
+// GetByID returns the Attachment data for the specified ID.
+func (u UseCaseHandler) GetByID(id string) (Attachment, error) {
+	res := Attachment{}
 
 	// check permission
-	err := u.Ctx.ValidatePermission("assets.detail")
+	err := u.Ctx.ValidatePermission("attachments.detail")
 	if err != nil {
 		return res, err
 	}
@@ -77,12 +78,12 @@ func (u UseCaseHandler) GetByID(id string) (Asset, error) {
 	return res, err
 }
 
-// Get returns the list of Asset data.
+// Get returns the list of Attachment data.
 func (u UseCaseHandler) Get() (app.ListModel, error) {
 	res := app.ListModel{}
 
 	// check permission
-	err := u.Ctx.ValidatePermission("assets.list")
+	err := u.Ctx.ValidatePermission("attachments.list")
 	if err != nil {
 		return res, err
 	}
@@ -104,7 +105,7 @@ func (u UseCaseHandler) Get() (app.ListModel, error) {
 		res.Results.PageContext.Page,
 		res.Results.PageContext.PerPage,
 		res.Results.PageContext.PageCount,
-		err = app.Query().PaginationInfo(tx, &Asset{}, u.Query)
+		err = app.Query().PaginationInfo(tx, &Attachment{}, u.Query)
 	if err != nil {
 		return res, app.Error().New(http.StatusInternalServerError, err.Error())
 	}
@@ -114,7 +115,7 @@ func (u UseCaseHandler) Get() (app.ListModel, error) {
 	}
 
 	// find data
-	data, err := app.Query().Find(tx, &Asset{}, u.Query)
+	data, err := app.Query().Find(tx, &Attachment{}, u.Query)
 	if err != nil {
 		return res, app.Error().New(http.StatusInternalServerError, err.Error())
 	}
@@ -125,23 +126,17 @@ func (u UseCaseHandler) Get() (app.ListModel, error) {
 	return res, err
 }
 
-// Create creates a new data Asset with specified parameters.
+// Create creates a new data Attachment with specified parameters.
 func (u UseCaseHandler) Create(p *ParamCreate) error {
 
 	// check permission
-	err := u.Ctx.ValidatePermission("assets.create")
-	if err != nil {
-		return err
-	}
-
-	// validate param
-	err = u.Ctx.ValidateParam(p)
+	err := u.Ctx.ValidatePermission("attachments.create")
 	if err != nil {
 		return err
 	}
 
 	// set default value for undefined field
-	err = p.setDefaultValue(Asset{})
+	err = p.setDefaultValue(Attachment{})
 	if err != nil {
 		return err
 	}
@@ -166,11 +161,11 @@ func (u UseCaseHandler) Create(p *ParamCreate) error {
 	return nil
 }
 
-// UpdateByID updates the Asset data for the specified ID with specified parameters.
+// UpdateByID updates the Attachment data for the specified ID with specified parameters.
 func (u UseCaseHandler) UpdateByID(id string, p *ParamUpdate) error {
 
 	// check permission
-	err := u.Ctx.ValidatePermission("assets.edit")
+	err := u.Ctx.ValidatePermission("attachments.edit")
 	if err != nil {
 		return err
 	}
@@ -213,11 +208,11 @@ func (u UseCaseHandler) UpdateByID(id string, p *ParamUpdate) error {
 	return nil
 }
 
-// PartiallyUpdateByID updates the Asset data for the specified ID with specified parameters.
+// PartiallyUpdateByID updates the Attachment data for the specified ID with specified parameters.
 func (u UseCaseHandler) PartiallyUpdateByID(id string, p *ParamPartiallyUpdate) error {
 
 	// check permission
-	err := u.Ctx.ValidatePermission("assets.edit")
+	err := u.Ctx.ValidatePermission("attachments.edit")
 	if err != nil {
 		return err
 	}
@@ -260,17 +255,11 @@ func (u UseCaseHandler) PartiallyUpdateByID(id string, p *ParamPartiallyUpdate) 
 	return nil
 }
 
-// DeleteByID deletes the Asset data for the specified ID.
+// DeleteByID deletes the Attachment data for the specified ID.
 func (u UseCaseHandler) DeleteByID(id string, p *ParamDelete) error {
 
 	// check permission
-	err := u.Ctx.ValidatePermission("assets.delete")
-	if err != nil {
-		return err
-	}
-
-	// validate param
-	err = u.Ctx.ValidateParam(p)
+	err := u.Ctx.ValidatePermission("attachments.delete")
 	if err != nil {
 		return err
 	}
@@ -293,6 +282,10 @@ func (u UseCaseHandler) DeleteByID(id string, p *ParamDelete) error {
 		return app.Error().New(http.StatusInternalServerError, err.Error())
 	}
 
+	// delete file
+	path, err := os.Getwd()
+	os.Remove(fmt.Sprintf(path+"/storages/%s", old.Name.String))
+
 	// invalidate cache
 	app.Cache().Invalidate(u.EndPoint(), old.ID.String)
 
@@ -301,68 +294,39 @@ func (u UseCaseHandler) DeleteByID(id string, p *ParamDelete) error {
 	return nil
 }
 
-// setDefaultValue set default value of undefined field when create or update Asset data.
-func (u *UseCaseHandler) setDefaultValue(old Asset) error {
-
+// setDefaultValue set default value of undefined field when create or update Attachment data.
+func (u *UseCaseHandler) setDefaultValue(old Attachment) (err error) {
 	if !old.ID.Valid {
 		u.ID = app.NewNullUUID()
 	} else {
 		u.ID = old.ID
 	}
 
-	// validate department
-	dptKey := u.DepartmentID.String
-	if !u.DepartmentID.Valid || u.DepartmentID.String == "" {
-		dptKey = u.DepartmentCode.String
-	}
-	if dptKey != "" {
-		_, err := department.UseCaseHandler{Ctx: u.Ctx, Query: url.Values{}}.GetByID(dptKey)
+	// handle file upload
+	u.File, err = u.Ctx.FiberCtx.FormFile("file")
+	if err == nil {
+		dir := "./storages"
+		if _, err := os.Stat(dir); os.IsNotExist(err) {
+			err = os.MkdirAll(dir, 0775)
+			if err != nil {
+				return app.Error().New(http.StatusInternalServerError, err.Error())
+			}
+		}
+
+		// rename & save file
+		t := time.Now().Format("2006-01-02-15-04-05")
+		extension := filepath.Ext(u.File.Filename)
+		newName := fmt.Sprintf("%s%s%s", t, "_", filepath.Base(u.File.Filename))
+		newName = strings.Replace(newName, " ", "", -1)
+
+		err = u.Ctx.FiberCtx.SaveFile(u.File, fmt.Sprintf("./storages/%s", newName))
 		if err != nil {
 			return err
 		}
-	}
-
-	// validate department
-	catKey := u.CategoryID.String
-	if !u.CategoryID.Valid || u.CategoryID.String == "" {
-		catKey = u.CategoryCode.String
-	}
-	if catKey != "" {
-		_, err := category.UseCaseHandler{Ctx: u.Ctx, Query: url.Values{}}.GetByID(catKey)
-		if err != nil {
-			return err
-		}
-	}
-
-	// validate attachment
-	if u.AttachmentID.Valid && u.AttachmentID.String != "" {
-		_, err := attachment.UseCaseHandler{Ctx: u.Ctx, Query: url.Values{}}.GetByID(u.AttachmentID.String)
-		if err != nil {
-			return err
-		}
-	}
-
-	if u.Ctx.Action.Method == "POST" {
-		if u.Code.Valid && u.Code.String != "" {
-			err := app.Common().IsFieldValueExists(u.Ctx, u.EndPoint(), "Code", u.TableName(), "code", u.Code.String)
-			if err != nil {
-				return err
-			}
-		} else {
-			newCode, err := app.Common().GenerateCode(u.Ctx, u.TableName(), "code", u.Name.String)
-			if err != nil {
-				return err
-			}
-			u.Code.Set(newCode)
-		}
-
-	} else {
-		if u.Code.Valid && u.Code.String != old.Code.String {
-			err := app.Common().IsFieldValueExists(u.Ctx, u.EndPoint(), "Code", u.TableName(), "code", u.Code.String)
-			if err != nil {
-				return err
-			}
-		}
+		u.Name.Set(newName)
+		u.Path.Set("/storages/" + newName)
+		u.Extension.Set(extension)
+		u.Url.Set(app.APP_URL + u.Path.String)
 	}
 
 	return nil
