@@ -56,7 +56,14 @@ func (errorUtil) StatusCode(err error) int {
 func (errorUtil) Detail(err error) any {
 	e, ok := err.(*grest.Error)
 	if ok {
-		return e.Body()
+		respError := map[string]any{
+			"code":    e.Code,
+			"message": e.Message,
+		}
+		if e.Detail != nil {
+			respError["data"] = e.Detail
+		}
+		return respError
 	}
 	return nil
 }
@@ -117,7 +124,16 @@ func (errorUtil) Handler(c *fiber.Ctx, err error) error {
 			e.Detail = map[string]string{"message": e.Error()}
 		}
 	}
-	return c.Status(e.StatusCode()).JSON(e.Body())
+
+	respError := map[string]any{
+		"code":    e.Code,
+		"message": e.Message,
+	}
+	if e.Detail != nil {
+		respError["data"] = e.Detail
+	}
+
+	return c.Status(e.StatusCode()).JSON(respError)
 }
 
 // Recover recovers from a panic during Fiber request processing.
