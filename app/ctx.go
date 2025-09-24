@@ -1,10 +1,7 @@
 package app
 
 import (
-	"encoding/json"
 	"net/http"
-	"reflect"
-	"time"
 
 	"github.com/gofiber/fiber/v2"
 	"gorm.io/gorm"
@@ -125,39 +122,46 @@ func (c Ctx) NotFoundError(err error, entity, key, value string) error {
 // If the data is not flat, it converts the old value to a structured format.
 // You can do anything you want with this method, for example to save user activity log, send callback/webhook, etc.
 func (c Ctx) Hook(method, reason, id string, old any) {
-
+	c.RelAsset()
 	// kasih jeda 2 detik untuk memastikan db transaction nya sudah di commit
-	time.Sleep(2 * time.Second)
+	// time.Sleep(2 * time.Second)
 
-	isFlat := false
-	flat, ok := old.(interface{ IsFlat() bool })
-	if ok {
-		isFlat = flat.IsFlat()
-	}
+	// isFlat := false
+	// flat, ok := old.(interface{ IsFlat() bool })
+	// if ok {
+	// 	isFlat = flat.IsFlat()
+	// }
 
-	oldData := old
-	if !isFlat {
-		oldData = NewJSON(old).ToStructured().Data
-	}
-	oldJSON, _ := json.MarshalIndent(oldData, "", "  ")
-	newJSON := []byte{}
+	// oldData := old
+	// if !isFlat {
+	// 	oldData = NewJSON(old).ToStructured().Data
+	// }
+	// oldJSON, _ := json.MarshalIndent(oldData, "", "  ")
+	// newJSON := []byte{}
 
-	model := reflect.ValueOf(old)
-	if m := model.MethodByName("Async"); m.IsValid() {
-		useCase := m.Call([]reflect.Value{reflect.ValueOf(c)})
-		if len(useCase) > 0 {
-			if u := useCase[0].MethodByName("GetByID"); u.IsValid() {
-				val := u.Call([]reflect.Value{reflect.ValueOf(id)})
-				if len(val) > 0 {
-					new := val[0].Interface()
-					if !isFlat {
-						new = NewJSON(new).ToStructured().Data
-					}
-					newJSON, _ = json.MarshalIndent(new, "", "  ")
-				}
-			}
-		}
-	}
-	_ = oldJSON
-	_ = newJSON
+	// model := reflect.ValueOf(old)
+	// if m := model.MethodByName("Async"); m.IsValid() {
+	// 	useCase := m.Call([]reflect.Value{reflect.ValueOf(c)})
+	// 	if len(useCase) > 0 {
+	// 		if u := useCase[0].MethodByName("GetByID"); u.IsValid() {
+	// 			val := u.Call([]reflect.Value{reflect.ValueOf(id)})
+	// 			if len(val) > 0 {
+	// 				new := val[0].Interface()
+	// 				if !isFlat {
+	// 					new = NewJSON(new).ToStructured().Data
+	// 				}
+	// 				newJSON, _ = json.MarshalIndent(new, "", "  ")
+	// 			}
+	// 		}
+	// 	}
+	// }
+	// _ = oldJSON
+	// _ = newJSON
+}
+
+// Delete related cache assets
+func (c Ctx) RelAsset() {
+	cache.DeleteWithPrefix("assets*")
+	cache.DeleteWithPrefix("employees*")
+	cache.DeleteWithPrefix("employee_assets*")
 }

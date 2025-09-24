@@ -117,9 +117,8 @@ type ParamCreate struct {
 // ParamUpdate is the expected parameters for update the Employee data.
 type ParamUpdate struct {
 	UseCaseHandler
-	Name   app.NullString `json:"name"   db:"m.name"  gorm:"column:name"  validate:"required"`
-	Phone  app.NullString `json:"phone"  db:"m.phone" gorm:"column:phone" validate:"required"`
-	Reason app.NullString `json:"reason" gorm:"-"            validate:"required"`
+	Name  app.NullString `json:"name"  db:"m.name"  gorm:"column:name"  validate:"required"`
+	Phone app.NullString `json:"phone" db:"m.phone" gorm:"column:phone" validate:"required"`
 }
 
 // ParamPartiallyUpdate is the expected parameters for partially update the Employee data.

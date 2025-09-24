@@ -22,7 +22,7 @@ func Config() {
 // These variables represent various configuration settings used by the application.
 // Each variable is assigned a default value or a value loaded from environment variables.
 var (
-	APP_VERSION = "2025.09.222141"
+	APP_VERSION = "2025.09.242223"
 
 	APP_ENV  = "local"
 	APP_PORT = "8080"
