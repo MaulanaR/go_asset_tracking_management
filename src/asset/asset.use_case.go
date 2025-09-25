@@ -140,7 +140,7 @@ func (u UseCaseHandler) Create(p *ParamCreate) error {
 	}
 
 	// set default value for undefined field
-	err = p.setDefaultValue(Asset{})
+	err = u.setDefaultValue(Asset{})
 	if err != nil {
 		return err
 	}
@@ -152,7 +152,7 @@ func (u UseCaseHandler) Create(p *ParamCreate) error {
 	}
 
 	// save data to db
-	err = tx.Model(&p).Create(&p).Error
+	err = tx.Model(&u).Create(&u).Error
 	if err != nil {
 		return app.Error().New(http.StatusInternalServerError, err.Error())
 	}
@@ -187,7 +187,7 @@ func (u UseCaseHandler) UpdateByID(id string, p *ParamUpdate) error {
 	}
 
 	// set default value for undefined field
-	err = p.setDefaultValue(old)
+	err = u.setDefaultValue(old)
 	if err != nil {
 		return err
 	}
@@ -199,7 +199,7 @@ func (u UseCaseHandler) UpdateByID(id string, p *ParamUpdate) error {
 	}
 
 	// update data on the db
-	err = tx.Model(&p).Where("id = ?", old.ID).Updates(p).Error
+	err = tx.Model(&u).Where("id = ?", old.ID).Updates(u).Error
 	if err != nil {
 		return app.Error().New(http.StatusInternalServerError, err.Error())
 	}
@@ -234,7 +234,7 @@ func (u UseCaseHandler) PartiallyUpdateByID(id string, p *ParamPartiallyUpdate) 
 	}
 
 	// set default value for undefined field
-	err = p.setDefaultValue(old)
+	err = u.setDefaultValue(old)
 	if err != nil {
 		return err
 	}
@@ -246,7 +246,7 @@ func (u UseCaseHandler) PartiallyUpdateByID(id string, p *ParamPartiallyUpdate) 
 	}
 
 	// update data on the db
-	err = tx.Model(&p).Where("id = ?", old.ID).Updates(p).Error
+	err = tx.Model(&u).Where("id = ?", old.ID).Updates(u).Error
 	if err != nil {
 		return app.Error().New(http.StatusInternalServerError, err.Error())
 	}
@@ -323,7 +323,17 @@ func (u *UseCaseHandler) setDefaultValue(old Asset) error {
 
 	// validate attachment
 	if u.AttachmentID.Valid && u.AttachmentID.String != "" {
-		_, err := attachment.UseCaseHandler{Ctx: u.Ctx, Query: url.Values{}}.GetByID(u.AttachmentID.String)
+		attUC := attachment.UseCase(*u.Ctx, url.Values{})
+		att, err := attUC.GetByID(u.AttachmentID.String)
+		if err != nil {
+			return err
+		}
+
+		// Update data attachment
+		upAtt := attachment.ParamUpdate{}
+		upAtt.Endpoint.Set("assets")
+		upAtt.DataId.Set(u.ID.String)
+		err = attUC.UpdateByID(att.ID.String, &upAtt)
 		if err != nil {
 			return err
 		}

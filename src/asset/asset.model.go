@@ -42,7 +42,7 @@ type Asset struct {
 	BranchName    app.NullString `json:"branch.name"            db:"emp_ass_brc.name"         gorm:"-"`
 	BranchAddress app.NullText   `json:"branch.address"         db:"emp_ass_brc.address"      gorm:"-"`
 
-	Status    app.NullString   `json:"status"                 db:"m.status"                 gorm:"column:status"        validate:"omitempty, oneof=avaiable unavailable"`
+	Status    app.NullString   `json:"status"                 db:"m.status"                 gorm:"column:status"        validate:"omitempty,oneof=avaiable unavailable"`
 	CreatedAt app.NullDateTime `json:"created_at"             db:"m.created_at"             gorm:"column:created_at"`
 	UpdatedAt app.NullDateTime `json:"updated_at"             db:"m.updated_at"             gorm:"column:updated_at"`
 	DeletedAt app.NullDateTime `json:"deleted_at"             db:"m.deleted_at,hide"        gorm:"column:deleted_at"`

@@ -1,7 +1,9 @@
 package app
 
 import (
+	"fmt"
 	"net/http"
+	"runtime/debug"
 
 	"github.com/gofiber/fiber/v2"
 	"grest.dev/grest"
@@ -101,27 +103,32 @@ func (errorUtil) TraceSimple(err error) map[string]string {
 // It returns a JSON response with the error status code and body.
 func (errorUtil) Handler(c *fiber.Ctx, err error) error {
 	lang := "en"
-	ctx, ctxOK := c.Locals("ctx").(*Ctx)
-	if ctxOK {
+	if ctx, ok := c.Locals("ctx").(*Ctx); ok && ctx != nil {
 		lang = ctx.Lang
 	}
-	e, ok := err.(*grest.Error)
-	if !ok {
+
+	// Pastikan e SELALU non-nil
+	var e *grest.Error
+	if ge, ok := err.(*grest.Error); ok && ge != nil {
+		e = ge
+	} else {
 		code := http.StatusInternalServerError
-		fiberError, isFiberError := err.(*fiber.Error)
-		if isFiberError {
-			code = fiberError.Code
+		if fe, ok := err.(*fiber.Error); ok && fe != nil {
+			code = fe.Code
 		}
-		e.Code = code
-		e.Message = err.Error()
+		e = grest.NewError(code, err.Error(), nil)
 	}
+
+	// Normalisasi status code
 	if e.StatusCode() < 400 || e.StatusCode() > 599 {
 		e.Code = http.StatusInternalServerError
 	}
+
+	// Pesan 500 → pakai translator + simpan pesan asli ke detail bila kosong
 	if e.StatusCode() == http.StatusInternalServerError {
 		e.Message = Translator().Trans(lang, "500_internal_error")
 		if e.Detail == nil {
-			e.Detail = map[string]string{"message": e.Error()}
+			e.Detail = map[string]any{"message": err.Error()}
 		}
 	}
 
@@ -142,7 +149,22 @@ func (errorUtil) Handler(c *fiber.Ctx, err error) error {
 func (errorUtil) Recover(c *fiber.Ctx) (err error) {
 	defer func() {
 		if r := recover(); r != nil {
-			// todo: save log & send alert to telegram
+			// pastikan kita ubah apa pun tipenya ke string
+			var msg string
+			switch v := r.(type) {
+			case error:
+				msg = v.Error()
+			default:
+				msg = fmt.Sprintf("%v", v)
+			}
+
+			// siapkan detail (trace optional)
+			detail := map[string]any{
+				"trace": string(debug.Stack()),
+			}
+
+			// bungkus sebagai grest.Error dan tulis response JSON
+			_ = Error().Handler(c, grest.NewError(http.StatusInternalServerError, msg, detail))
 		}
 	}()
 	return c.Next()

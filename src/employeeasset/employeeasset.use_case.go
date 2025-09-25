@@ -142,7 +142,7 @@ func (u UseCaseHandler) Create(p *ParamCreate) error {
 	}
 
 	// set default value for undefined field
-	err = p.setDefaultValue(EmployeeAsset{})
+	err = u.setDefaultValue(EmployeeAsset{})
 	if err != nil {
 		return err
 	}
@@ -154,7 +154,7 @@ func (u UseCaseHandler) Create(p *ParamCreate) error {
 	}
 
 	// save data to db
-	err = tx.Model(&p).Create(&p).Error
+	err = tx.Model(&u).Create(&u).Error
 	if err != nil {
 		return app.Error().New(http.StatusInternalServerError, err.Error())
 	}
@@ -189,7 +189,7 @@ func (u UseCaseHandler) UpdateByID(id string, p *ParamUpdate) error {
 	}
 
 	// set default value for undefined field
-	err = p.setDefaultValue(old)
+	err = u.setDefaultValue(old)
 	if err != nil {
 		return err
 	}
@@ -201,7 +201,7 @@ func (u UseCaseHandler) UpdateByID(id string, p *ParamUpdate) error {
 	}
 
 	// update data on the db
-	err = tx.Model(&p).Where("id = ?", old.ID).Updates(p).Error
+	err = tx.Model(&u).Where("id = ?", old.ID).Updates(u).Error
 	if err != nil {
 		return app.Error().New(http.StatusInternalServerError, err.Error())
 	}
@@ -236,7 +236,7 @@ func (u UseCaseHandler) PartiallyUpdateByID(id string, p *ParamPartiallyUpdate) 
 	}
 
 	// set default value for undefined field
-	err = p.setDefaultValue(old)
+	err = u.setDefaultValue(old)
 	if err != nil {
 		return err
 	}
@@ -248,7 +248,7 @@ func (u UseCaseHandler) PartiallyUpdateByID(id string, p *ParamPartiallyUpdate) 
 	}
 
 	// update data on the db
-	err = tx.Model(&p).Where("id = ?", old.ID).Updates(p).Error
+	err = tx.Model(&u).Where("id = ?", old.ID).Updates(u).Error
 	if err != nil {
 		return app.Error().New(http.StatusInternalServerError, err.Error())
 	}
@@ -316,7 +316,8 @@ func (u *UseCaseHandler) setDefaultValue(old EmployeeAsset) error {
 		key = u.AssetCode.String
 	}
 	if key != "" {
-		ass, err := asset.UseCaseHandler{Ctx: u.Ctx, Query: url.Values{}}.GetByID(key)
+		assUC := asset.UseCase(*u.Ctx, url.Values{})
+		ass, err := assUC.GetByID(key)
 		if err != nil {
 			return err
 		}
@@ -324,7 +325,7 @@ func (u *UseCaseHandler) setDefaultValue(old EmployeeAsset) error {
 		// update status to unavailable
 		upAsset := asset.ParamUpdate{}
 		upAsset.Status.Set("unavailable")
-		err = asset.UseCaseHandler{Ctx: u.Ctx, Query: url.Values{}}.UpdateByID(ass.ID.String, &upAsset)
+		err = assUC.UpdateByID(ass.ID.String, &upAsset)
 		if err != nil {
 			return err
 		}
@@ -336,7 +337,8 @@ func (u *UseCaseHandler) setDefaultValue(old EmployeeAsset) error {
 		key = u.EmployeeCode.String
 	}
 	if key != "" {
-		_, err := employee.UseCaseHandler{Ctx: u.Ctx, Query: url.Values{}}.GetByID(key)
+		empUC := employee.UseCase(*u.Ctx, url.Values{})
+		_, err := empUC.GetByID(key)
 		if err != nil {
 			return err
 		}
@@ -348,7 +350,8 @@ func (u *UseCaseHandler) setDefaultValue(old EmployeeAsset) error {
 		key = u.ConditionCode.String
 	}
 	if key != "" {
-		_, err := condition.UseCaseHandler{Ctx: u.Ctx, Query: url.Values{}}.GetByID(key)
+		conUC := condition.UseCase(*u.Ctx, url.Values{})
+		_, err := conUC.GetByID(key)
 		if err != nil {
 			return err
 		}
@@ -356,7 +359,18 @@ func (u *UseCaseHandler) setDefaultValue(old EmployeeAsset) error {
 
 	// validate AttachmentID
 	if u.AttachmentID.Valid && u.AttachmentID.String != "" {
-		_, err := attachment.UseCaseHandler{Ctx: u.Ctx, Query: url.Values{}}.GetByID(u.AttachmentID.String)
+		attUC := attachment.UseCase(*u.Ctx, url.Values{})
+
+		att, err := attUC.GetByID(u.AttachmentID.String)
+		if err != nil {
+			return err
+		}
+
+		// Update data attachment
+		upAtt := attachment.ParamUpdate{}
+		upAtt.Endpoint.Set("employee_assets")
+		upAtt.DataId.Set(u.ID.String)
+		err = attUC.UpdateByID(att.ID.String, &upAtt)
 		if err != nil {
 			return err
 		}

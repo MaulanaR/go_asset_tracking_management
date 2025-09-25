@@ -136,7 +136,7 @@ func (u UseCaseHandler) Create(p *ParamCreate) error {
 	}
 
 	// set default value for undefined field
-	err = p.setDefaultValue(Attachment{})
+	err = u.setDefaultValue(Attachment{})
 	if err != nil {
 		return err
 	}
@@ -148,7 +148,7 @@ func (u UseCaseHandler) Create(p *ParamCreate) error {
 	}
 
 	// save data to db
-	err = tx.Model(&p).Create(&p).Error
+	err = tx.Model(&u).Create(&u).Error
 	if err != nil {
 		return app.Error().New(http.StatusInternalServerError, err.Error())
 	}
@@ -183,7 +183,7 @@ func (u UseCaseHandler) UpdateByID(id string, p *ParamUpdate) error {
 	}
 
 	// set default value for undefined field
-	err = p.setDefaultValue(old)
+	err = u.setDefaultValue(old)
 	if err != nil {
 		return err
 	}
@@ -195,7 +195,7 @@ func (u UseCaseHandler) UpdateByID(id string, p *ParamUpdate) error {
 	}
 
 	// update data on the db
-	err = tx.Model(&p).Where("id = ?", old.ID).Updates(p).Error
+	err = tx.Model(&u).Where("id = ?", old.ID).Updates(u).Error
 	if err != nil {
 		return app.Error().New(http.StatusInternalServerError, err.Error())
 	}
@@ -230,7 +230,7 @@ func (u UseCaseHandler) PartiallyUpdateByID(id string, p *ParamPartiallyUpdate) 
 	}
 
 	// set default value for undefined field
-	err = p.setDefaultValue(old)
+	err = u.setDefaultValue(old)
 	if err != nil {
 		return err
 	}
@@ -242,7 +242,7 @@ func (u UseCaseHandler) PartiallyUpdateByID(id string, p *ParamPartiallyUpdate) 
 	}
 
 	// update data on the db
-	err = tx.Model(&p).Where("id = ?", old.ID).Updates(p).Error
+	err = tx.Model(&u).Where("id = ?", old.ID).Updates(u).Error
 	if err != nil {
 		return app.Error().New(http.StatusInternalServerError, err.Error())
 	}

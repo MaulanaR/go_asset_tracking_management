@@ -50,6 +50,21 @@ func NewJSON(data any, isKeepOriginalData ...bool) JSON {
 	return JSON{Data: v, IsMerge: isMerge}
 }
 
+func BindJSON(body []byte, param ...any) error {
+	for _, p := range param {
+		if flat, ok := p.(interface{ IsFlat() bool }); ok && flat.IsFlat() {
+			if err := json.Unmarshal(body, p); err != nil {
+				return err
+			}
+		} else {
+			if err := grest.NewJSON(body, true).ToFlat().Unmarshal(p); err != nil {
+				return err
+			}
+		}
+	}
+	return nil
+}
+
 // Marshal converts JSON data to a JSON byte slice.
 func (j JSON) Marshal() ([]byte, error) {
 	b, err := json.Marshal(j.Data)

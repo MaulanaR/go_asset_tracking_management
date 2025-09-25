@@ -74,8 +74,7 @@ func (r *RESTAPIHandler) Create(c *fiber.Ctx) error {
 		return app.Error().Handler(c, err)
 	}
 	p := ParamCreate{}
-	err = app.NewJSON(c.Body()).ToFlat().Unmarshal(&p)
-	if err != nil {
+	if err := app.BindJSON(c.Body(), &p, &r.UseCase); err != nil {
 		return app.Error().Handler(c, app.Error().New(http.StatusBadRequest, err.Error()))
 	}
 	p.Ctx = r.UseCase.Ctx
@@ -108,8 +107,7 @@ func (r *RESTAPIHandler) UpdateByID(c *fiber.Ctx) error {
 		return app.Error().Handler(c, err)
 	}
 	p := ParamUpdate{}
-	err = app.NewJSON(c.Body()).ToFlat().Unmarshal(&p)
-	if err != nil {
+	if err := app.BindJSON(c.Body(), &p, &r.UseCase); err != nil {
 		return app.Error().Handler(c, app.Error().New(http.StatusBadRequest, err.Error()))
 	}
 	p.Ctx = r.UseCase.Ctx
@@ -144,8 +142,7 @@ func (r *RESTAPIHandler) PartiallyUpdateByID(c *fiber.Ctx) error {
 		return app.Error().Handler(c, err)
 	}
 	p := ParamPartiallyUpdate{}
-	err = app.NewJSON(c.Body()).ToFlat().Unmarshal(&p)
-	if err != nil {
+	if err := app.BindJSON(c.Body(), &p, &r.UseCase); err != nil {
 		return app.Error().Handler(c, app.Error().New(http.StatusBadRequest, err.Error()))
 	}
 	p.Ctx = r.UseCase.Ctx
@@ -180,8 +177,7 @@ func (r *RESTAPIHandler) DeleteByID(c *fiber.Ctx) error {
 		return app.Error().Handler(c, err)
 	}
 	p := ParamDelete{}
-	err = app.NewJSON(c.Body()).ToFlat().Unmarshal(&p)
-	if err != nil {
+	if err := app.BindJSON(c.Body(), &p, &r.UseCase); err != nil {
 		return app.Error().Handler(c, app.Error().New(http.StatusBadRequest, err.Error()))
 	}
 	p.Ctx = r.UseCase.Ctx

@@ -146,20 +146,20 @@ func (p *EmployeeAssetList) GetOpenAPISchema() map[string]any {
 
 // ParamCreate is the expected parameters for create a new EmployeeAsset data.
 type ParamCreate struct {
-	UseCaseHandler
 	AssignDate  app.NullDate `json:"assign_date"  db:"m.assign_date"  gorm:"column:assign_date"  validate:"required"`
 	AssetID     app.NullUUID `json:"asset.id"     db:"m.asset_id"     gorm:"column:asset_id"     validate:"required"`
 	EmployeeID  app.NullUUID `json:"employee.id"  db:"m.employee_id"  gorm:"column:employee_id"  validate:"required"`
 	ConditionID app.NullUUID `json:"condition.id" db:"m.condition_id" gorm:"column:condition_id" validate:"required"`
+	UseCaseHandler
 }
 
 // ParamUpdate is the expected parameters for update the EmployeeAsset data.
 type ParamUpdate struct {
-	UseCaseHandler
 	AssignDate  app.NullDate `json:"assign_date"  db:"m.assign_date"  gorm:"column:assign_date"  validate:"required"`
 	AssetID     app.NullUUID `json:"asset.id"     db:"m.asset_id"     gorm:"column:asset_id"     validate:"required"`
 	EmployeeID  app.NullUUID `json:"employee.id"  db:"m.employee_id"  gorm:"column:employee_id"  validate:"required"`
 	ConditionID app.NullUUID `json:"condition.id" db:"m.condition_id" gorm:"column:condition_id" validate:"required"`
+	UseCaseHandler
 }
 
 // ParamPartiallyUpdate is the expected parameters for partially update the EmployeeAsset data.
