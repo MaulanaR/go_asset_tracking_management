@@ -106,7 +106,7 @@ func (c Ctx) DB(connName ...string) (*gorm.DB, error) {
 // It returns the created error or nil if the given error is not a "not found" error.
 func (c Ctx) NotFoundError(err error, entity, key, value string) error {
 	if err != nil && err == gorm.ErrRecordNotFound {
-		return Error().New(http.StatusNotFound, c.Trans("not_found",
+		return Error().New(http.StatusNotFound, c.Trans("entity_key_value_not_found",
 			map[string]string{
 				"entity": c.Trans(entity),
 				"key":    c.Trans(key),

@@ -127,7 +127,7 @@ func (u UseCaseHandler) Get() (app.ListModel, error) {
 }
 
 // Create creates a new data EmployeeAsset with specified parameters.
-func (u UseCaseHandler) Create(p *ParamCreate) error {
+func (u *UseCaseHandler) Create(p *ParamCreate) error {
 
 	// check permission
 	err := u.Ctx.ValidatePermission("employee_assets.create")

@@ -87,7 +87,7 @@ func (r *RESTAPIHandler) Create(c *fiber.Ctx) error {
 	if r.UseCase.Query.Get("is_skip_return") == "true" {
 		return c.Status(http.StatusCreated).JSON(map[string]any{"message": "Success"})
 	}
-	res, err := r.UseCase.GetByID(p.ID.String)
+	res, err := r.UseCase.GetByID(r.UseCase.ID.String)
 	if err != nil {
 		return app.Error().Handler(c, err)
 	}

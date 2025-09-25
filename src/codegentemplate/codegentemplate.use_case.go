@@ -123,7 +123,7 @@ func (u UseCaseHandler) Get() (app.ListModel, error) {
 }
 
 // Create creates a new data CodeGenTemplate with specified parameters.
-func (u UseCaseHandler) Create(p *ParamCreate) error {
+func (u *UseCaseHandler) Create(p *ParamCreate) error {
 
 	// check permission
 	err := u.Ctx.ValidatePermission("end_point.create")

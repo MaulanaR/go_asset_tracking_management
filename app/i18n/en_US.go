@@ -10,5 +10,7 @@ func EnUS() map[string]string {
 		"invalid_username_or_password": "Invalid username or password",
 		"duplicate_entity_key_value":   "The :entity with :key :value already exists",
 		`required_key`:                 `:key is required!`,
+		`not_found`:                    `Not Found`,
+		`entity_key_value_not_found`:   `:entity data with :key = :value cannot be found.`,
 	}
 }
