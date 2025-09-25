@@ -55,7 +55,7 @@ type ListModel struct {
 		Data        []map[string]any `json:"list"`
 		PageContext struct {
 			Page      int   `json:"page"`
-			PerPage   int   `json:"limit"`
+			PerPage   int   `json:"per_page"`
 			Count     int64 `json:"total"`
 			PageCount int   `json:"total_pages"`
 			Links     struct {
@@ -123,7 +123,7 @@ func (list *ListModel) SetOpenAPISchema(m ModelInterface) map[string]any {
 					},
 					"pagination": map[string]any{"type": "object", "properties": map[string]any{
 						"page":        map[string]any{"type": "integer"},
-						"limit":       map[string]any{"type": "integer"},
+						"per_page":    map[string]any{"type": "integer"},
 						"total":       map[string]any{"type": "integer"},
 						"total_pages": map[string]any{"type": "integer"},
 						"links": map[string]any{"type": "object", "properties": map[string]any{

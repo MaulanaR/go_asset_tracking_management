@@ -9,7 +9,7 @@
     "license": {
       "name": ""
     },
-    "version": "2025.09.222141"
+    "version": "2025.09.242223"
   },
   "servers": [
     {
@@ -3636,9 +3636,6 @@
               },
               "pagination": {
                 "properties": {
-                  "limit": {
-                    "type": "integer"
-                  },
                   "links": {
                     "properties": {
                       "first": {
@@ -3657,6 +3654,9 @@
                     "type": "object"
                   },
                   "page": {
+                    "type": "integer"
+                  },
+                  "per_page": {
                     "type": "integer"
                   },
                   "total": {
@@ -3764,9 +3764,6 @@
               },
               "pagination": {
                 "properties": {
-                  "limit": {
-                    "type": "integer"
-                  },
                   "links": {
                     "properties": {
                       "first": {
@@ -3785,6 +3782,9 @@
                     "type": "object"
                   },
                   "page": {
+                    "type": "integer"
+                  },
+                  "per_page": {
                     "type": "integer"
                   },
                   "total": {
@@ -3878,9 +3878,6 @@
               },
               "pagination": {
                 "properties": {
-                  "limit": {
-                    "type": "integer"
-                  },
                   "links": {
                     "properties": {
                       "first": {
@@ -3899,6 +3896,9 @@
                     "type": "object"
                   },
                   "page": {
+                    "type": "integer"
+                  },
+                  "per_page": {
                     "type": "integer"
                   },
                   "total": {
@@ -3992,9 +3992,6 @@
               },
               "pagination": {
                 "properties": {
-                  "limit": {
-                    "type": "integer"
-                  },
                   "links": {
                     "properties": {
                       "first": {
@@ -4013,6 +4010,9 @@
                     "type": "object"
                   },
                   "page": {
+                    "type": "integer"
+                  },
+                  "per_page": {
                     "type": "integer"
                   },
                   "total": {
@@ -4106,9 +4106,6 @@
               },
               "pagination": {
                 "properties": {
-                  "limit": {
-                    "type": "integer"
-                  },
                   "links": {
                     "properties": {
                       "first": {
@@ -4127,6 +4124,9 @@
                     "type": "object"
                   },
                   "page": {
+                    "type": "integer"
+                  },
+                  "per_page": {
                     "type": "integer"
                   },
                   "total": {
@@ -4220,9 +4220,6 @@
               },
               "pagination": {
                 "properties": {
-                  "limit": {
-                    "type": "integer"
-                  },
                   "links": {
                     "properties": {
                       "first": {
@@ -4241,6 +4238,9 @@
                     "type": "object"
                   },
                   "page": {
+                    "type": "integer"
+                  },
+                  "per_page": {
                     "type": "integer"
                   },
                   "total": {
@@ -4369,11 +4369,12 @@
                 "type": "object"
               },
               "category": {
-                "description": {
+                "code": {
                   "type": "string"
                 },
                 "properties": {
-                  "name": {
+                  "id": {
+                    "format": "uuid",
                     "type": "string"
                   }
                 },
@@ -4457,19 +4458,18 @@
                   "type": "string"
                 },
                 "properties": {
-                  "path": {
+                  "url": {
                     "type": "string"
                   }
                 },
                 "type": "object"
               },
               "branch": {
-                "id": {
-                  "format": "uuid",
+                "name": {
                   "type": "string"
                 },
                 "properties": {
-                  "name": {
+                  "code": {
                     "type": "string"
                   }
                 },
@@ -4479,12 +4479,11 @@
                 "type": "string"
               },
               "department": {
-                "id": {
-                  "format": "uuid",
+                "name": {
                   "type": "string"
                 },
                 "properties": {
-                  "code": {
+                  "description": {
                     "type": "string"
                   }
                 },
@@ -4533,23 +4532,24 @@
                     "asset": {
                       "properties": {
                         "attachment": {
+                          "id": {
+                            "format": "uuid",
+                            "type": "string"
+                          },
                           "properties": {
-                            "id": {
-                              "format": "uuid",
+                            "url": {
                               "type": "string"
                             }
                           },
-                          "type": "object",
-                          "url": {
-                            "type": "string"
-                          }
+                          "type": "object"
                         },
                         "category": {
                           "code": {
                             "type": "string"
                           },
                           "properties": {
-                            "description": {
+                            "id": {
+                              "format": "uuid",
                               "type": "string"
                             }
                           },
@@ -4628,22 +4628,24 @@
                           "type": "string"
                         },
                         "attachment": {
-                          "path": {
+                          "id": {
+                            "format": "uuid",
                             "type": "string"
                           },
                           "properties": {
-                            "url": {
+                            "path": {
                               "type": "string"
                             }
                           },
                           "type": "object"
                         },
                         "branch": {
-                          "code": {
+                          "id": {
+                            "format": "uuid",
                             "type": "string"
                           },
                           "properties": {
-                            "name": {
+                            "address": {
                               "type": "string"
                             }
                           },
@@ -4653,12 +4655,12 @@
                           "type": "string"
                         },
                         "department": {
-                          "description": {
+                          "id": {
+                            "format": "uuid",
                             "type": "string"
                           },
                           "properties": {
-                            "id": {
-                              "format": "uuid",
+                            "description": {
                               "type": "string"
                             }
                           },
@@ -4698,9 +4700,6 @@
               },
               "pagination": {
                 "properties": {
-                  "limit": {
-                    "type": "integer"
-                  },
                   "links": {
                     "properties": {
                       "first": {
@@ -4719,6 +4718,9 @@
                     "type": "object"
                   },
                   "page": {
+                    "type": "integer"
+                  },
+                  "per_page": {
                     "type": "integer"
                   },
                   "total": {
@@ -4843,9 +4845,6 @@
               },
               "pagination": {
                 "properties": {
-                  "limit": {
-                    "type": "integer"
-                  },
                   "links": {
                     "properties": {
                       "first": {
@@ -4864,6 +4863,9 @@
                     "type": "object"
                   },
                   "page": {
+                    "type": "integer"
+                  },
+                  "per_page": {
                     "type": "integer"
                   },
                   "total": {
