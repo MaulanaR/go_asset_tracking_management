@@ -1,4 +1,4 @@
-package employee
+package jobposition
 
 import (
 	"net/http"
@@ -6,10 +6,6 @@ import (
 	"time"
 
 	"github.com/maulanar/go_asset_tracking_management/app"
-	"github.com/maulanar/go_asset_tracking_management/src/attachment"
-	"github.com/maulanar/go_asset_tracking_management/src/branch"
-	"github.com/maulanar/go_asset_tracking_management/src/department"
-	"github.com/maulanar/go_asset_tracking_management/src/jobposition"
 )
 
 // UseCase returns a UseCaseHandler for expected use case functional.
@@ -24,9 +20,9 @@ func UseCase(ctx app.Ctx, query ...url.Values) UseCaseHandler {
 	return u
 }
 
-// UseCaseHandler provides a convenient interface for Employee use case, use UseCase to access UseCaseHandler.
+// UseCaseHandler provides a convenient interface for JobPosition use case, use UseCase to access UseCaseHandler.
 type UseCaseHandler struct {
-	Employee
+	JobPosition
 
 	// injectable dependencies
 	Ctx   *app.Ctx   `json:"-" db:"-" gorm:"-"`
@@ -39,12 +35,12 @@ func (u UseCaseHandler) Async(ctx app.Ctx, query ...url.Values) UseCaseHandler {
 	return UseCase(ctx, query...)
 }
 
-// GetByID returns the Employee data for the specified ID.
-func (u UseCaseHandler) GetByID(id string) (Employee, error) {
-	res := Employee{}
+// GetByID returns the JobPosition data for the specified ID.
+func (u UseCaseHandler) GetByID(id string) (JobPosition, error) {
+	res := JobPosition{}
 
 	// check permission
-	err := u.Ctx.ValidatePermission("employees.detail")
+	err := u.Ctx.ValidatePermission("job_positions.detail")
 	if err != nil {
 		return res, err
 	}
@@ -78,12 +74,12 @@ func (u UseCaseHandler) GetByID(id string) (Employee, error) {
 	return res, err
 }
 
-// Get returns the list of Employee data.
+// Get returns the list of JobPosition data.
 func (u UseCaseHandler) Get() (app.ListModel, error) {
 	res := app.ListModel{}
 
 	// check permission
-	err := u.Ctx.ValidatePermission("employees.list")
+	err := u.Ctx.ValidatePermission("job_positions.list")
 	if err != nil {
 		return res, err
 	}
@@ -105,7 +101,7 @@ func (u UseCaseHandler) Get() (app.ListModel, error) {
 		res.Results.PageContext.Page,
 		res.Results.PageContext.PerPage,
 		res.Results.PageContext.PageCount,
-		err = app.Query().PaginationInfo(tx, &Employee{}, u.Query)
+		err = app.Query().PaginationInfo(tx, &JobPosition{}, u.Query)
 	if err != nil {
 		return res, app.Error().New(http.StatusInternalServerError, err.Error())
 	}
@@ -115,7 +111,7 @@ func (u UseCaseHandler) Get() (app.ListModel, error) {
 	}
 
 	// find data
-	data, err := app.Query().Find(tx, &Employee{}, u.Query)
+	data, err := app.Query().Find(tx, &JobPosition{}, u.Query)
 	if err != nil {
 		return res, app.Error().New(http.StatusInternalServerError, err.Error())
 	}
@@ -126,11 +122,11 @@ func (u UseCaseHandler) Get() (app.ListModel, error) {
 	return res, err
 }
 
-// Create creates a new data Employee with specified parameters.
+// Create creates a new data JobPosition with specified parameters.
 func (u *UseCaseHandler) Create(p *ParamCreate) error {
 
 	// check permission
-	err := u.Ctx.ValidatePermission("employees.create")
+	err := u.Ctx.ValidatePermission("job_positions.create")
 	if err != nil {
 		return err
 	}
@@ -142,7 +138,7 @@ func (u *UseCaseHandler) Create(p *ParamCreate) error {
 	}
 
 	// set default value for undefined field
-	err = u.setDefaultValue(Employee{})
+	err = u.setDefaultValue(JobPosition{})
 	if err != nil {
 		return err
 	}
@@ -167,11 +163,11 @@ func (u *UseCaseHandler) Create(p *ParamCreate) error {
 	return nil
 }
 
-// UpdateByID updates the Employee data for the specified ID with specified parameters.
+// UpdateByID updates the JobPosition data for the specified ID with specified parameters.
 func (u UseCaseHandler) UpdateByID(id string, p *ParamUpdate) error {
 
 	// check permission
-	err := u.Ctx.ValidatePermission("employees.edit")
+	err := u.Ctx.ValidatePermission("job_positions.edit")
 	if err != nil {
 		return err
 	}
@@ -214,11 +210,11 @@ func (u UseCaseHandler) UpdateByID(id string, p *ParamUpdate) error {
 	return nil
 }
 
-// PartiallyUpdateByID updates the Employee data for the specified ID with specified parameters.
+// PartiallyUpdateByID updates the JobPosition data for the specified ID with specified parameters.
 func (u UseCaseHandler) PartiallyUpdateByID(id string, p *ParamPartiallyUpdate) error {
 
 	// check permission
-	err := u.Ctx.ValidatePermission("employees.edit")
+	err := u.Ctx.ValidatePermission("job_positions.edit")
 	if err != nil {
 		return err
 	}
@@ -261,11 +257,11 @@ func (u UseCaseHandler) PartiallyUpdateByID(id string, p *ParamPartiallyUpdate) 
 	return nil
 }
 
-// DeleteByID deletes the Employee data for the specified ID.
+// DeleteByID deletes the JobPosition data for the specified ID.
 func (u UseCaseHandler) DeleteByID(id string, p *ParamDelete) error {
 
 	// check permission
-	err := u.Ctx.ValidatePermission("employees.delete")
+	err := u.Ctx.ValidatePermission("job_positions.delete")
 	if err != nil {
 		return err
 	}
@@ -302,93 +298,12 @@ func (u UseCaseHandler) DeleteByID(id string, p *ParamDelete) error {
 	return nil
 }
 
-// setDefaultValue set default value of undefined field when create or update Employee data.
-func (u *UseCaseHandler) setDefaultValue(old Employee) (err error) {
-
+// setDefaultValue set default value of undefined field when create or update JobPosition data.
+func (u *UseCaseHandler) setDefaultValue(old JobPosition) error {
 	if !old.ID.Valid {
 		u.ID = app.NewNullUUID()
 	} else {
 		u.ID = old.ID
-	}
-
-	// validate department
-	dptKey := u.DepartmentID.String
-	if !u.DepartmentID.Valid || u.DepartmentID.String == "" {
-		dptKey = u.DepartmentCode.String
-	}
-	if dptKey != "" {
-		_, err := department.UseCaseHandler{Ctx: u.Ctx, Query: url.Values{}}.GetByID(dptKey)
-		if err != nil {
-			return err
-		}
-	}
-
-	// validate branch
-	brKey := u.BranchID.String
-	if !u.BranchID.Valid || u.BranchID.String == "" {
-		brKey = u.BranchCode.String
-	}
-	if brKey != "" {
-		_, err := branch.UseCaseHandler{Ctx: u.Ctx, Query: url.Values{}}.GetByID(brKey)
-		if err != nil {
-			return err
-		}
-	}
-
-	// validate job position
-	jpKey := u.JobPositionID.String
-	if !u.JobPositionID.Valid || u.JobPositionID.String == "" {
-		jpKey = u.JobPositionCode.String
-	}
-	if jpKey != "" {
-		_, err := jobposition.UseCaseHandler{Ctx: u.Ctx, Query: url.Values{}}.GetByID(jpKey)
-		if err != nil {
-			return err
-		}
-	}
-
-	// validate attachment
-	if u.AttachmentID.Valid && u.AttachmentID.String != "" {
-		attUC := attachment.UseCase(*u.Ctx, url.Values{})
-		att, err := attUC.GetByID(u.AttachmentID.String)
-		if err != nil {
-			return err
-		}
-
-		// Update data attachment
-		upAtt := attachment.ParamUpdate{}
-		upAtt.Endpoint.Set("employees")
-		upAtt.DataId.Set(u.ID.String)
-		err = attUC.UpdateByID(att.ID.String, &upAtt)
-		if err != nil {
-			return err
-		}
-	}
-
-	if u.Ctx.Action.Method == "POST" {
-		if !u.IsActive.Valid {
-			u.IsActive.Set(true)
-		}
-		if u.Code.Valid && u.Code.String != "" {
-			err := app.Common().IsFieldValueExists(u.Ctx, u.EndPoint(), "Code", u.TableName(), "code", u.Code.String)
-			if err != nil {
-				return err
-			}
-		} else {
-			newCode, err := app.Common().GenerateCode(u.Ctx, u.TableName(), "code", u.Name.String)
-			if err != nil {
-				return err
-			}
-			u.Code.Set(newCode)
-		}
-
-	} else {
-		if u.Code.Valid && u.Code.String != old.Code.String {
-			err := app.Common().IsFieldValueExists(u.Ctx, u.EndPoint(), "Code", u.TableName(), "code", u.Code.String)
-			if err != nil {
-				return err
-			}
-		}
 	}
 
 	return nil

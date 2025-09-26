@@ -5,29 +5,34 @@ import "github.com/maulanar/go_asset_tracking_management/app"
 // Employee is the main model of Employee data. It provides a convenient interface for app.ModelInterface
 type Employee struct {
 	app.Model
-	ID                    app.NullUUID   `json:"id"                     db:"m.id"              gorm:"column:id;primaryKey"`
-	Code                  app.NullString `json:"code"                   db:"m.code"            gorm:"column:code"`
-	Name                  app.NullString `json:"name"                   db:"m.name"            gorm:"column:name"`
-	DepartmentID          app.NullUUID   `json:"department.id"          db:"m.department_id"   gorm:"column:department_id"`
-	DepartmentCode        app.NullString `json:"department.code"        db:"dpt.code"          gorm:"-"`
-	DepartmentName        app.NullString `json:"department.name"        db:"dpt.name"          gorm:"-"`
-	DepartmentDescription app.NullText   `json:"department.description" db:"dpt.description"   gorm:"-"`
-	BranchID              app.NullUUID   `json:"branch.id"              db:"m.branch_id"       gorm:"column:branch_id"`
-	BranchCode            app.NullString `json:"branch.code"            db:"brc.code"          gorm:"-"`
-	BranchName            app.NullString `json:"branch.name"            db:"brc.name"          gorm:"-"`
-	BranchAddress         app.NullText   `json:"branch.address"         db:"brc.address"       gorm:"-"`
-	Address               app.NullText   `json:"address"                db:"m.address"         gorm:"column:address"`
-	Phone                 app.NullString `json:"phone"                  db:"m.phone"           gorm:"column:phone"`
-	AttachmentID          app.NullUUID   `json:"attachment.id"          db:"m.attachment_id"   gorm:"column:attachment_id"`
-	AttachmentName        app.NullText   `json:"attachment.name"        db:"att.name"          gorm:"-"`
-	AttachmentPath        app.NullText   `json:"attachment.path"        db:"att.path"          gorm:"-"`
-	AttachmentURL         app.NullText   `json:"attachment.url"         db:"att.url"           gorm:"-"`
-	Email                 app.NullString `json:"email"                  db:"m.email"           gorm:"column:email"`
-	IsActive              app.NullBool   `json:"is_active"              db:"m.is_active"       gorm:"column:is_active;default:true"`
+	ID                     app.NullUUID   `json:"id"                       db:"m.id"              gorm:"column:id;primaryKey"`
+	Code                   app.NullString `json:"code"                     db:"m.code"            gorm:"column:code"`
+	Name                   app.NullString `json:"name"                     db:"m.name"            gorm:"column:name"`
+	DepartmentID           app.NullUUID   `json:"department.id"            db:"m.department_id"   gorm:"column:department_id"`
+	DepartmentCode         app.NullString `json:"department.code"          db:"dpt.code"          gorm:"-"`
+	DepartmentName         app.NullString `json:"department.name"          db:"dpt.name"          gorm:"-"`
+	DepartmentDescription  app.NullText   `json:"department.description"   db:"dpt.description"   gorm:"-"`
+	BranchID               app.NullUUID   `json:"branch.id"                db:"m.branch_id"       gorm:"column:branch_id"`
+	BranchCode             app.NullString `json:"branch.code"              db:"brc.code"          gorm:"-"`
+	BranchName             app.NullString `json:"branch.name"              db:"brc.name"          gorm:"-"`
+	BranchAddress          app.NullText   `json:"branch.address"           db:"brc.address"       gorm:"-"`
+	Address                app.NullText   `json:"address"                  db:"m.address"         gorm:"column:address"`
+	Phone                  app.NullString `json:"phone"                    db:"m.phone"           gorm:"column:phone"`
+	AttachmentID           app.NullUUID   `json:"attachment.id"            db:"m.attachment_id"   gorm:"column:attachment_id"`
+	AttachmentName         app.NullText   `json:"attachment.name"          db:"att.name"          gorm:"-"`
+	AttachmentPath         app.NullText   `json:"attachment.path"          db:"att.path"          gorm:"-"`
+	AttachmentURL          app.NullText   `json:"attachment.url"           db:"att.url"           gorm:"-"`
+	Email                  app.NullString `json:"email"                    db:"m.email"           gorm:"column:email"`
+	Type                   app.NullString `json:"type"                     db:"m.type"            gorm:"column:type"                   validate:"omitempty,oneof=permanent contract freelance"`
+	JobPositionID          app.NullUUID   `json:"job_position.id"          db:"m.job_position_id" gorm:"column:job_position_id"`
+	JobPositionCode        app.NullString `json:"job_position.code"        db:"jp.code"           gorm:"-"`
+	JobPositionName        app.NullString `json:"job_position.name"        db:"jp.name"           gorm:"-"`
+	JobPositionDescription app.NullText   `json:"job_position.description" db:"jp.description"    gorm:"-"`
+	IsActive               app.NullBool   `json:"is_active"                db:"m.is_active"       gorm:"column:is_active;default:true"`
 
-	CreatedAt app.NullDateTime `json:"created_at"             db:"m.created_at"      gorm:"column:created_at"`
-	UpdatedAt app.NullDateTime `json:"updated_at"             db:"m.updated_at"      gorm:"column:updated_at"`
-	DeletedAt app.NullDateTime `json:"deleted_at"             db:"m.deleted_at,hide" gorm:"column:deleted_at"`
+	CreatedAt app.NullDateTime `json:"created_at"               db:"m.created_at"      gorm:"column:created_at"`
+	UpdatedAt app.NullDateTime `json:"updated_at"               db:"m.updated_at"      gorm:"column:updated_at"`
+	DeletedAt app.NullDateTime `json:"deleted_at"               db:"m.deleted_at,hide" gorm:"column:deleted_at"`
 }
 
 // EndPoint returns the Employee end point, it used for cache key, etc.
@@ -56,6 +61,7 @@ func (m *Employee) GetRelations() map[string]map[string]any {
 	m.AddRelation("left", "departments", "dpt", []map[string]any{{"column1": "dpt.id", "column2": "m.department_id"}})
 	m.AddRelation("left", "branches", "brc", []map[string]any{{"column1": "brc.id", "column2": "m.branch_id"}})
 	m.AddRelation("left", "attachments", "att", []map[string]any{{"column1": "att.id", "column2": "m.attachment_id"}})
+	m.AddRelation("left", "job_positions", "jp", []map[string]any{{"column1": "jp.id", "column2": "m.job_position_id"}})
 	// m.AddRelation("left", "users", "uu", []map[string]any{{"column1": "uu.id", "column2": "m.updated_by_user_id"}})
 	return m.Relations
 }
