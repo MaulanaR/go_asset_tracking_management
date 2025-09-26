@@ -39,5 +39,5 @@ func (r *RESTAPIHandler) Get(c *fiber.Ctx) error {
 		return app.Error().Handler(c, err)
 	}
 
-	return c.Render("distribution_asset_per_department", data)
+	return c.Render("report_templates/distribution_asset_per_department", data)
 }
