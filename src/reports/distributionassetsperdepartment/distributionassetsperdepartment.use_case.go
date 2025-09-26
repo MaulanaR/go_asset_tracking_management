@@ -50,8 +50,30 @@ func (u UseCaseHandler) Get() (res ViewData, err error) {
 		return res, app.Error().New(http.StatusInternalServerError, err.Error())
 	}
 
+	// parsing filter
+	deptFilter := u.Query.Get("department.id")
+	catFilter := u.Query.Get("category.id")
+	branchFilter := u.Query.Get("branch.id")
+
+	// siapkan bagian WHERE tambahan
+	where := ""
+	args := []interface{}{}
+	if deptFilter != "" {
+		where += " AND d.id = ?"
+		args = append(args, deptFilter)
+	}
+	if catFilter != "" {
+		where += " AND c.id = ?"
+		args = append(args, catFilter)
+	}
+	if branchFilter != "" {
+		where += " AND b.id = ?"
+		args = append(args, branchFilter)
+	}
+
 	rows := []DistributionAssetsPerDepartment{}
-	err = tx.Raw(`WITH ea_latest AS (
+	query := `
+WITH ea_latest AS (
   SELECT DISTINCT ON (ea.asset_id)
          ea.asset_id,
          ea.employee_id
@@ -75,9 +97,11 @@ JOIN employees e    ON e.id = x.employee_id     AND e.deleted_at IS NULL
 LEFT JOIN departments d ON d.id = e.department_id AND d.deleted_at IS NULL
 LEFT JOIN branches b    ON b.id = e.branch_id     AND b.deleted_at IS NULL
 LEFT JOIN categories c  ON c.id = a.category_id   AND c.deleted_at IS NULL
+WHERE 1=1` + where + `
 GROUP BY d.id, d.name, c.id, c.name, b.id, b.name
 ORDER BY d.name, c.name, b.name;
-`).Scan(&rows).Error
+`
+	err = tx.Raw(query, args...).Scan(&rows).Error
 	if err != nil {
 		return res, err
 	}
