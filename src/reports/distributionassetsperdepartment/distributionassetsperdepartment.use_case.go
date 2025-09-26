@@ -3,6 +3,7 @@ package distributionassetsperdepartment
 import (
 	"net/http"
 	"net/url"
+	"strings"
 	"time"
 
 	"github.com/maulanar/go_asset_tracking_management/app"
@@ -59,16 +60,55 @@ func (u UseCaseHandler) Get() (res ViewData, err error) {
 	where := ""
 	args := []interface{}{}
 	if deptFilter != "" {
-		where += " AND d.id = ?"
-		args = append(args, deptFilter)
+		deptIds := []string{}
+		for _, v := range splitDot(deptFilter) {
+			if v != "" {
+				deptIds = append(deptIds, v)
+			}
+		}
+		if len(deptIds) == 1 {
+			where += " AND d.id = ?"
+			args = append(args, deptIds[0])
+		} else if len(deptIds) > 1 {
+			where += " AND d.id IN (?" + strings.Repeat(",?", len(deptIds)-1) + ")"
+			for _, id := range deptIds {
+				args = append(args, id)
+			}
+		}
 	}
 	if catFilter != "" {
-		where += " AND c.id = ?"
-		args = append(args, catFilter)
+		catIds := []string{}
+		for _, v := range splitDot(catFilter) {
+			if v != "" {
+				catIds = append(catIds, v)
+			}
+		}
+		if len(catIds) == 1 {
+			where += " AND c.id = ?"
+			args = append(args, catIds[0])
+		} else if len(catIds) > 1 {
+			where += " AND c.id IN (?" + strings.Repeat(",?", len(catIds)-1) + ")"
+			for _, id := range catIds {
+				args = append(args, id)
+			}
+		}
 	}
 	if branchFilter != "" {
-		where += " AND b.id = ?"
-		args = append(args, branchFilter)
+		branchIds := []string{}
+		for _, v := range splitDot(branchFilter) {
+			if v != "" {
+				branchIds = append(branchIds, v)
+			}
+		}
+		if len(branchIds) == 1 {
+			where += " AND b.id = ?"
+			args = append(args, branchIds[0])
+		} else if len(branchIds) > 1 {
+			where += " AND b.id IN (?" + strings.Repeat(",?", len(branchIds)-1) + ")"
+			for _, id := range branchIds {
+				args = append(args, id)
+			}
+		}
 	}
 
 	rows := []DistributionAssetsPerDepartment{}
@@ -133,4 +173,9 @@ ORDER BY d.name, c.name, b.name;
 	}
 
 	return res, nil
+}
+
+// tambahkan fungsi pembantu splitDot
+func splitDot(s string) []string {
+	return strings.Split(s, ",")
 }
