@@ -8,6 +8,7 @@ import (
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/filesystem"
+	"github.com/gofiber/template/html/v2"
 	"grest.dev/grest"
 )
 
@@ -31,12 +32,15 @@ type serverUtil struct {
 }
 
 func (s *serverUtil) configure() {
+	htmlEngine := html.New("./report_templates", ".html")
+
 	s.Addr = ":" + APP_PORT
 	s.Fiber = fiber.New(fiber.Config{
 		ErrorHandler:          Error().Handler,
 		ReadBufferSize:        16384,
 		BodyLimit:             26 * 1024 * 1024,
 		DisableStartupMessage: true,
+		Views:                 htmlEngine,
 	})
 	s.AddMiddleware(Error().Recover)
 }

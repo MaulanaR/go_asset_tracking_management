@@ -10,6 +10,7 @@ import (
 	"github.com/maulanar/go_asset_tracking_management/src/department"
 	"github.com/maulanar/go_asset_tracking_management/src/employee"
 	"github.com/maulanar/go_asset_tracking_management/src/employeeasset"
+	"github.com/maulanar/go_asset_tracking_management/src/reports/distributionassetsperdepartment"
 	// import : DONT REMOVE THIS COMMENT
 )
 
@@ -84,6 +85,8 @@ func (r *routerUtil) Configure() {
 	app.Server().AddRoute("/api/v1/employee_assets/{id}", "PUT", employeeasset.REST().UpdateByID, employeeasset.OpenAPI().UpdateByID())
 	app.Server().AddRoute("/api/v1/employee_assets/{id}", "PATCH", employeeasset.REST().PartiallyUpdateByID, employeeasset.OpenAPI().PartiallyUpdateByID())
 	app.Server().AddRoute("/api/v1/employee_assets/{id}", "DELETE", employeeasset.REST().DeleteByID, employeeasset.OpenAPI().DeleteByID())
+
+	app.Server().AddRoute("/api/v1/reports/distribution_assets_per_departments", "GET", distributionassetsperdepartment.REST().Get, distributionassetsperdepartment.OpenAPI().Get())
 
 	// AddRoute : DONT REMOVE THIS COMMENT
 }
