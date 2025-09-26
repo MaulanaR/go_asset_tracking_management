@@ -36,84 +36,16 @@ func (o *OpenAPIOperation) Get() *OpenAPIOperation {
 
 	o.Base()
 	o.Summary = "Get DistributionAssetsPerDepartment"
-	o.Description = "Use this method to get list of DistributionAssetsPerDepartment"
+	o.Description = "Use this method to get Report Distribution Asset Per Department"
 	o.QueryParams = []map[string]any{{"$ref": "#/components/parameters/queryParam.Any"}}
 	o.Responses = map[string]map[string]any{
 		"200": {
 			"description": "Success",
-			"content":     map[string]any{"application/json": &DistributionAssetsPerDepartmentList{}}, // will auto create schema $ref: '#/components/schemas/DistributionAssetsPerDepartment.List' if not exists
+			"content":     map[string]any{"text/html": &DistributionAssetsPerDepartmentList{}}, // will auto create schema $ref: '#/components/schemas/DistributionAssetsPerDepartment.List' if not exists
 		},
 		"400": app.OpenAPIError().BadRequest(),
 		"401": app.OpenAPIError().Unauthorized(),
 		"403": app.OpenAPIError().Forbidden(),
 	}
-	return o
-}
-
-// GetByID is detail of `GET /api/v3/distribution_assets_per_departments/{id}` open api document component.
-func (o *OpenAPIOperation) GetByID() *OpenAPIOperation {
-	if !app.IS_GENERATE_OPEN_API_DOC {
-		return o // skip for efficiency
-	}
-
-	o.Base()
-	o.Summary = "Get DistributionAssetsPerDepartment By ID"
-	o.Description = "Use this method to get DistributionAssetsPerDepartment by id"
-	o.PathParams = []map[string]any{{"$ref": "#/components/parameters/pathParam.ID"}}
-	return o
-}
-
-// Create is detail of `POST /api/v3/distribution_assets_per_departments` open api document component.
-func (o *OpenAPIOperation) Create() *OpenAPIOperation {
-	if !app.IS_GENERATE_OPEN_API_DOC {
-		return o // skip for efficiency
-	}
-
-	o.Base()
-	o.Summary = "Create DistributionAssetsPerDepartment"
-	o.Description = "Use this method to create DistributionAssetsPerDepartment"
-	o.Body = map[string]any{"application/json": &ParamCreate{}}
-	return o
-}
-
-// UpdateByID is detail of `PUT /api/v3/distribution_assets_per_departments/{id}` open api document component.
-func (o *OpenAPIOperation) UpdateByID() *OpenAPIOperation {
-	if !app.IS_GENERATE_OPEN_API_DOC {
-		return o // skip for efficiency
-	}
-
-	o.Base()
-	o.Summary = "Update DistributionAssetsPerDepartment By ID"
-	o.Description = "Use this method to update DistributionAssetsPerDepartment by id"
-	o.PathParams = []map[string]any{{"$ref": "#/components/parameters/pathParam.ID"}}
-	o.Body = map[string]any{"application/json": &ParamUpdate{}}
-	return o
-}
-
-// PartiallyUpdateByID is detail of `PATCH /api/v3/distribution_assets_per_departments/{id}` open api document component.
-func (o *OpenAPIOperation) PartiallyUpdateByID() *OpenAPIOperation {
-	if !app.IS_GENERATE_OPEN_API_DOC {
-		return o // skip for efficiency
-	}
-
-	o.Base()
-	o.Summary = "Partially Update DistributionAssetsPerDepartment By ID"
-	o.Description = "Use this method to partially update DistributionAssetsPerDepartment by id"
-	o.PathParams = []map[string]any{{"$ref": "#/components/parameters/pathParam.ID"}}
-	o.Body = map[string]any{"application/json": &ParamPartiallyUpdate{}}
-	return o
-}
-
-// DeleteByID is detail of `DELETE /api/v3/distribution_assets_per_departments/{id}` open api document component.
-func (o *OpenAPIOperation) DeleteByID() *OpenAPIOperation {
-	if !app.IS_GENERATE_OPEN_API_DOC {
-		return o // skip for efficiency
-	}
-
-	o.Base()
-	o.Summary = "Delete DistributionAssetsPerDepartment By ID"
-	o.Description = "Use this method to delete DistributionAssetsPerDepartment by id"
-	o.PathParams = []map[string]any{{"$ref": "#/components/parameters/pathParam.ID"}}
-	o.Body = map[string]any{"application/json": &ParamDelete{}}
 	return o
 }

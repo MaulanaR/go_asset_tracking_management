@@ -2919,71 +2919,8 @@
       }
     },
     "/api/v1/reports/distribution_assets_per_departments": {
-      "post": {
-        "description": "Use this method to create DistributionAssetsPerDepartment",
-        "parameters": [
-          {
-            "$ref": "#/components/parameters/headerParam.Accept-Language"
-          }
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/DistributionAssetsPerDepartment"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/DistributionAssetsPerDepartment"
-                }
-              }
-            },
-            "description": "Success"
-          },
-          "400": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error.BadRequest"
-                }
-              }
-            },
-            "description": "A validation exception has occurred."
-          },
-          "401": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error.Unauthorized"
-                }
-              }
-            },
-            "description": "Invalid authorization credentials."
-          },
-          "403": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error.Forbidden"
-                }
-              }
-            },
-            "description": "User doesn't have permission to access the resource."
-          }
-        },
-        "summary": "Create DistributionAssetsPerDepartment",
-        "tags": [
-          "DistributionAssetsPerDepartment"
-        ]
-      },
       "get": {
-        "description": "Use this method to get list of DistributionAssetsPerDepartment",
+        "description": "Use this method to get Report Distribution Asset Per Department",
         "parameters": [
           {
             "$ref": "#/components/parameters/headerParam.Accept-Language"
@@ -2995,7 +2932,7 @@
         "responses": {
           "200": {
             "content": {
-              "application/json": {
+              "text/html": {
                 "schema": {
                   "$ref": "#/components/schemas/DistributionAssetsPerDepartmentList"
                 }
@@ -3035,263 +2972,6 @@
           }
         },
         "summary": "Get DistributionAssetsPerDepartment",
-        "tags": [
-          "DistributionAssetsPerDepartment"
-        ]
-      }
-    },
-    "/api/v1/reports/distribution_assets_per_departments/{id}": {
-      "get": {
-        "description": "Use this method to get DistributionAssetsPerDepartment by id",
-        "parameters": [
-          {
-            "$ref": "#/components/parameters/pathParam.ID"
-          },
-          {
-            "$ref": "#/components/parameters/headerParam.Accept-Language"
-          }
-        ],
-        "responses": {
-          "200": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/DistributionAssetsPerDepartment"
-                }
-              }
-            },
-            "description": "Success"
-          },
-          "400": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error.BadRequest"
-                }
-              }
-            },
-            "description": "A validation exception has occurred."
-          },
-          "401": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error.Unauthorized"
-                }
-              }
-            },
-            "description": "Invalid authorization credentials."
-          },
-          "403": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error.Forbidden"
-                }
-              }
-            },
-            "description": "User doesn't have permission to access the resource."
-          }
-        },
-        "summary": "Get DistributionAssetsPerDepartment By ID",
-        "tags": [
-          "DistributionAssetsPerDepartment"
-        ]
-      },
-      "put": {
-        "description": "Use this method to update DistributionAssetsPerDepartment by id",
-        "parameters": [
-          {
-            "$ref": "#/components/parameters/pathParam.ID"
-          },
-          {
-            "$ref": "#/components/parameters/headerParam.Accept-Language"
-          }
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/DistributionAssetsPerDepartment"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/DistributionAssetsPerDepartment"
-                }
-              }
-            },
-            "description": "Success"
-          },
-          "400": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error.BadRequest"
-                }
-              }
-            },
-            "description": "A validation exception has occurred."
-          },
-          "401": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error.Unauthorized"
-                }
-              }
-            },
-            "description": "Invalid authorization credentials."
-          },
-          "403": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error.Forbidden"
-                }
-              }
-            },
-            "description": "User doesn't have permission to access the resource."
-          }
-        },
-        "summary": "Update DistributionAssetsPerDepartment By ID",
-        "tags": [
-          "DistributionAssetsPerDepartment"
-        ]
-      },
-      "patch": {
-        "description": "Use this method to partially update DistributionAssetsPerDepartment by id",
-        "parameters": [
-          {
-            "$ref": "#/components/parameters/pathParam.ID"
-          },
-          {
-            "$ref": "#/components/parameters/headerParam.Accept-Language"
-          }
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/DistributionAssetsPerDepartment"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/DistributionAssetsPerDepartment"
-                }
-              }
-            },
-            "description": "Success"
-          },
-          "400": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error.BadRequest"
-                }
-              }
-            },
-            "description": "A validation exception has occurred."
-          },
-          "401": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error.Unauthorized"
-                }
-              }
-            },
-            "description": "Invalid authorization credentials."
-          },
-          "403": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error.Forbidden"
-                }
-              }
-            },
-            "description": "User doesn't have permission to access the resource."
-          }
-        },
-        "summary": "Partially Update DistributionAssetsPerDepartment By ID",
-        "tags": [
-          "DistributionAssetsPerDepartment"
-        ]
-      },
-      "delete": {
-        "description": "Use this method to delete DistributionAssetsPerDepartment by id",
-        "parameters": [
-          {
-            "$ref": "#/components/parameters/pathParam.ID"
-          },
-          {
-            "$ref": "#/components/parameters/headerParam.Accept-Language"
-          }
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/DistributionAssetsPerDepartment"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/DistributionAssetsPerDepartment"
-                }
-              }
-            },
-            "description": "Success"
-          },
-          "400": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error.BadRequest"
-                }
-              }
-            },
-            "description": "A validation exception has occurred."
-          },
-          "401": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error.Unauthorized"
-                }
-              }
-            },
-            "description": "Invalid authorization credentials."
-          },
-          "403": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error.Forbidden"
-                }
-              }
-            },
-            "description": "User doesn't have permission to access the resource."
-          }
-        },
-        "summary": "Delete DistributionAssetsPerDepartment By ID",
         "tags": [
           "DistributionAssetsPerDepartment"
         ]
@@ -4268,23 +3948,6 @@
         },
         "type": "object"
       },
-      "DistributionAssetsPerDepartment": {
-        "properties": {
-          "created_at": {
-            "format": "date-time",
-            "type": "string"
-          },
-          "id": {
-            "format": "uuid",
-            "type": "string"
-          },
-          "updated_at": {
-            "format": "date-time",
-            "type": "string"
-          }
-        },
-        "type": "object"
-      },
       "DistributionAssetsPerDepartmentList": {
         "properties": {
           "message": {
@@ -4295,17 +3958,44 @@
               "list": {
                 "items": {
                   "properties": {
-                    "created_at": {
-                      "format": "date-time",
-                      "type": "string"
+                    "branch": {
+                      "properties": {
+                        "id": {
+                          "format": "uuid",
+                          "type": "string"
+                        },
+                        "name": {
+                          "type": "string"
+                        }
+                      },
+                      "type": "object"
                     },
-                    "id": {
-                      "format": "uuid",
-                      "type": "string"
+                    "category": {
+                      "properties": {
+                        "id": {
+                          "format": "uuid",
+                          "type": "string"
+                        },
+                        "name": {
+                          "type": "string"
+                        }
+                      },
+                      "type": "object"
                     },
-                    "updated_at": {
-                      "format": "date-time",
-                      "type": "string"
+                    "department": {
+                      "properties": {
+                        "id": {
+                          "format": "uuid",
+                          "type": "string"
+                        },
+                        "name": {
+                          "type": "string"
+                        }
+                      },
+                      "type": "object"
+                    },
+                    "total_asset": {
+                      "type": "integer"
                     }
                   },
                   "type": "object"
@@ -4452,11 +4142,11 @@
           "asset": {
             "properties": {
               "attachment": {
-                "path": {
+                "name": {
                   "type": "string"
                 },
                 "properties": {
-                  "url": {
+                  "path": {
                     "type": "string"
                   }
                 },
@@ -4467,8 +4157,7 @@
                   "type": "string"
                 },
                 "properties": {
-                  "id": {
-                    "format": "uuid",
+                  "description": {
                     "type": "string"
                   }
                 },
@@ -4547,11 +4236,11 @@
                 "type": "string"
               },
               "attachment": {
-                "name": {
+                "path": {
                   "type": "string"
                 },
                 "properties": {
-                  "path": {
+                  "url": {
                     "type": "string"
                   }
                 },
@@ -4562,8 +4251,7 @@
                   "type": "string"
                 },
                 "properties": {
-                  "id": {
-                    "format": "uuid",
+                  "address": {
                     "type": "string"
                   }
                 },
@@ -4573,11 +4261,11 @@
                 "type": "string"
               },
               "department": {
-                "name": {
+                "code": {
                   "type": "string"
                 },
                 "properties": {
-                  "description": {
+                  "name": {
                     "type": "string"
                   }
                 },
@@ -4727,18 +4415,19 @@
                             "type": "string"
                           },
                           "properties": {
-                            "name": {
+                            "path": {
                               "type": "string"
                             }
                           },
                           "type": "object"
                         },
                         "branch": {
-                          "code": {
+                          "address": {
                             "type": "string"
                           },
                           "properties": {
-                            "address": {
+                            "id": {
+                              "format": "uuid",
                               "type": "string"
                             }
                           },
@@ -4748,12 +4437,12 @@
                           "type": "string"
                         },
                         "department": {
-                          "name": {
+                          "id": {
+                            "format": "uuid",
                             "type": "string"
                           },
                           "properties": {
-                            "id": {
-                              "format": "uuid",
+                            "description": {
                               "type": "string"
                             }
                           },
