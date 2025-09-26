@@ -4503,6 +4503,24 @@
           "is_active": {
             "type": "boolean"
           },
+          "job_position": {
+            "properties": {
+              "code": {
+                "type": "string"
+              },
+              "description": {
+                "type": "string"
+              },
+              "id": {
+                "format": "uuid",
+                "type": "string"
+              },
+              "name": {
+                "type": "string"
+              }
+            },
+            "type": "object"
+          },
           "name": {
             "type": "string"
           },
@@ -4524,24 +4542,23 @@
           "asset": {
             "properties": {
               "attachment": {
-                "id": {
-                  "format": "uuid",
+                "path": {
                   "type": "string"
                 },
                 "properties": {
-                  "path": {
+                  "id": {
+                    "format": "uuid",
                     "type": "string"
                   }
                 },
                 "type": "object"
               },
               "category": {
-                "description": {
+                "name": {
                   "type": "string"
                 },
                 "properties": {
-                  "id": {
-                    "format": "uuid",
+                  "description": {
                     "type": "string"
                   }
                 },
@@ -4620,18 +4637,19 @@
                 "type": "string"
               },
               "attachment": {
-                "path": {
-                  "type": "string"
-                },
                 "properties": {
-                  "url": {
+                  "id": {
+                    "format": "uuid",
                     "type": "string"
                   }
                 },
-                "type": "object"
+                "type": "object",
+                "url": {
+                  "type": "string"
+                }
               },
               "branch": {
-                "name": {
+                "code": {
                   "type": "string"
                 },
                 "properties": {
@@ -4645,11 +4663,12 @@
                 "type": "string"
               },
               "department": {
-                "description": {
+                "name": {
                   "type": "string"
                 },
                 "properties": {
-                  "code": {
+                  "id": {
+                    "format": "uuid",
                     "type": "string"
                   }
                 },
@@ -4698,24 +4717,24 @@
                     "asset": {
                       "properties": {
                         "attachment": {
+                          "id": {
+                            "format": "uuid",
+                            "type": "string"
+                          },
                           "properties": {
-                            "id": {
-                              "format": "uuid",
+                            "path": {
                               "type": "string"
                             }
                           },
-                          "type": "object",
-                          "url": {
-                            "type": "string"
-                          }
+                          "type": "object"
                         },
                         "category": {
-                          "name": {
+                          "id": {
+                            "format": "uuid",
                             "type": "string"
                           },
                           "properties": {
-                            "id": {
-                              "format": "uuid",
+                            "name": {
                               "type": "string"
                             }
                           },
@@ -4794,15 +4813,16 @@
                           "type": "string"
                         },
                         "attachment": {
+                          "id": {
+                            "format": "uuid",
+                            "type": "string"
+                          },
                           "properties": {
-                            "name": {
+                            "path": {
                               "type": "string"
                             }
                           },
-                          "type": "object",
-                          "url": {
-                            "type": "string"
-                          }
+                          "type": "object"
                         },
                         "branch": {
                           "id": {
@@ -4810,7 +4830,7 @@
                             "type": "string"
                           },
                           "properties": {
-                            "address": {
+                            "code": {
                               "type": "string"
                             }
                           },
@@ -4820,12 +4840,11 @@
                           "type": "string"
                         },
                         "department": {
-                          "id": {
-                            "format": "uuid",
+                          "code": {
                             "type": "string"
                           },
                           "properties": {
-                            "name": {
+                            "description": {
                               "type": "string"
                             }
                           },
@@ -4992,6 +5011,24 @@
                     },
                     "is_active": {
                       "type": "boolean"
+                    },
+                    "job_position": {
+                      "properties": {
+                        "code": {
+                          "type": "string"
+                        },
+                        "description": {
+                          "type": "string"
+                        },
+                        "id": {
+                          "format": "uuid",
+                          "type": "string"
+                        },
+                        "name": {
+                          "type": "string"
+                        }
+                      },
+                      "type": "object"
                     },
                     "name": {
                       "type": "string"
