@@ -12,6 +12,9 @@ import (
 	"grest.dev/grest"
 )
 
+//go:embed report_templates/*
+var Htmlfs embed.FS
+
 func Server() *serverUtil {
 	if server == nil {
 		server = &serverUtil{}
@@ -32,7 +35,7 @@ type serverUtil struct {
 }
 
 func (s *serverUtil) configure() {
-	htmlEngine := html.New("./report_templates", ".html")
+	htmlEngine := html.NewFileSystem(http.FS(Htmlfs), ".html")
 
 	s.Addr = ":" + APP_PORT
 	s.Fiber = fiber.New(fiber.Config{
