@@ -8,6 +8,7 @@ type Condition struct {
 	ID          app.NullUUID   `json:"id"          db:"m.id"              gorm:"column:id;primaryKey"`
 	Code        app.NullString `json:"code"        db:"m.code"            gorm:"column:code"`
 	Name        app.NullString `json:"name"        db:"m.name"            gorm:"column:name"`
+	Color       app.NullString `json:"color"       db:"m.color"           gorm:"column:color"`
 	Description app.NullText   `json:"description" db:"m.description"     gorm:"column:description"`
 	IsActive    app.NullBool   `json:"is_active"   db:"m.is_active"       gorm:"column:is_active;default:true"`
 
@@ -24,7 +25,7 @@ func (Condition) EndPoint() string {
 // TableVersion returns the versions of the Condition table in the database.
 // Change this value with date format YY.MM.DDHHii when any table structure changes.
 func (Condition) TableVersion() string {
-	return "25.09.241152"
+	return "25.09.261700"
 }
 
 // TableName returns the name of the Condition table in the database.

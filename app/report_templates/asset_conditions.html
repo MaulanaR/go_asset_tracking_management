@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <title>Laporan Kondisi Assets</title>
+</head>
+<body style="margin:0;background:#f8fafc;">
+  <div style="max-width:1100px;margin:24px auto;padding:24px;border:1px solid #e5e7eb;border-radius:12px;background:#ffffff;font-family:Inter,Segoe UI,Roboto,Helvetica,Arial,sans-serif;color:#111827;">
+    
+    <!-- Header -->
+    <div style="display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:16px;">
+      <div>
+        <h2 style="margin:0 0 6px 0;font-size:20px;letter-spacing:.2px;">Laporan Kondisi Assets</h2>
+        <div style="font-size:12px;color:#6b7280;">Updated At : {{.CreatedAt}}</div>
+      </div>
+    </div>
+
+    <!-- Table -->
+    <table role="table" style="width:100%;border-collapse:separate;border-spacing:0;font-size:13px;">
+      <thead>
+        <tr>
+          <th style="text-align:left;background:#f9fafb;border:1px solid #e5e7eb;padding:10px 12px;border-top-left-radius:8px;">Kode</th>
+          <th style="text-align:left;background:#f9fafb;border:1px solid #e5e7eb;padding:10px 12px;">Nama</th>
+          <th style="text-align:left;background:#f9fafb;border:1px solid #e5e7eb;padding:10px 12px;">Kategori</th>
+          <th style="text-align:left;background:#f9fafb;border:1px solid #e5e7eb;padding:10px 12px;">Karyawan</th>
+          <th style="text-align:left;background:#f9fafb;border:1px solid #e5e7eb;padding:10px 12px;">Departemen</th>
+          <th style="text-align:left;background:#f9fafb;border:1px solid #e5e7eb;padding:10px 12px;">Branch</th>
+          <th style="text-align:left;background:#f9fafb;border:1px solid #e5e7eb;padding:10px 12px;">Posisi</th>
+          <th style="text-align:center;background:#f9fafb;border:1px solid #e5e7eb;padding:10px 12px;border-top-right-radius:8px;">Kondisi</th>
+        </tr>
+      </thead>
+      <tbody>
+        {{if not .Datas}}
+          <tr>
+            <td colspan="7" style="padding:14px 12px;border:1px solid #e5e7eb;border-top:0;text-align:center;color:#6b7280;">Tidak ada data</td>
+          </tr>
+        {{end}}
+        {{range .Datas}}
+          <tr style="">
+            <td style="padding:10px 12px;border-left:1px solid #e5e7eb;border-right:1px solid #e5e7eb;border-bottom:1px solid #e5e7eb;">{{.Code.String}}</td>
+            <td style="padding:10px 12px;border-right:1px solid #e5e7eb;border-bottom:1px solid #e5e7eb;">{{.Name.String}}</td>
+            <td style="padding:10px 12px;border-right:1px solid #e5e7eb;border-bottom:1px solid #e5e7eb;">{{.CategoryName.String}}</td>
+            <td style="padding:10px 12px;border-right:1px solid #e5e7eb;border-bottom:1px solid #e5e7eb;">{{.EmployeeName.String}}</td>
+            <td style="padding:10px 12px;border-right:1px solid #e5e7eb;border-bottom:1px solid #e5e7eb;">{{.DepartmentName.String}}</td>
+            <td style="padding:10px 12px;border-right:1px solid #e5e7eb;border-bottom:1px solid #e5e7eb;">{{.BranchName.String}}</td>
+            <td style="padding:10px 12px;border-right:1px solid #e5e7eb;border-bottom:1px solid #e5e7eb;">{{.JobPositionName.String}}</td>
+
+            <!-- Kondisi dengan pewarnaan -->
+            <td style="padding:6px 10px;border-right:1px solid #e5e7eb;border-bottom:1px solid #e5e7eb;text-align:center;">
+                {{ $clr := .ConditionColor.String }}
+                {{ if $clr }}
+                    <span style="display:inline-block;min-width:84px;padding:6px 10px;border-radius:6px;font-weight:600;background:{{$clr}};color:#111827;">
+                    {{.ConditionName.String}}
+                    </span>
+                {{ else }}
+                    <span style="display:inline-block;min-width:84px;padding:6px 10px;border-radius:6px;font-weight:600;">
+                    {{.ConditionName.String}}
+                    </span>
+                {{ end }}
+            </td>
+          </tr>
+        {{end}}
+      </tbody>
+    </table>
+
+    <!-- Footer note -->
+    <div style="margin-top:10px;font-size:11px;color:#9ca3af;">* “Kondisi” diambil dari data pemeriksaan/penugasan terakhir tiap asset.</div>
+  </div>
+</body>
+</html>

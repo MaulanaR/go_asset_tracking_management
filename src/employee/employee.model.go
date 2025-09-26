@@ -43,7 +43,7 @@ func (Employee) EndPoint() string {
 // TableVersion returns the versions of the Employee table in the database.
 // Change this value with date format YY.MM.DDHHii when any table structure changes.
 func (Employee) TableVersion() string {
-	return "25.09.241730"
+	return "25.09.261730"
 }
 
 // TableName returns the name of the Employee table in the database.

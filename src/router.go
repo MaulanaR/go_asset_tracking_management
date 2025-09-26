@@ -11,6 +11,7 @@ import (
 	"github.com/maulanar/go_asset_tracking_management/src/employee"
 	"github.com/maulanar/go_asset_tracking_management/src/employeeasset"
 	"github.com/maulanar/go_asset_tracking_management/src/jobposition"
+	"github.com/maulanar/go_asset_tracking_management/src/reports/assetcondition"
 	"github.com/maulanar/go_asset_tracking_management/src/reports/distributionassetsperdepartment"
 	// import : DONT REMOVE THIS COMMENT
 )
@@ -87,14 +88,15 @@ func (r *routerUtil) Configure() {
 	app.Server().AddRoute("/api/v1/employee_assets/{id}", "PATCH", employeeasset.REST().PartiallyUpdateByID, employeeasset.OpenAPI().PartiallyUpdateByID())
 	app.Server().AddRoute("/api/v1/employee_assets/{id}", "DELETE", employeeasset.REST().DeleteByID, employeeasset.OpenAPI().DeleteByID())
 
-	app.Server().AddRoute("/api/v1/reports/distribution_assets_per_departments", "GET", distributionassetsperdepartment.REST().Get, distributionassetsperdepartment.OpenAPI().Get())
-
 	app.Server().AddRoute("/api/v1/job_positions", "POST", jobposition.REST().Create, jobposition.OpenAPI().Create())
 	app.Server().AddRoute("/api/v1/job_positions", "GET", jobposition.REST().Get, jobposition.OpenAPI().Get())
 	app.Server().AddRoute("/api/v1/job_positions/{id}", "GET", jobposition.REST().GetByID, jobposition.OpenAPI().GetByID())
 	app.Server().AddRoute("/api/v1/job_positions/{id}", "PUT", jobposition.REST().UpdateByID, jobposition.OpenAPI().UpdateByID())
 	app.Server().AddRoute("/api/v1/job_positions/{id}", "PATCH", jobposition.REST().PartiallyUpdateByID, jobposition.OpenAPI().PartiallyUpdateByID())
 	app.Server().AddRoute("/api/v1/job_positions/{id}", "DELETE", jobposition.REST().DeleteByID, jobposition.OpenAPI().DeleteByID())
+
+	app.Server().AddRoute("/api/v1/reports/distribution_assets_per_departments", "GET", distributionassetsperdepartment.REST().Get, distributionassetsperdepartment.OpenAPI().Get())
+	app.Server().AddRoute("/api/v1/reports/asset_conditions", "GET", assetcondition.REST().Get, assetcondition.OpenAPI().Get())
 
 	// AddRoute : DONT REMOVE THIS COMMENT
 }

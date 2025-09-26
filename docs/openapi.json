@@ -3297,6 +3297,385 @@
         ]
       }
     },
+    "/api/v1/reports/asset_conditions": {
+      "post": {
+        "description": "Use this method to create AssetCondition",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/headerParam.Accept-Language"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AssetCondition"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AssetCondition"
+                }
+              }
+            },
+            "description": "Success"
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error.BadRequest"
+                }
+              }
+            },
+            "description": "A validation exception has occurred."
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error.Unauthorized"
+                }
+              }
+            },
+            "description": "Invalid authorization credentials."
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error.Forbidden"
+                }
+              }
+            },
+            "description": "User doesn't have permission to access the resource."
+          }
+        },
+        "summary": "Create AssetCondition",
+        "tags": [
+          "AssetCondition"
+        ]
+      },
+      "get": {
+        "description": "Use this method to get list of AssetCondition",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/headerParam.Accept-Language"
+          },
+          {
+            "$ref": "#/components/parameters/queryParam.Any"
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AssetConditionList"
+                }
+              }
+            },
+            "description": "Success"
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error.BadRequest"
+                }
+              }
+            },
+            "description": "A validation exception has occurred."
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error.Unauthorized"
+                }
+              }
+            },
+            "description": "Invalid authorization credentials."
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error.Forbidden"
+                }
+              }
+            },
+            "description": "User doesn't have permission to access the resource."
+          }
+        },
+        "summary": "Get AssetCondition",
+        "tags": [
+          "AssetCondition"
+        ]
+      }
+    },
+    "/api/v1/reports/asset_conditions/{id}": {
+      "get": {
+        "description": "Use this method to get AssetCondition by id",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/pathParam.ID"
+          },
+          {
+            "$ref": "#/components/parameters/headerParam.Accept-Language"
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AssetCondition"
+                }
+              }
+            },
+            "description": "Success"
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error.BadRequest"
+                }
+              }
+            },
+            "description": "A validation exception has occurred."
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error.Unauthorized"
+                }
+              }
+            },
+            "description": "Invalid authorization credentials."
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error.Forbidden"
+                }
+              }
+            },
+            "description": "User doesn't have permission to access the resource."
+          }
+        },
+        "summary": "Get AssetCondition By ID",
+        "tags": [
+          "AssetCondition"
+        ]
+      },
+      "put": {
+        "description": "Use this method to update AssetCondition by id",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/pathParam.ID"
+          },
+          {
+            "$ref": "#/components/parameters/headerParam.Accept-Language"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AssetCondition"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AssetCondition"
+                }
+              }
+            },
+            "description": "Success"
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error.BadRequest"
+                }
+              }
+            },
+            "description": "A validation exception has occurred."
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error.Unauthorized"
+                }
+              }
+            },
+            "description": "Invalid authorization credentials."
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error.Forbidden"
+                }
+              }
+            },
+            "description": "User doesn't have permission to access the resource."
+          }
+        },
+        "summary": "Update AssetCondition By ID",
+        "tags": [
+          "AssetCondition"
+        ]
+      },
+      "patch": {
+        "description": "Use this method to partially update AssetCondition by id",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/pathParam.ID"
+          },
+          {
+            "$ref": "#/components/parameters/headerParam.Accept-Language"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AssetCondition"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AssetCondition"
+                }
+              }
+            },
+            "description": "Success"
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error.BadRequest"
+                }
+              }
+            },
+            "description": "A validation exception has occurred."
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error.Unauthorized"
+                }
+              }
+            },
+            "description": "Invalid authorization credentials."
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error.Forbidden"
+                }
+              }
+            },
+            "description": "User doesn't have permission to access the resource."
+          }
+        },
+        "summary": "Partially Update AssetCondition By ID",
+        "tags": [
+          "AssetCondition"
+        ]
+      },
+      "delete": {
+        "description": "Use this method to delete AssetCondition by id",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/pathParam.ID"
+          },
+          {
+            "$ref": "#/components/parameters/headerParam.Accept-Language"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AssetCondition"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AssetCondition"
+                }
+              }
+            },
+            "description": "Success"
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error.BadRequest"
+                }
+              }
+            },
+            "description": "A validation exception has occurred."
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error.Unauthorized"
+                }
+              }
+            },
+            "description": "Invalid authorization credentials."
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error.Forbidden"
+                }
+              }
+            },
+            "description": "User doesn't have permission to access the resource."
+          }
+        },
+        "summary": "Delete AssetCondition By ID",
+        "tags": [
+          "AssetCondition"
+        ]
+      }
+    },
     "/api/v1/reports/distribution_assets_per_departments": {
       "get": {
         "description": "Use this method to get Report Distribution Asset Per Department",
@@ -3536,6 +3915,96 @@
           },
           "updated_at": {
             "format": "date-time",
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "AssetCondition": {
+        "properties": {
+          "created_at": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "id": {
+            "format": "uuid",
+            "type": "string"
+          },
+          "updated_at": {
+            "format": "date-time",
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "AssetConditionList": {
+        "properties": {
+          "message": {
+            "type": "string"
+          },
+          "results": {
+            "properties": {
+              "list": {
+                "items": {
+                  "properties": {
+                    "created_at": {
+                      "format": "date-time",
+                      "type": "string"
+                    },
+                    "id": {
+                      "format": "uuid",
+                      "type": "string"
+                    },
+                    "updated_at": {
+                      "format": "date-time",
+                      "type": "string"
+                    }
+                  },
+                  "type": "object"
+                },
+                "type": "array"
+              },
+              "pagination": {
+                "properties": {
+                  "links": {
+                    "properties": {
+                      "first": {
+                        "type": "string"
+                      },
+                      "last": {
+                        "type": "string"
+                      },
+                      "next": {
+                        "type": "string"
+                      },
+                      "previous": {
+                        "type": "string"
+                      }
+                    },
+                    "type": "object"
+                  },
+                  "page": {
+                    "type": "integer"
+                  },
+                  "per_page": {
+                    "type": "integer"
+                  },
+                  "total": {
+                    "type": "integer"
+                  },
+                  "total_pages": {
+                    "type": "integer"
+                  }
+                },
+                "type": "object"
+              }
+            },
+            "type": "object"
+          },
+          "status": {
+            "type": "string"
+          },
+          "timestamp": {
             "type": "string"
           }
         },
@@ -4542,23 +5011,23 @@
           "asset": {
             "properties": {
               "attachment": {
-                "path": {
+                "id": {
+                  "format": "uuid",
                   "type": "string"
                 },
                 "properties": {
-                  "id": {
-                    "format": "uuid",
+                  "path": {
                     "type": "string"
                   }
                 },
                 "type": "object"
               },
               "category": {
-                "name": {
+                "code": {
                   "type": "string"
                 },
                 "properties": {
-                  "description": {
+                  "name": {
                     "type": "string"
                   }
                 },
@@ -4638,8 +5107,7 @@
               },
               "attachment": {
                 "properties": {
-                  "id": {
-                    "format": "uuid",
+                  "name": {
                     "type": "string"
                   }
                 },
@@ -4649,11 +5117,12 @@
                 }
               },
               "branch": {
-                "code": {
+                "name": {
                   "type": "string"
                 },
                 "properties": {
-                  "address": {
+                  "id": {
+                    "format": "uuid",
                     "type": "string"
                   }
                 },
@@ -4667,8 +5136,7 @@
                   "type": "string"
                 },
                 "properties": {
-                  "id": {
-                    "format": "uuid",
+                  "description": {
                     "type": "string"
                   }
                 },
@@ -4717,8 +5185,7 @@
                     "asset": {
                       "properties": {
                         "attachment": {
-                          "id": {
-                            "format": "uuid",
+                          "name": {
                             "type": "string"
                           },
                           "properties": {
@@ -4729,12 +5196,11 @@
                           "type": "object"
                         },
                         "category": {
-                          "id": {
-                            "format": "uuid",
+                          "description": {
                             "type": "string"
                           },
                           "properties": {
-                            "name": {
+                            "code": {
                               "type": "string"
                             }
                           },
@@ -4818,19 +5284,18 @@
                             "type": "string"
                           },
                           "properties": {
-                            "path": {
+                            "url": {
                               "type": "string"
                             }
                           },
                           "type": "object"
                         },
                         "branch": {
-                          "id": {
-                            "format": "uuid",
+                          "address": {
                             "type": "string"
                           },
                           "properties": {
-                            "code": {
+                            "name": {
                               "type": "string"
                             }
                           },
@@ -4844,7 +5309,7 @@
                             "type": "string"
                           },
                           "properties": {
-                            "description": {
+                            "name": {
                               "type": "string"
                             }
                           },
@@ -5298,10 +5763,13 @@
       "name": "EmployeeAsset"
     },
     {
+      "name": "JobPosition"
+    },
+    {
       "name": "DistributionAssetsPerDepartment"
     },
     {
-      "name": "JobPosition"
+      "name": "AssetCondition"
     }
   ],
   "externalDocs": {
