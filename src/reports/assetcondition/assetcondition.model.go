@@ -89,53 +89,53 @@ func (p *AssetConditionList) GetOpenAPISchema() map[string]any {
 
 type Asset struct {
 	app.Model
-	ID             app.NullUUID    `json:"id"                     db:"m.id"                     gorm:"column:id;primaryKey"`
-	Code           app.NullString  `json:"code"                   db:"m.code"                   gorm:"column:code"`
-	Name           app.NullString  `json:"name"                   db:"m.name"                   gorm:"column:name"`
-	Price          app.NullFloat64 `json:"price"                  db:"m.price"                  gorm:"column:price"`
-	AttachmentID   app.NullUUID    `json:"attachment.id"          db:"m.attachment_id"          gorm:"column:attachment_id"`
-	AttachmentName app.NullText    `json:"attachment.name"        db:"att.name"                 gorm:"-"`
-	AttachmentPath app.NullText    `json:"attachment.path"        db:"att.path"                 gorm:"-"`
-	AttachmentURL  app.NullText    `json:"attachment.url"         db:"att.url"                  gorm:"-"`
+	ID             app.NullUUID    `json:"id"                       db:"m.id"                     gorm:"column:id;primaryKey"`
+	Code           app.NullString  `json:"code"                     db:"m.code"                   gorm:"column:code"`
+	Name           app.NullString  `json:"name"                     db:"m.name"                   gorm:"column:name"`
+	Price          app.NullFloat64 `json:"price"                    db:"m.price"                  gorm:"column:price"`
+	AttachmentID   app.NullUUID    `json:"attachment.id"            db:"m.attachment_id"          gorm:"column:attachment_id"`
+	AttachmentName app.NullText    `json:"attachment.name"          db:"att.name"                 gorm:"-"`
+	AttachmentPath app.NullText    `json:"attachment.path"          db:"att.path"                 gorm:"-"`
+	AttachmentURL  app.NullText    `json:"attachment.url"           db:"att.url"                  gorm:"-"`
 
-	CategoryID          app.NullUUID   `json:"category.id"            db:"m.category_id"            gorm:"column:category_id"`
-	CategoryCode        app.NullString `json:"category.code"          db:"cat.code"                 gorm:"-"`
-	CategoryName        app.NullString `json:"category.name"          db:"cat.name"                 gorm:"-"`
-	CategoryDescription app.NullText   `json:"category.description"   db:"cat.description"          gorm:"-"`
+	CategoryID          app.NullUUID   `json:"category.id"              db:"m.category_id"            gorm:"column:category_id"`
+	CategoryCode        app.NullString `json:"category.code"            db:"cat.code"                 gorm:"-"`
+	CategoryName        app.NullString `json:"category.name"            db:"cat.name"                 gorm:"-"`
+	CategoryDescription app.NullText   `json:"category.description"     db:"cat.description"          gorm:"-"`
 
-	ConditionID          app.NullUUID   `json:"condition.id"           db:"emp_ass.condition_id"     gorm:"-"`
-	ConditionCode        app.NullString `json:"condition.code"         db:"emp_ass_cond.code"        gorm:"-"`
-	ConditionName        app.NullString `json:"condition.name"         db:"emp_ass_cond.name"        gorm:"-"`
-	ConditionDescription app.NullText   `json:"condition.description"  db:"emp_ass_cond.description" gorm:"-"`
-	ConditionColor       app.NullString `json:"condition.color"        db:"emp_ass_cond.color"       gorm:"-"`
+	ConditionID          app.NullUUID   `json:"condition.id"             db:"emp_ass.condition_id"     gorm:"-"`
+	ConditionCode        app.NullString `json:"condition.code"           db:"emp_ass_cond.code"        gorm:"-"`
+	ConditionName        app.NullString `json:"condition.name"           db:"emp_ass_cond.name"        gorm:"-"`
+	ConditionDescription app.NullText   `json:"condition.description"    db:"emp_ass_cond.description" gorm:"-"`
+	ConditionColor       app.NullString `json:"condition.color"          db:"emp_ass_cond.color"       gorm:"-"`
 
-	DepartmentID          app.NullUUID   `json:"department.id"          db:"emp_ass_dpt.id"           gorm:"-"`
-	DepartmentCode        app.NullString `json:"department.code"        db:"emp_ass_dpt.code"         gorm:"-"`
-	DepartmentName        app.NullString `json:"department.name"        db:"emp_ass_dpt.name"         gorm:"-"`
-	DepartmentDescription app.NullText   `json:"department.description" db:"emp_ass_dpt.description"  gorm:"-"`
+	DepartmentID          app.NullUUID   `json:"department.id"            db:"emp_ass_dpt.id"           gorm:"-"`
+	DepartmentCode        app.NullString `json:"department.code"          db:"emp_ass_dpt.code"         gorm:"-"`
+	DepartmentName        app.NullString `json:"department.name"          db:"emp_ass_dpt.name"         gorm:"-"`
+	DepartmentDescription app.NullText   `json:"department.description"   db:"emp_ass_dpt.description"  gorm:"-"`
 
 	JobPositionID          app.NullUUID   `json:"job_position.id"          db:"emp_job_pos.id"           gorm:"-"`
 	JobPositionCode        app.NullString `json:"job_position.code"        db:"emp_job_pos.code"         gorm:"-"`
 	JobPositionName        app.NullString `json:"job_position.name"        db:"emp_job_pos.name"         gorm:"-"`
 	JobPositionDescription app.NullText   `json:"job_position.description" db:"emp_job_pos.description"  gorm:"-"`
 
-	EmployeeID       app.NullUUID   `json:"employee.id"            db:"emp.id"                   gorm:"-"`
-	EmployeeCode     app.NullString `json:"employee.code"          db:"emp.code"                 gorm:"-"`
-	EmployeeName     app.NullString `json:"employee.name"          db:"emp.name"                 gorm:"-"`
-	EmployeeAddress  app.NullText   `json:"employee.address"       db:"emp.address"              gorm:"-"`
-	EmployeePhone    app.NullString `json:"employee.phone"         db:"emp.phone"                gorm:"-"`
-	EmployeeEmail    app.NullString `json:"employee.email"         db:"emp.email"                gorm:"-"`
-	EmployeeIsActive app.NullBool   `json:"employee.is_active"     db:"emp.is_active"            gorm:"-"`
+	EmployeeID       app.NullUUID   `json:"employee.id"              db:"emp.id"                   gorm:"-"`
+	EmployeeCode     app.NullString `json:"employee.code"            db:"emp.code"                 gorm:"-"`
+	EmployeeName     app.NullString `json:"employee.name"            db:"emp.name"                 gorm:"-"`
+	EmployeeAddress  app.NullText   `json:"employee.address"         db:"emp.address"              gorm:"-"`
+	EmployeePhone    app.NullString `json:"employee.phone"           db:"emp.phone"                gorm:"-"`
+	EmployeeEmail    app.NullString `json:"employee.email"           db:"emp.email"                gorm:"-"`
+	EmployeeIsActive app.NullBool   `json:"employee.is_active"       db:"emp.is_active"            gorm:"-"`
 
-	BranchID      app.NullUUID   `json:"branch.id"              db:"emp_ass_brc.id"           gorm:"-"`
-	BranchCode    app.NullString `json:"branch.code"            db:"emp_ass_brc.code"         gorm:"-"`
-	BranchName    app.NullString `json:"branch.name"            db:"emp_ass_brc.name"         gorm:"-"`
-	BranchAddress app.NullText   `json:"branch.address"         db:"emp_ass_brc.address"      gorm:"-"`
+	BranchID      app.NullUUID   `json:"branch.id"                db:"emp_ass_brc.id"           gorm:"-"`
+	BranchCode    app.NullString `json:"branch.code"              db:"emp_ass_brc.code"         gorm:"-"`
+	BranchName    app.NullString `json:"branch.name"              db:"emp_ass_brc.name"         gorm:"-"`
+	BranchAddress app.NullText   `json:"branch.address"           db:"emp_ass_brc.address"      gorm:"-"`
 
-	Status    app.NullString   `json:"status"                 db:"m.status"                 gorm:"column:status"        validate:"omitempty,oneof=available unavailable"`
-	CreatedAt app.NullDateTime `json:"created_at"             db:"m.created_at"             gorm:"column:created_at"`
-	UpdatedAt app.NullDateTime `json:"updated_at"             db:"m.updated_at"             gorm:"column:updated_at"`
-	DeletedAt app.NullDateTime `json:"deleted_at"             db:"m.deleted_at,hide"        gorm:"column:deleted_at"`
+	Status    app.NullString   `json:"status"                   db:"m.status"                 gorm:"column:status"        validate:"omitempty,oneof=available unavailable"`
+	CreatedAt app.NullDateTime `json:"created_at"               db:"m.created_at"             gorm:"column:created_at"`
+	UpdatedAt app.NullDateTime `json:"updated_at"               db:"m.updated_at"             gorm:"column:updated_at"`
+	DeletedAt app.NullDateTime `json:"deleted_at"               db:"m.deleted_at,hide"        gorm:"column:deleted_at"`
 }
 
 // EndPoint returns the Asset end point, it used for cache key, etc.

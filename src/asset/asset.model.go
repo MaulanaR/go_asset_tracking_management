@@ -19,6 +19,8 @@ type Asset struct {
 	CategoryName        app.NullString `json:"category.name"          db:"cat.name"                 gorm:"-"`
 	CategoryDescription app.NullText   `json:"category.description"   db:"cat.description"          gorm:"-"`
 
+	AssignDate app.NullDate `json:"assign_date"            db:"emp_ass.assign_date"      gorm:"-"`
+
 	ConditionID          app.NullUUID   `json:"condition.id"           db:"emp_ass.condition_id"     gorm:"-"`
 	ConditionCode        app.NullString `json:"condition.code"         db:"emp_ass_cond.code"        gorm:"-"`
 	ConditionName        app.NullString `json:"condition.name"         db:"emp_ass_cond.name"        gorm:"-"`
@@ -42,10 +44,14 @@ type Asset struct {
 	BranchName    app.NullString `json:"branch.name"            db:"emp_ass_brc.name"         gorm:"-"`
 	BranchAddress app.NullText   `json:"branch.address"         db:"emp_ass_brc.address"      gorm:"-"`
 
-	Status    app.NullString   `json:"status"                 db:"m.status"                 gorm:"column:status"        validate:"omitempty,oneof=available unavailable"`
+	Status    app.NullString   `json:"status"                 db:"m.status"                 gorm:"column:status"              validate:"omitempty,oneof=available unavailable"`
 	CreatedAt app.NullDateTime `json:"created_at"             db:"m.created_at"             gorm:"column:created_at"`
 	UpdatedAt app.NullDateTime `json:"updated_at"             db:"m.updated_at"             gorm:"column:updated_at"`
 	DeletedAt app.NullDateTime `json:"deleted_at"             db:"m.deleted_at,hide"        gorm:"column:deleted_at"`
+
+	DepreciationAmount app.NullFloat64 `json:"depreciation.amount"    db:"m.depreciation_amount"    gorm:"column:depreciation_amount"`
+	SalvageAmount      app.NullFloat64 `json:"salvage.amount"         db:"m.salvage_amount"         gorm:"column:salvage_amount"`
+	CurrentValue       app.NullFloat64 `json:"current.amount"         db:"m.current_amount"         gorm:"column:current_amount"`
 }
 
 // EndPoint returns the Asset end point, it used for cache key, etc.
@@ -56,7 +62,7 @@ func (Asset) EndPoint() string {
 // TableVersion returns the versions of the Asset table in the database.
 // Change this value with date format YY.MM.DDHHii when any table structure changes.
 func (Asset) TableVersion() string {
-	return "25.09.242030"
+	return "25.09.280100"
 }
 
 // TableName returns the name of the Asset table in the database.
@@ -78,13 +84,13 @@ func (m *Asset) GetRelations() map[string]map[string]any {
 	// search to employee_assets
 	m.AddRelation("left", `(
   SELECT DISTINCT ON (ea.asset_id)
-         ea.date,
+         ea.assign_date,
          ea.asset_id,
          ea.condition_id,
          ea.employee_id
   FROM employee_assets ea
   WHERE ea.deleted_at IS NULL
-  ORDER BY ea.asset_id, ea.date DESC, ea.id DESC
+  ORDER BY ea.asset_id, ea.assign_date DESC, ea.id DESC
 )`, "emp_ass", []map[string]any{{"column1": "emp_ass.asset_id", "column2": "m.id"}})
 	m.AddRelation("left", "conditions", "emp_ass_cond", []map[string]any{{"column1": "emp_ass_cond.id", "column2": "emp_ass.condition_id"}})
 	m.AddRelation("left", "employees", "emp", []map[string]any{{"column1": "emp.id", "column2": "emp_ass.employee_id"}})
