@@ -8,6 +8,7 @@ type Asset struct {
 	ID             app.NullUUID    `json:"id"                     db:"m.id"                     gorm:"column:id;primaryKey"`
 	Code           app.NullString  `json:"code"                   db:"m.code"                   gorm:"column:code"`
 	Name           app.NullString  `json:"name"                   db:"m.name"                   gorm:"column:name"`
+	InputDate      app.NullDate    `json:"input_date"                   db:"m.input_date"       gorm:"column:input_date"`
 	Price          app.NullFloat64 `json:"price"                  db:"m.price"                  gorm:"column:price"`
 	AttachmentID   app.NullUUID    `json:"attachment.id"          db:"m.attachment_id"          gorm:"column:attachment_id"`
 	AttachmentName app.NullText    `json:"attachment.name"        db:"att.name"                 gorm:"-"`
@@ -49,9 +50,10 @@ type Asset struct {
 	UpdatedAt app.NullDateTime `json:"updated_at"             db:"m.updated_at"             gorm:"column:updated_at"`
 	DeletedAt app.NullDateTime `json:"deleted_at"             db:"m.deleted_at,hide"        gorm:"column:deleted_at"`
 
-	DepreciationAmount app.NullFloat64 `json:"depreciation.amount"    db:"m.depreciation_amount"    gorm:"column:depreciation_amount"`
-	SalvageAmount      app.NullFloat64 `json:"salvage.amount"         db:"m.salvage_amount"         gorm:"column:salvage_amount"`
-	CurrentValue       app.NullFloat64 `json:"current.amount"         db:"m.current_amount"         gorm:"column:current_amount"`
+	DepreciationAmount         app.NullFloat64 `json:"depreciation.amount"    db:"m.depreciation_amount"    gorm:"column:depreciation_amount"`
+	DepreciationAmountPerMonth app.NullFloat64 `json:"depreciation.per_month"    db:"m.depreciation_amount_per_month"    gorm:"column:depreciation_amount_per_month"`
+	SalvageAmount              app.NullFloat64 `json:"salvage.amount"         db:"m.salvage_amount"         gorm:"column:salvage_amount"`
+	CurrentValue               app.NullFloat64 `json:"current.amount"         db:"m.current_amount"         gorm:"column:current_amount"`
 }
 
 // EndPoint returns the Asset end point, it used for cache key, etc.
@@ -62,7 +64,7 @@ func (Asset) EndPoint() string {
 // TableVersion returns the versions of the Asset table in the database.
 // Change this value with date format YY.MM.DDHHii when any table structure changes.
 func (Asset) TableVersion() string {
-	return "25.09.280100"
+	return "25.09.290100"
 }
 
 // TableName returns the name of the Asset table in the database.

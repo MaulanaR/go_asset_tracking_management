@@ -315,9 +315,18 @@ func (u *UseCaseHandler) setDefaultValue(old Asset) error {
 		catKey = u.CategoryCode.String
 	}
 	if catKey != "" {
-		_, err := category.UseCaseHandler{Ctx: u.Ctx, Query: url.Values{}}.GetByID(catKey)
+		cat, err := category.UseCaseHandler{Ctx: u.Ctx, Query: url.Values{}}.GetByID(catKey)
 		if err != nil {
 			return err
+		}
+
+		//update depreciation price based on category economic age
+		if cat.Ages.Int64 > 0 && u.Price.Float64 > 0 {
+			// Depresiasi per bulan = (Harga Asset - Salvage Amount) / Umur Ekonomis (bulan)
+			depreciation := (u.Price.Float64 - u.SalvageAmount.Float64) / float64(cat.Ages.Int64)
+			u.DepreciationAmountPerMonth.Set(depreciation)
+		} else {
+			u.DepreciationAmountPerMonth.Set(0)
 		}
 	}
 
@@ -336,6 +345,15 @@ func (u *UseCaseHandler) setDefaultValue(old Asset) error {
 		err = attUC.UpdateByID(att.ID.String, &upAtt)
 		if err != nil {
 			return err
+		}
+	}
+
+	// init input date
+	if !u.InputDate.Valid && !old.InputDate.Valid {
+		if u.CreatedAt.Valid {
+			u.InputDate.Set(u.CreatedAt.Time)
+		} else if old.CreatedAt.Valid {
+			u.InputDate.Set(old.CreatedAt.Time)
 		}
 	}
 
@@ -362,5 +380,109 @@ func (u *UseCaseHandler) setDefaultValue(old Asset) error {
 		}
 	}
 
+	//hitung nilai depresiasi & current value
+	err := u.SetCurrentValue()
+	if err != nil {
+		return err
+	}
+
 	return nil
+}
+
+func (u *UseCaseHandler) SetCurrentValue() error {
+	if !u.InputDate.Valid || u.Price.Float64 <= 0 || u.DepreciationAmountPerMonth.Float64 <= 0 {
+		return nil
+	}
+
+	// Hitung jumlah bulan berlalu sejak InputDate
+	start := u.InputDate.Time
+	now := time.Now().UTC()
+	months := int((now.Year()-start.Year())*12 + int(now.Month()) - int(start.Month()))
+	if now.Day() < start.Day() {
+		months--
+	}
+	if months < 0 {
+		months = 0
+	}
+
+	// Hitung total depresiasi
+	totalDepreciation := float64(months) * u.DepreciationAmountPerMonth.Float64
+
+	// Hitung nilai ekonomis saat ini, minimal salvage amount
+	currentValue := u.Price.Float64 - totalDepreciation
+	if currentValue < u.SalvageAmount.Float64 {
+		currentValue = u.SalvageAmount.Float64
+	}
+
+	// Set hasil ke struct (pastikan field CurrentValue & TotalDepreciation ada)
+	u.CurrentValue.Set(currentValue)
+	u.DepreciationAmount.Set(totalDepreciation)
+
+	return nil
+}
+
+func JobUpdateAssetValue() {
+	tx, err := app.DB().Conn("main")
+	if err != nil {
+		return
+	}
+
+	// get all assets
+	assets := []Asset{}
+	err = tx.Find(&assets).Error
+	if err != nil {
+		return
+	}
+
+	for _, u := range assets {
+		if u.CategoryID.Valid {
+			cat := category.Category{}
+			err = tx.Model(&category.Category{}).Where("id = ?", u.CategoryID.String).First(&cat).Error
+			if err != nil {
+				return
+			}
+
+			//update depreciation price based on category economic age
+			if cat.Ages.Int64 > 0 && u.Price.Float64 > 0 {
+				// Depresiasi per bulan = (Harga Asset - Salvage Amount) / Umur Ekonomis (bulan)
+				depreciation := (u.Price.Float64 - u.SalvageAmount.Float64) / float64(cat.Ages.Int64)
+				u.DepreciationAmountPerMonth.Set(depreciation)
+			} else {
+				u.DepreciationAmountPerMonth.Set(0)
+			}
+		}
+
+		// Hitung jumlah bulan berlalu sejak InputDate
+		start := u.InputDate.Time
+		now := time.Now().UTC()
+		months := int((now.Year()-start.Year())*12 + int(now.Month()) - int(start.Month()))
+		if now.Day() < start.Day() {
+			months--
+		}
+		if months < 0 {
+			months = 0
+		}
+
+		// Hitung total depresiasi
+		totalDepreciation := float64(0)
+		if u.DepreciationAmountPerMonth.Valid {
+			totalDepreciation = float64(months) * u.DepreciationAmountPerMonth.Float64
+		}
+
+		// Hitung nilai ekonomis saat ini, minimal salvage amount
+		currentValue := u.Price.Float64 - totalDepreciation
+		if currentValue < u.SalvageAmount.Float64 {
+			currentValue = u.SalvageAmount.Float64
+		}
+
+		// Set hasil ke struct (pastikan field CurrentValue & TotalDepreciation ada)
+		u.CurrentValue.Set(currentValue)
+		u.DepreciationAmount.Set(totalDepreciation)
+
+		// save data to db
+		err = tx.Model(&u).Where("id = ?", u.ID.String).Updates(&u).Error
+		if err != nil {
+			return
+		}
+	}
 }

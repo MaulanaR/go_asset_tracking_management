@@ -4,6 +4,7 @@ import (
 	"github.com/robfig/cron/v3"
 
 	"github.com/maulanar/go_asset_tracking_management/app"
+	"github.com/maulanar/go_asset_tracking_management/src/asset"
 )
 
 func Scheduler() *schedulerUtil {
@@ -27,7 +28,10 @@ func (s *schedulerUtil) Configure() {
 	c := cron.New()
 
 	// add scheduler func here, for example :
-	// c.AddFunc("CRON_TZ=Asia/Jakarta 5 0 * * *", app.Auth().RemoveExpiredToken)
+	defer app.DB().Close()
+	c.AddFunc("CRON_TZ=Asia/Jakarta 0 6 * * *", func() {
+		asset.JobUpdateAssetValue()
+	})
 
 	c.Start()
 }
