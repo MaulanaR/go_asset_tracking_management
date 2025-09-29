@@ -33,6 +33,7 @@ type routerUtil struct {
 
 func (r *routerUtil) Configure() {
 	app.Server().AddRoute("/api/version", "GET", app.VersionHandler, nil)
+	app.Server().AddRoute("/api/v1/auth/me", "GET", app.VersionHandler, nil)
 
 	app.Server().AddRoute("/api/v1/departments", "POST", department.REST().Create, department.OpenAPI().Create())
 	app.Server().AddRoute("/api/v1/departments", "GET", department.REST().Get, department.OpenAPI().Get())
