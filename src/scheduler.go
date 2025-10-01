@@ -28,7 +28,6 @@ func (s *schedulerUtil) Configure() {
 	c := cron.New()
 
 	// add scheduler func here, for example :
-	defer app.DB().Close()
 	c.AddFunc("CRON_TZ=Asia/Jakarta 0 6 * * *", func() {
 		asset.JobUpdateAssetValue()
 	})
