@@ -28,7 +28,7 @@ func (s *schedulerUtil) Configure() {
 	c := cron.New()
 
 	// add scheduler func here, for example :
-	c.AddFunc("CRON_TZ=Asia/Jakarta 0 6 * * *", func() {
+	c.AddFunc("CRON_TZ=Asia/Jakarta * * * * *", func() {
 		asset.JobUpdateAssetValue()
 	})
 

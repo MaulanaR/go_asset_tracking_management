@@ -8,7 +8,7 @@ type Asset struct {
 	ID             app.NullUUID    `json:"id"                     db:"m.id"                     gorm:"column:id;primaryKey"`
 	Code           app.NullString  `json:"code"                   db:"m.code"                   gorm:"column:code"`
 	Name           app.NullString  `json:"name"                   db:"m.name"                   gorm:"column:name"`
-	InputDate      app.NullDate    `json:"input_date"                   db:"m.input_date"       gorm:"column:input_date"`
+	InputDate      app.NullDate    `json:"input_date"             db:"m.input_date"             gorm:"column:input_date"`
 	Price          app.NullFloat64 `json:"price"                  db:"m.price"                  gorm:"column:price"`
 	AttachmentID   app.NullUUID    `json:"attachment.id"          db:"m.attachment_id"          gorm:"column:attachment_id"`
 	AttachmentName app.NullText    `json:"attachment.name"        db:"att.name"                 gorm:"-"`

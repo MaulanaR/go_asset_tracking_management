@@ -357,6 +357,12 @@ func (u *UseCaseHandler) setDefaultValue(old Asset) error {
 		}
 	}
 
+	if !u.SalvageAmount.Valid && old.SalvageAmount.Valid {
+		u.SalvageAmount = old.SalvageAmount
+	} else if !old.SalvageAmount.Valid && !u.SalvageAmount.Valid {
+		u.SalvageAmount.Set(0)
+	}
+
 	if u.Ctx.Action.Method == "POST" {
 		if u.Code.Valid && u.Code.String != "" {
 			err := app.Common().IsFieldValueExists(u.Ctx, u.EndPoint(), "Code", u.TableName(), "code", u.Code.String)
@@ -435,6 +441,10 @@ func JobUpdateAssetValue() {
 	}
 
 	for _, u := range assets {
+		if !u.SalvageAmount.Valid {
+			u.SalvageAmount.Set(0)
+		}
+
 		if u.CategoryID.Valid {
 			cat := category.Category{}
 			err = tx.Model(&category.Category{}).Where("id = ?", u.CategoryID.String).First(&cat).Error
@@ -453,6 +463,10 @@ func JobUpdateAssetValue() {
 		}
 
 		// Hitung jumlah bulan berlalu sejak InputDate
+		if !u.InputDate.Valid {
+			u.InputDate.Set(u.CreatedAt.Time)
+		}
+
 		start := u.InputDate.Time
 		now := time.Now().UTC()
 		months := int((now.Year()-start.Year())*12 + int(now.Month()) - int(start.Month()))
