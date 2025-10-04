@@ -196,3 +196,18 @@ func (r *RESTAPIHandler) DeleteByID(c *fiber.Ctx) error {
 	}
 	return c.JSON(res)
 }
+
+func (r *RESTAPIHandler) GetDepreciationByID(c *fiber.Ctx) error {
+	err := r.injectDeps(c)
+	if err != nil {
+		return app.Error().Handler(c, err)
+	}
+	res, err := r.UseCase.GetDepreciation(c.Params("id"))
+	if err != nil {
+		return app.Error().Handler(c, err)
+	}
+	if r.UseCase.IsFlat() {
+		return c.JSON(res)
+	}
+	return c.JSON(app.NewJSON(res).ToStructured().Data)
+}

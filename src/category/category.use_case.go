@@ -307,31 +307,37 @@ func (u *UseCaseHandler) setDefaultValue(old Category) error {
 		u.ID = old.ID
 	}
 
-	if u.Ctx.Action.Method == "POST" {
-		if !u.IsActive.Valid {
-			u.IsActive.Set(true)
-		}
-
-		if u.Code.Valid && u.Code.String != "" {
+	// Penentuan kode
+	if u.Code.Valid && u.Code.String != "" {
+		// Jika kode dikirim dan berbeda dengan data lama, cek ke DB
+		if !old.Code.Valid || u.Code.String != old.Code.String {
 			err := app.Common().IsFieldValueExists(u.Ctx, u.EndPoint(), "Code", u.TableName(), "code", u.Code.String)
 			if err != nil {
 				return err
 			}
+		}
+		// Jika kode dikirim dan data lama tidak ada, cek ke DB (sudah tercakup di atas)
+	} else {
+		// Jika tidak kirim kode dan data lama ada, gunakan data lama
+		if old.Code.Valid && old.Code.String != "" {
+			u.Code = old.Code
 		} else {
+			// Jika tidak kirim kode dan data lama tidak ada, generate baru
 			newCode, err := app.Common().GenerateCode(u.Ctx, u.TableName(), "code", u.Name.String)
 			if err != nil {
 				return err
 			}
 			u.Code.Set(newCode)
 		}
+	}
+
+	if u.Ctx.Action.Method == "POST" {
+		if !u.IsActive.Valid {
+			u.IsActive.Set(true)
+		}
 
 	} else {
-		if u.Code.Valid && u.Code.String != old.Code.String {
-			err := app.Common().IsFieldValueExists(u.Ctx, u.EndPoint(), "Code", u.TableName(), "code", u.Code.String)
-			if err != nil {
-				return err
-			}
-		}
+
 	}
 
 	return nil

@@ -323,9 +323,8 @@ func (u *UseCaseHandler) setDefaultValue(old EmployeeAsset) error {
 		}
 
 		// update status to unavailable
-		upAsset := asset.ParamUpdate{}
-		upAsset.Status.Set("unavailable")
-		err = assUC.UpdateByID(ass.ID.String, &upAsset)
+		assUC.Status.Set("unavailable")
+		err = assUC.UpdateByID(ass.ID.String, &asset.ParamUpdate{})
 		if err != nil {
 			return err
 		}
@@ -367,10 +366,9 @@ func (u *UseCaseHandler) setDefaultValue(old EmployeeAsset) error {
 		}
 
 		// Update data attachment
-		upAtt := attachment.ParamUpdate{}
-		upAtt.Endpoint.Set("employee_assets")
-		upAtt.DataId.Set(u.ID.String)
-		err = attUC.UpdateByID(att.ID.String, &upAtt)
+		attUC.Endpoint.Set("employee_assets")
+		attUC.DataId.Set(u.ID.String)
+		err = attUC.UpdateByID(att.ID.String, &attachment.ParamUpdate{})
 		if err != nil {
 			return err
 		}

@@ -63,6 +63,18 @@ func (o *OpenAPIOperation) GetByID() *OpenAPIOperation {
 	return o
 }
 
+func (o *OpenAPIOperation) GetDepreciationByID() *OpenAPIOperation {
+	if !app.IS_GENERATE_OPEN_API_DOC {
+		return o // skip for efficiency
+	}
+
+	o.Base()
+	o.Summary = "Get Depreciations Asset By ID"
+	o.Description = "Use this method to get List depreciation of asset by id"
+	o.PathParams = []map[string]any{{"$ref": "#/components/parameters/pathParam.ID"}}
+	return o
+}
+
 // Create is detail of `POST /api/v3/assets` open api document component.
 func (o *OpenAPIOperation) Create() *OpenAPIOperation {
 	if !app.IS_GENERATE_OPEN_API_DOC {
