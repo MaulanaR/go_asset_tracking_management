@@ -363,26 +363,27 @@ func (u *UseCaseHandler) setDefaultValue(old Asset) error {
 		u.SalvageAmount.Set(0)
 	}
 
-	if u.Ctx.Action.Method == "POST" {
-		if u.Code.Valid && u.Code.String != "" {
+	// Penentuan kode
+	if u.Code.Valid && u.Code.String != "" {
+		// Jika kode dikirim dan berbeda dengan data lama, cek ke DB
+		if !old.Code.Valid || u.Code.String != old.Code.String {
 			err := app.Common().IsFieldValueExists(u.Ctx, u.EndPoint(), "Code", u.TableName(), "code", u.Code.String)
 			if err != nil {
 				return err
 			}
+		}
+		// Jika kode dikirim dan data lama tidak ada, cek ke DB (sudah tercakup di atas)
+	} else {
+		// Jika tidak kirim kode dan data lama ada, gunakan data lama
+		if old.Code.Valid && old.Code.String != "" {
+			u.Code = old.Code
 		} else {
+			// Jika tidak kirim kode dan data lama tidak ada, generate baru
 			newCode, err := app.Common().GenerateCode(u.Ctx, u.TableName(), "code", u.Name.String)
 			if err != nil {
 				return err
 			}
 			u.Code.Set(newCode)
-		}
-
-	} else {
-		if u.Code.Valid && u.Code.String != old.Code.String {
-			err := app.Common().IsFieldValueExists(u.Ctx, u.EndPoint(), "Code", u.TableName(), "code", u.Code.String)
-			if err != nil {
-				return err
-			}
 		}
 	}
 
@@ -499,4 +500,72 @@ func JobUpdateAssetValue() {
 			return
 		}
 	}
+
+	app.Cache().DeleteWithPrefix(Asset{}.EndPoint())
+}
+
+func (u UseCaseHandler) GetDepreciation(id string) ([]DepreciationList, error) {
+	res := []DepreciationList{}
+
+	// get data asset
+	asset, err := u.GetByID(id)
+	if err != nil {
+		return res, err
+	}
+
+	// generate depreciation list
+	if !asset.InputDate.Valid || asset.Price.Float64 <= 0 || asset.DepreciationAmountPerMonth.Float64 <= 0 {
+		return res, nil
+	}
+
+	// economic age in months
+	economicAge := int64(0)
+	if asset.CategoryEconomicAges.Valid {
+		economicAge = asset.CategoryEconomicAges.Int64
+	}
+	if economicAge == 0 {
+		return res, nil
+	}
+
+	initialAmount := asset.Price.Float64
+	assetAmount := asset.Price.Float64
+	salvageAmount := asset.SalvageAmount.Float64
+	depPerMonth := asset.DepreciationAmountPerMonth.Float64
+
+	for month := int64(1); month <= economicAge; month++ {
+		if month != 1 {
+			assetAmount -= depPerMonth
+			if salvageAmount != 0 {
+				if assetAmount < salvageAmount {
+					assetAmount = salvageAmount
+				}
+			} else {
+				if assetAmount < 0 {
+					assetAmount = 0
+				}
+			}
+		}
+		date := asset.InputDate.Time.AddDate(0, int(month-1), 0)
+		depreciation := depPerMonth
+		economicAmount := assetAmount - depreciation
+		if salvageAmount != 0 {
+			if economicAmount < salvageAmount {
+				economicAmount = salvageAmount
+			}
+		} else {
+			if economicAmount < 0 {
+				economicAmount = 0
+			}
+		}
+		res = append(res, DepreciationList{
+			Date:               app.NewNullDate(date),
+			Month:              app.NewNullInt64(month),
+			InitialAmount:      app.NewNullFloat64(initialAmount),
+			AssetAmount:        app.NewNullFloat64(assetAmount),
+			DepreciationAmount: app.NewNullFloat64(depreciation),
+			EconomicAmount:     app.NewNullFloat64(economicAmount),
+		})
+	}
+
+	return res, nil
 }

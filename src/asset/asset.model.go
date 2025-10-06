@@ -15,10 +15,11 @@ type Asset struct {
 	AttachmentPath app.NullText    `json:"attachment.path"        db:"att.path"                 gorm:"-"`
 	AttachmentURL  app.NullText    `json:"attachment.url"         db:"att.url"                  gorm:"-"`
 
-	CategoryID          app.NullUUID   `json:"category.id"            db:"m.category_id"            gorm:"column:category_id"`
-	CategoryCode        app.NullString `json:"category.code"          db:"cat.code"                 gorm:"-"`
-	CategoryName        app.NullString `json:"category.name"          db:"cat.name"                 gorm:"-"`
-	CategoryDescription app.NullText   `json:"category.description"   db:"cat.description"          gorm:"-"`
+	CategoryID           app.NullUUID   `json:"category.id"            db:"m.category_id"            gorm:"column:category_id"`
+	CategoryCode         app.NullString `json:"category.code"          db:"cat.code"                 gorm:"-"`
+	CategoryName         app.NullString `json:"category.name"          db:"cat.name"                 gorm:"-"`
+	CategoryEconomicAges app.NullInt64  `json:"category.economic_age"  db:"cat.economic_age"         gorm:"-"`
+	CategoryDescription  app.NullText   `json:"category.description"   db:"cat.description"          gorm:"-"`
 
 	AssignDate app.NullDate `json:"assign_date"            db:"emp_ass.assign_date"      gorm:"-"`
 
@@ -167,4 +168,13 @@ type ParamPartiallyUpdate struct {
 // ParamDelete is the expected parameters for delete the Asset data.
 type ParamDelete struct {
 	UseCaseHandler
+}
+
+type DepreciationList struct {
+	Date               app.NullDate    `json:"date"`
+	Month              app.NullInt64   `json:"month"`
+	InitialAmount      app.NullFloat64 `json:"initial_amount"`
+	AssetAmount        app.NullFloat64 `json:"asset_amount"`
+	DepreciationAmount app.NullFloat64 `json:"depreciation_amount"`
+	EconomicAmount     app.NullFloat64 `json:"economic_amount"`
 }

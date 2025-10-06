@@ -25,8 +25,8 @@ var (
 	APP_VERSION = "2025.09.242223"
 
 	APP_ENV  = "local"
-	APP_PORT = "8080"
-	APP_URL  = "http://localhost:8080"
+	APP_PORT = "33333"
+	APP_URL  = "http://localhost:33333"
 
 	IS_MAIN_SERVER = true // set to true to run migration, seed and task scheduling
 
