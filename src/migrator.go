@@ -12,6 +12,7 @@ import (
 	"github.com/maulanar/go_asset_tracking_management/src/employeeasset"
 	"github.com/maulanar/go_asset_tracking_management/src/jobposition"
 	"github.com/maulanar/go_asset_tracking_management/src/reports/assetcondition"
+	"github.com/maulanar/go_asset_tracking_management/src/user"
 	// import : DONT REMOVE THIS COMMENT
 )
 
@@ -34,6 +35,7 @@ type migratorUtil struct {
 }
 
 func (*migratorUtil) Configure() {
+	app.DB().RegisterTable("main", user.User{})
 	app.DB().RegisterTable("main", department.Department{})
 	app.DB().RegisterTable("main", condition.Condition{})
 	app.DB().RegisterTable("main", category.Category{})
