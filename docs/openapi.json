@@ -410,13 +410,6 @@
         ],
         "responses": {
           "200": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Asset"
-                }
-              }
-            },
             "description": "Success"
           },
           "400": {
@@ -452,7 +445,7 @@
         },
         "summary": "Get Depreciations Asset By ID",
         "tags": [
-          "Asset"
+          "Asset Depreciation"
         ]
       }
     },
@@ -5097,24 +5090,22 @@
           "asset": {
             "properties": {
               "attachment": {
-                "id": {
-                  "format": "uuid",
+                "name": {
                   "type": "string"
                 },
                 "properties": {
-                  "name": {
+                  "url": {
                     "type": "string"
                   }
                 },
                 "type": "object"
               },
               "category": {
-                "name": {
+                "description": {
                   "type": "string"
                 },
                 "properties": {
-                  "id": {
-                    "format": "uuid",
+                  "code": {
                     "type": "string"
                   }
                 },
@@ -5194,8 +5185,7 @@
               },
               "attachment": {
                 "properties": {
-                  "id": {
-                    "format": "uuid",
+                  "path": {
                     "type": "string"
                   }
                 },
@@ -5210,7 +5200,7 @@
                   "type": "string"
                 },
                 "properties": {
-                  "name": {
+                  "address": {
                     "type": "string"
                   }
                 },
@@ -5220,8 +5210,7 @@
                 "type": "string"
               },
               "department": {
-                "id": {
-                  "format": "uuid",
+                "description": {
                   "type": "string"
                 },
                 "properties": {
@@ -5274,8 +5263,7 @@
                     "asset": {
                       "properties": {
                         "attachment": {
-                          "id": {
-                            "format": "uuid",
+                          "path": {
                             "type": "string"
                           },
                           "properties": {
@@ -5286,7 +5274,7 @@
                           "type": "object"
                         },
                         "category": {
-                          "name": {
+                          "code": {
                             "type": "string"
                           },
                           "properties": {
@@ -5369,19 +5357,19 @@
                           "type": "string"
                         },
                         "attachment": {
-                          "name": {
+                          "id": {
+                            "format": "uuid",
                             "type": "string"
                           },
                           "properties": {
-                            "id": {
-                              "format": "uuid",
+                            "path": {
                               "type": "string"
                             }
                           },
                           "type": "object"
                         },
                         "branch": {
-                          "address": {
+                          "name": {
                             "type": "string"
                           },
                           "properties": {
@@ -5396,11 +5384,11 @@
                           "type": "string"
                         },
                         "department": {
-                          "code": {
+                          "name": {
                             "type": "string"
                           },
                           "properties": {
-                            "name": {
+                            "description": {
                               "type": "string"
                             }
                           },
@@ -5971,6 +5959,9 @@
     },
     {
       "name": "Asset"
+    },
+    {
+      "name": "Asset Depreciation"
     },
     {
       "name": "Attachment"

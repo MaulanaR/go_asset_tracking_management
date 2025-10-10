@@ -28,6 +28,21 @@ func (o *OpenAPIOperation) Base() {
 	o.Securities = []map[string][]string{}
 }
 
+func (o *OpenAPIOperation) BaseDepreciation() {
+	o.Tags = []string{"Asset Depreciation"}
+	o.HeaderParams = []map[string]any{{"$ref": "#/components/parameters/headerParam.Accept-Language"}}
+	o.Responses = map[string]map[string]any{
+		"200": {
+			"description": "Success",
+			"content":     map[string]any{"application/json": &[]DepreciationList{}}, // will auto create schema $ref: '#/components/schemas/Asset' if not exists
+		},
+		"400": app.OpenAPIError().BadRequest(),
+		"401": app.OpenAPIError().Unauthorized(),
+		"403": app.OpenAPIError().Forbidden(),
+	}
+	o.Securities = []map[string][]string{}
+}
+
 // Get is detail of `GET /api/v3/assets` open api document component.
 func (o *OpenAPIOperation) Get() *OpenAPIOperation {
 	if !app.IS_GENERATE_OPEN_API_DOC {
@@ -68,7 +83,7 @@ func (o *OpenAPIOperation) GetDepreciationByID() *OpenAPIOperation {
 		return o // skip for efficiency
 	}
 
-	o.Base()
+	o.BaseDepreciation()
 	o.Summary = "Get Depreciations Asset By ID"
 	o.Description = "Use this method to get List depreciation of asset by id"
 	o.PathParams = []map[string]any{{"$ref": "#/components/parameters/pathParam.ID"}}
