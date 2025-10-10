@@ -34,12 +34,11 @@ type routerUtil struct {
 
 func (r *routerUtil) Configure() {
 	app.Server().AddRoute("/api/version", "GET", app.VersionHandler, nil)
-	// app.Server().AddRoute("/api/v1/auth/me", "GET", app.VersionHandler, nil)
 
 	// User Authentication
-	app.Server().AddRoute("/api/v1/me/register", "POST", user.REST().Register, user.OpenAPI().Register())
-	app.Server().AddRoute("/api/v1/me/login", "POST", user.REST().Login, user.OpenAPI().Login())
-	app.Server().AddRoute("/api/v1/me", "GET", user.REST().Profile, user.OpenAPI().Profile())
+	app.Server().AddRoute("/api/v1/auth/register", "POST", user.REST().Register, user.OpenAPI().Register())
+	app.Server().AddRoute("/api/v1/auth/login", "POST", user.REST().Login, user.OpenAPI().Login())
+	app.Server().AddRoute("/api/v1/auth/me", "GET", user.REST().Profile, user.OpenAPI().Profile())
 	app.Server().AddRoute("/api/v1/users", "GET", user.REST().Get, user.OpenAPI().Get())
 	app.Server().AddRoute("/api/v1/users/:id", "DELETE", user.REST().DeleteByID, user.OpenAPI().DeleteByID())
 
