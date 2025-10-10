@@ -696,6 +696,160 @@
         ]
       }
     },
+    "/api/v1/auth/login": {
+      "post": {
+        "description": "Login with email and password",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/headerParam.Accept-Language"
+          }
+        ],
+        "requestBody": {
+          "content": {}
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/User"
+                }
+              }
+            },
+            "description": "Success"
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error.BadRequest"
+                }
+              }
+            },
+            "description": "A validation exception has occurred."
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error.Unauthorized"
+                }
+              }
+            },
+            "description": "Invalid authorization credentials."
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error.Forbidden"
+                }
+              }
+            },
+            "description": "User doesn't have permission to access the resource."
+          }
+        },
+        "summary": "Login User",
+        "tags": [
+          "User"
+        ]
+      }
+    },
+    "/api/v1/auth/me": {
+      "get": {
+        "description": "Get current logged in user profile",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/headerParam.Accept-Language"
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/User"
+                }
+              }
+            },
+            "description": "Success"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error.Unauthorized"
+                }
+              }
+            },
+            "description": "Invalid authorization credentials."
+          }
+        },
+        "summary": "Get Profile",
+        "tags": [
+          "User"
+        ]
+      }
+    },
+    "/api/v1/auth/register": {
+      "post": {
+        "description": "Register a new user",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/headerParam.Accept-Language"
+          }
+        ],
+        "requestBody": {
+          "content": {}
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/User"
+                }
+              }
+            },
+            "description": "Success"
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error.BadRequest"
+                }
+              }
+            },
+            "description": "A validation exception has occurred."
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error.Unauthorized"
+                }
+              }
+            },
+            "description": "Invalid authorization credentials."
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error.Forbidden"
+                }
+              }
+            },
+            "description": "User doesn't have permission to access the resource."
+          }
+        },
+        "summary": "Register User",
+        "tags": [
+          "User"
+        ]
+      }
+    },
     "/api/v1/branches": {
       "post": {
         "description": "Use this method to create Branch",
@@ -3349,59 +3503,86 @@
         ]
       }
     },
-    "/api/v1/me": {
+    "/api/v1/maintenance_types": {
+      "post": {
+        "description": "Use this method to create MaintenanceType",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/headerParam.Accept-Language"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MaintenanceType"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MaintenanceType"
+                }
+              }
+            },
+            "description": "Success"
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error.BadRequest"
+                }
+              }
+            },
+            "description": "A validation exception has occurred."
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error.Unauthorized"
+                }
+              }
+            },
+            "description": "Invalid authorization credentials."
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error.Forbidden"
+                }
+              }
+            },
+            "description": "User doesn't have permission to access the resource."
+          }
+        },
+        "summary": "Create MaintenanceType",
+        "tags": [
+          "MaintenanceType"
+        ]
+      },
       "get": {
-        "description": "Get current logged in user profile",
+        "description": "Use this method to get list of MaintenanceType",
         "parameters": [
           {
             "$ref": "#/components/parameters/headerParam.Accept-Language"
-          }
-        ],
-        "responses": {
-          "200": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/User"
-                }
-              }
-            },
-            "description": "Success"
           },
-          "401": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error.Unauthorized"
-                }
-              }
-            },
-            "description": "Invalid authorization credentials."
-          }
-        },
-        "summary": "Get Profile",
-        "tags": [
-          "User"
-        ]
-      }
-    },
-    "/api/v1/me/login": {
-      "post": {
-        "description": "Login with email and password",
-        "parameters": [
           {
-            "$ref": "#/components/parameters/headerParam.Accept-Language"
+            "$ref": "#/components/parameters/queryParam.Any"
           }
         ],
-        "requestBody": {
-          "content": {}
-        },
         "responses": {
           "200": {
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/User"
+                  "$ref": "#/components/schemas/MaintenanceTypeList"
                 }
               }
             },
@@ -3438,29 +3619,29 @@
             "description": "User doesn't have permission to access the resource."
           }
         },
-        "summary": "Login User",
+        "summary": "Get MaintenanceType",
         "tags": [
-          "User"
+          "MaintenanceType"
         ]
       }
     },
-    "/api/v1/me/register": {
-      "post": {
-        "description": "Register a new user",
+    "/api/v1/maintenance_types/{id}": {
+      "get": {
+        "description": "Use this method to get MaintenanceType by id",
         "parameters": [
+          {
+            "$ref": "#/components/parameters/pathParam.ID"
+          },
           {
             "$ref": "#/components/parameters/headerParam.Accept-Language"
           }
         ],
-        "requestBody": {
-          "content": {}
-        },
         "responses": {
           "200": {
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/User"
+                  "$ref": "#/components/schemas/MaintenanceType"
                 }
               }
             },
@@ -3497,9 +3678,207 @@
             "description": "User doesn't have permission to access the resource."
           }
         },
-        "summary": "Register User",
+        "summary": "Get MaintenanceType By ID",
         "tags": [
-          "User"
+          "MaintenanceType"
+        ]
+      },
+      "put": {
+        "description": "Use this method to update MaintenanceType by id",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/pathParam.ID"
+          },
+          {
+            "$ref": "#/components/parameters/headerParam.Accept-Language"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MaintenanceType"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MaintenanceType"
+                }
+              }
+            },
+            "description": "Success"
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error.BadRequest"
+                }
+              }
+            },
+            "description": "A validation exception has occurred."
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error.Unauthorized"
+                }
+              }
+            },
+            "description": "Invalid authorization credentials."
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error.Forbidden"
+                }
+              }
+            },
+            "description": "User doesn't have permission to access the resource."
+          }
+        },
+        "summary": "Update MaintenanceType By ID",
+        "tags": [
+          "MaintenanceType"
+        ]
+      },
+      "patch": {
+        "description": "Use this method to partially update MaintenanceType by id",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/pathParam.ID"
+          },
+          {
+            "$ref": "#/components/parameters/headerParam.Accept-Language"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MaintenanceType"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MaintenanceType"
+                }
+              }
+            },
+            "description": "Success"
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error.BadRequest"
+                }
+              }
+            },
+            "description": "A validation exception has occurred."
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error.Unauthorized"
+                }
+              }
+            },
+            "description": "Invalid authorization credentials."
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error.Forbidden"
+                }
+              }
+            },
+            "description": "User doesn't have permission to access the resource."
+          }
+        },
+        "summary": "Partially Update MaintenanceType By ID",
+        "tags": [
+          "MaintenanceType"
+        ]
+      },
+      "delete": {
+        "description": "Use this method to delete MaintenanceType by id",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/pathParam.ID"
+          },
+          {
+            "$ref": "#/components/parameters/headerParam.Accept-Language"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MaintenanceType"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MaintenanceType"
+                }
+              }
+            },
+            "description": "Success"
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error.BadRequest"
+                }
+              }
+            },
+            "description": "A validation exception has occurred."
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error.Unauthorized"
+                }
+              }
+            },
+            "description": "Invalid authorization credentials."
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error.Forbidden"
+                }
+              }
+            },
+            "description": "User doesn't have permission to access the resource."
+          }
+        },
+        "summary": "Delete MaintenanceType By ID",
+        "tags": [
+          "MaintenanceType"
         ]
       }
     },
@@ -5094,18 +5473,20 @@
                   "type": "string"
                 },
                 "properties": {
-                  "url": {
+                  "id": {
+                    "format": "uuid",
                     "type": "string"
                   }
                 },
                 "type": "object"
               },
               "category": {
-                "description": {
+                "id": {
+                  "format": "uuid",
                   "type": "string"
                 },
                 "properties": {
-                  "code": {
+                  "name": {
                     "type": "string"
                   }
                 },
@@ -5184,23 +5565,22 @@
                 "type": "string"
               },
               "attachment": {
+                "name": {
+                  "type": "string"
+                },
                 "properties": {
                   "path": {
                     "type": "string"
                   }
                 },
-                "type": "object",
-                "url": {
-                  "type": "string"
-                }
+                "type": "object"
               },
               "branch": {
-                "id": {
-                  "format": "uuid",
+                "address": {
                   "type": "string"
                 },
                 "properties": {
-                  "address": {
+                  "code": {
                     "type": "string"
                   }
                 },
@@ -5210,7 +5590,7 @@
                 "type": "string"
               },
               "department": {
-                "description": {
+                "name": {
                   "type": "string"
                 },
                 "properties": {
@@ -5263,18 +5643,19 @@
                     "asset": {
                       "properties": {
                         "attachment": {
-                          "path": {
+                          "id": {
+                            "format": "uuid",
                             "type": "string"
                           },
                           "properties": {
-                            "url": {
+                            "name": {
                               "type": "string"
                             }
                           },
                           "type": "object"
                         },
                         "category": {
-                          "code": {
+                          "name": {
                             "type": "string"
                           },
                           "properties": {
@@ -5357,24 +5738,23 @@
                           "type": "string"
                         },
                         "attachment": {
-                          "id": {
-                            "format": "uuid",
+                          "name": {
                             "type": "string"
                           },
                           "properties": {
-                            "path": {
+                            "url": {
                               "type": "string"
                             }
                           },
                           "type": "object"
                         },
                         "branch": {
-                          "name": {
+                          "id": {
+                            "format": "uuid",
                             "type": "string"
                           },
                           "properties": {
-                            "id": {
-                              "format": "uuid",
+                            "address": {
                               "type": "string"
                             }
                           },
@@ -5803,6 +6183,120 @@
         },
         "type": "object"
       },
+      "MaintenanceType": {
+        "properties": {
+          "code": {
+            "type": "string"
+          },
+          "created_at": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "id": {
+            "format": "uuid",
+            "type": "string"
+          },
+          "is_active": {
+            "type": "boolean"
+          },
+          "name": {
+            "type": "string"
+          },
+          "updated_at": {
+            "format": "date-time",
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "MaintenanceTypeList": {
+        "properties": {
+          "message": {
+            "type": "string"
+          },
+          "results": {
+            "properties": {
+              "list": {
+                "items": {
+                  "properties": {
+                    "code": {
+                      "type": "string"
+                    },
+                    "created_at": {
+                      "format": "date-time",
+                      "type": "string"
+                    },
+                    "description": {
+                      "type": "string"
+                    },
+                    "id": {
+                      "format": "uuid",
+                      "type": "string"
+                    },
+                    "is_active": {
+                      "type": "boolean"
+                    },
+                    "name": {
+                      "type": "string"
+                    },
+                    "updated_at": {
+                      "format": "date-time",
+                      "type": "string"
+                    }
+                  },
+                  "type": "object"
+                },
+                "type": "array"
+              },
+              "pagination": {
+                "properties": {
+                  "links": {
+                    "properties": {
+                      "first": {
+                        "type": "string"
+                      },
+                      "last": {
+                        "type": "string"
+                      },
+                      "next": {
+                        "type": "string"
+                      },
+                      "previous": {
+                        "type": "string"
+                      }
+                    },
+                    "type": "object"
+                  },
+                  "page": {
+                    "type": "integer"
+                  },
+                  "per_page": {
+                    "type": "integer"
+                  },
+                  "total": {
+                    "type": "integer"
+                  },
+                  "total_pages": {
+                    "type": "integer"
+                  }
+                },
+                "type": "object"
+              }
+            },
+            "type": "object"
+          },
+          "status": {
+            "type": "string"
+          },
+          "timestamp": {
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
       "User": {
         "properties": {
           "created_at": {
@@ -5977,6 +6471,9 @@
     },
     {
       "name": "AssetCondition"
+    },
+    {
+      "name": "MaintenanceType"
     }
   ],
   "externalDocs": {
