@@ -1,6 +1,7 @@
 package user
 
 import (
+	"encoding/json"
 	"errors"
 	"net/http"
 	"net/url"
@@ -28,28 +29,21 @@ type UseCaseHandler struct {
 	Query url.Values `json:"-" db:"-" gorm:"-"`
 }
 
+// ✅ PERBAIKAN: Fungsi Get dengan Raw Query
 func (u UseCaseHandler) Get() (app.ListModel, error) {
 	res := app.ListModel{}
 
-	// check permission
-	err := u.Ctx.ValidatePermission("users.list")
-	if err != nil {
+	// permission
+	if err := u.Ctx.ValidatePermission("users.list"); err != nil {
 		return res, err
 	}
-	// get from cache and return if exists
-	cacheKey := u.EndPoint() + "?" + u.Query.Encode()
-	// err = app.Cache().Get(cacheKey, &res)
-	// if err == nil {
-	// 	return res, err
-	// }
 
-	// prepare db for current ctx
 	tx, err := u.Ctx.DB()
 	if err != nil {
 		return res, app.Error().New(http.StatusInternalServerError, err.Error())
 	}
 
-	// set pagination info
+	// pagination info
 	res.Results.PageContext.Count,
 		res.Results.PageContext.Page,
 		res.Results.PageContext.PerPage,
@@ -58,21 +52,88 @@ func (u UseCaseHandler) Get() (app.ListModel, error) {
 	if err != nil {
 		return res, app.Error().New(http.StatusInternalServerError, err.Error())
 	}
-	// return data count if $per_page set to 0
+
 	if res.Results.PageContext.PerPage == 0 {
 		return res, err
 	}
 
-	// find data
-	data, err := app.Query().Find(tx, &User{}, u.Query)
+	// Pastikan page/perPage valid
+	page := res.Results.PageContext.Page
+	perPage := res.Results.PageContext.PerPage
+	if page <= 0 {
+		page = 1
+	}
+	if perPage <= 0 {
+		perPage = 10
+	}
+
+	// ✅ SOLUSI: Gunakan Raw Query dengan Scan manual
+	rows, err := tx.Raw(`
+		SELECT 
+			m.id,
+			m.email,
+			m.full_name,
+			m.phone,
+			m.is_active,
+			m.created_at,
+			m.updated_at,
+			m.deleted_at,
+			m.role_id,
+			rl.name AS role_name,
+			rl.acl AS role_acl
+		FROM users AS m
+		LEFT JOIN roles AS rl ON rl.id = m.role_id
+		ORDER BY m.created_at DESC
+		LIMIT ? OFFSET ?
+	`, perPage, (page-1)*perPage).Rows()
+
 	if err != nil {
 		return res, app.Error().New(http.StatusInternalServerError, err.Error())
 	}
-	res.SetData(data, u.Query)
+	defer rows.Close()
 
-	// save to cache and return if exists
-	app.Cache().Set(cacheKey, res)
-	return res, err
+	// Scan ke slice of User
+	var users []User
+	for rows.Next() {
+		var user User
+		err = rows.Scan(
+			&user.ID,
+			&user.Email,
+			&user.FullName,
+			&user.Phone,
+			&user.IsActive,
+			&user.CreatedAt,
+			&user.UpdatedAt,
+			&user.DeletedAt,
+			&user.RoleID,
+			&user.RoleName,
+			&user.RoleACL,
+		)
+		if err != nil {
+			return res, app.Error().New(http.StatusInternalServerError, err.Error())
+		}
+		users = append(users, user)
+	}
+
+	// Convert []User -> []map[string]any via JSON marshal/unmarshal
+	b, err := json.Marshal(users)
+	if err != nil {
+		return res, app.Error().New(http.StatusInternalServerError, err.Error())
+	}
+	var rowsData []map[string]any
+	if err := json.Unmarshal(b, &rowsData); err != nil {
+		return res, app.Error().New(http.StatusInternalServerError, err.Error())
+	}
+
+	if rowsData == nil {
+		rowsData = make([]map[string]any, 0)
+	}
+
+	// Set data dan cache
+	res.SetData(rowsData, u.Query)
+	app.Cache().Set(u.EndPoint()+"?"+u.Query.Encode(), res)
+
+	return res, nil
 }
 
 func (u UseCaseHandler) DeleteByID(id string) error {
@@ -96,7 +157,7 @@ func (u *UseCaseHandler) Register(p *ParamRegister) error {
 		return app.Error().New(http.StatusInternalServerError, err.Error())
 	}
 
-	// 🔹 Cek apakah email sudah terdaftar
+	// Cek apakah email sudah terdaftar
 	var existing User
 	if err := tx.Where("email = ?", p.Email).First(&existing).Error; err == nil {
 		return app.Error().New(http.StatusBadRequest, "Email is already registered")
@@ -104,7 +165,7 @@ func (u *UseCaseHandler) Register(p *ParamRegister) error {
 		return app.Error().New(http.StatusInternalServerError, err.Error())
 	}
 
-	// 🔹 Hash password
+	// Hash password
 	hash, err := bcrypt.GenerateFromPassword([]byte(p.Password), 12)
 	if err != nil {
 		return err
@@ -118,7 +179,11 @@ func (u *UseCaseHandler) Register(p *ParamRegister) error {
 	user.Password.Set(string(hash))
 	user.IsActive.Set(true)
 
-	// 🔹 Simpan ke DB
+	if p.RoleID != "" {
+		user.RoleID.Set(p.RoleID)
+	}
+
+	// Simpan ke DB
 	if err := tx.Model(&User{}).Create(&user).Error; err != nil {
 		return app.Error().New(http.StatusInternalServerError, err.Error())
 	}
@@ -163,24 +228,57 @@ func (u *UseCaseHandler) Login(p *ParamLogin) (string, error) {
 	return tokenString, nil
 }
 
+// ✅ PERBAIKAN: Profile juga perlu di-fix
 func (u UseCaseHandler) Profile(userID string) (User, error) {
 	res := User{}
 
-	// check permission kalau mau (opsional)
-	// err := u.Ctx.ValidatePermission("users.detail")
-	// if err != nil {
-	// 	return res, err
-	// }
-
-	// prepare db
 	tx, err := u.Ctx.DB()
 	if err != nil {
 		return res, app.Error().New(http.StatusInternalServerError, err.Error())
 	}
 
-	// ambil user by ID
-	err = tx.Where("id = ?", userID).First(&res).Error
+	// ✅ Gunakan Raw Query dengan JOIN
+	rows, err := tx.Raw(`
+		SELECT 
+			m.id,
+			m.email,
+			m.full_name,
+			m.phone,
+			m.is_active,
+			m.created_at,
+			m.updated_at,
+			m.deleted_at,
+			m.role_id,
+			rl.name AS role_name,
+			rl.acl AS role_acl
+		FROM users AS m
+		LEFT JOIN roles AS rl ON rl.id = m.role_id
+		WHERE m.id = ?
+	`, userID).Rows()
+
 	if err != nil {
+		return res, app.Error().New(http.StatusInternalServerError, err.Error())
+	}
+	defer rows.Close()
+
+	if rows.Next() {
+		err = rows.Scan(
+			&res.ID,
+			&res.Email,
+			&res.FullName,
+			&res.Phone,
+			&res.IsActive,
+			&res.CreatedAt,
+			&res.UpdatedAt,
+			&res.DeletedAt,
+			&res.RoleID,
+			&res.RoleName,
+			&res.RoleACL,
+		)
+		if err != nil {
+			return res, app.Error().New(http.StatusInternalServerError, err.Error())
+		}
+	} else {
 		return res, app.Error().New(http.StatusNotFound, "user not found")
 	}
 

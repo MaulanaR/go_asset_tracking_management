@@ -7,6 +7,7 @@ import (
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/golang-jwt/jwt/v5"
+	"github.com/google/uuid"
 	"github.com/maulanar/go_asset_tracking_management/app"
 )
 
@@ -54,10 +55,15 @@ func (r *RESTAPIHandler) Register(c *fiber.Ctx) error {
 		Password string `json:"password"`
 		FullName string `json:"full_name"`
 		Phone    string `json:"phone"`
+		RoleID   string `json:"role_id"`
 	}
 
 	if err := c.BodyParser(&body); err != nil {
-		return c.Status(http.StatusBadRequest).JSON(fiber.Map{"error": "invalid request body"})
+		return c.Status(http.StatusBadRequest).JSON(fiber.Map{
+			"status":  "Failed",
+			"error":   "invalid request body",
+			"message": "email, password, full_name, and phone are required",
+		})
 	}
 
 	if body.Email == "" || body.Password == "" || body.FullName == "" || body.Phone == "" {
@@ -69,21 +75,77 @@ func (r *RESTAPIHandler) Register(c *fiber.Ctx) error {
 		return c.Status(http.StatusBadRequest).JSON(resp)
 	}
 
+	if body.RoleID != "" {
+		if _, err := uuid.Parse(body.RoleID); err != nil {
+			resp := app.ListSingleModel{Ctx: r.UseCase.Ctx}
+			resp.Status = "Failed"
+			resp.Message = "invalid role_id format, must be valid UUID"
+			resp.TimeStamp = time.Now()
+
+			return c.Status(http.StatusBadRequest).JSON(resp)
+		}
+	}
+
 	if err := r.UseCase.Register(&ParamRegister{
 		Email:    body.Email,
 		Password: body.Password,
 		FullName: body.FullName,
 		Phone:    body.Phone,
+		RoleID:   body.RoleID,
 	}); err != nil {
 		return app.Error().Handler(c, err)
 	}
 
+	// ✅ SOLUSI A: Gunakan Raw Query
+	tx, _ := r.UseCase.Ctx.DB()
+
+	// Query raw SQL
+	rows, err := tx.Raw(`
+		SELECT 
+			m.id,
+			m.email,
+			m.full_name,
+			m.phone,
+			m.is_active,
+			m.created_at,
+			m.updated_at,
+			m.deleted_at,
+			m.role_id,
+			rl.name AS role_name,
+			rl.acl AS role_acl
+		FROM users AS m
+		LEFT JOIN roles AS rl ON rl.id = m.role_id
+		WHERE m.email = ?
+	`, body.Email).Rows()
+
+	if err != nil {
+		return app.Error().Handler(c, app.Error().New(http.StatusInternalServerError, err.Error()))
+	}
+	defer rows.Close()
+
+	var user User
+	if rows.Next() {
+		// Scan manual
+		err = rows.Scan(
+			&user.ID,
+			&user.Email,
+			&user.FullName,
+			&user.Phone,
+			&user.IsActive,
+			&user.CreatedAt,
+			&user.UpdatedAt,
+			&user.DeletedAt,
+			&user.RoleID,
+			&user.RoleName,
+			&user.RoleACL,
+		)
+		if err != nil {
+			return app.Error().Handler(c, app.Error().New(http.StatusInternalServerError, err.Error()))
+		}
+	}
+
 	resp := app.ListSingleModel{Ctx: r.UseCase.Ctx}
-	resp.SetData(map[string]any{
-		"email":     body.Email,
-		"full_name": body.FullName,
-		"phone":     body.Phone,
-	}, r.UseCase.Query) // <- use r.UseCase.Query (url.Values)
+	resp.SetData(user, r.UseCase.Query)
 
 	if r.UseCase.IsFlat() {
 		return c.Status(http.StatusCreated).JSON(resp)

@@ -13,6 +13,7 @@ import (
 	"github.com/maulanar/go_asset_tracking_management/src/jobposition"
 	"github.com/maulanar/go_asset_tracking_management/src/reports/assetcondition"
 	"github.com/maulanar/go_asset_tracking_management/src/reports/distributionassetsperdepartment"
+	"github.com/maulanar/go_asset_tracking_management/src/role"
 	"github.com/maulanar/go_asset_tracking_management/src/user"
 	// import : DONT REMOVE THIS COMMENT
 )
@@ -42,6 +43,13 @@ func (r *routerUtil) Configure() {
 	app.Server().AddRoute("/api/v1/me", "GET", user.REST().Profile, user.OpenAPI().Profile())
 	app.Server().AddRoute("/api/v1/users", "GET", user.REST().Get, user.OpenAPI().Get())
 	app.Server().AddRoute("/api/v1/users/:id", "DELETE", user.REST().DeleteByID, user.OpenAPI().DeleteByID())
+
+	app.Server().AddRoute("/api/v1/roles", "POST", role.REST().Create, role.OpenAPI().Create())
+	app.Server().AddRoute("/api/v1/roles", "GET", role.REST().Get, role.OpenAPI().Get())
+	app.Server().AddRoute("/api/v1/roles/:id", "GET", role.REST().GetByID, role.OpenAPI().GetByID())
+	app.Server().AddRoute("/api/v1/roles/:id", "PUT", role.REST().UpdateByID, role.OpenAPI().UpdateByID())
+	app.Server().AddRoute("/api/v1/roles/:id", "PATCH", role.REST().PartiallyUpdateByID, role.OpenAPI().PartiallyUpdateByID())
+	app.Server().AddRoute("/api/v1/roles/:id", "DELETE", role.REST().DeleteByID, role.OpenAPI().DeleteByID())
 
 	app.Server().AddRoute("/api/v1/departments", "POST", department.REST().Create, department.OpenAPI().Create())
 	app.Server().AddRoute("/api/v1/departments", "GET", department.REST().Get, department.OpenAPI().Get())

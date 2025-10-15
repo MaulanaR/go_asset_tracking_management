@@ -12,6 +12,7 @@ import (
 	"github.com/maulanar/go_asset_tracking_management/src/employeeasset"
 	"github.com/maulanar/go_asset_tracking_management/src/jobposition"
 	"github.com/maulanar/go_asset_tracking_management/src/reports/assetcondition"
+	"github.com/maulanar/go_asset_tracking_management/src/role"
 	"github.com/maulanar/go_asset_tracking_management/src/user"
 	// import : DONT REMOVE THIS COMMENT
 )
@@ -47,6 +48,7 @@ func (*migratorUtil) Configure() {
 	app.DB().RegisterTable("main", employeeasset.EmployeeAsset{})
 	app.DB().RegisterTable("main", jobposition.JobPosition{})
 	app.DB().RegisterTable("main", assetcondition.AssetCondition{})
+	app.DB().RegisterTable("main", role.Role{})
 	// RegisterTable : DONT REMOVE THIS COMMENT
 }
 
