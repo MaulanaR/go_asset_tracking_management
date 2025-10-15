@@ -410,16 +410,6 @@
         ],
         "responses": {
           "200": {
-<<<<<<< HEAD
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Asset"
-                }
-              }
-            },
-=======
->>>>>>> 2dd8e54393563755551a7cca4571f46611a1f68f
             "description": "Success"
           },
           "400": {
@@ -455,11 +445,7 @@
         },
         "summary": "Get Depreciations Asset By ID",
         "tags": [
-<<<<<<< HEAD
-          "Asset"
-=======
           "Asset Depreciation"
->>>>>>> 2dd8e54393563755551a7cca4571f46611a1f68f
         ]
       }
     },
@@ -3517,60 +3503,15 @@
         ]
       }
     },
-<<<<<<< HEAD
-    "/api/v1/me": {
-      "get": {
-        "description": "Get current logged in user profile",
-        "parameters": [
-          {
-            "$ref": "#/components/parameters/headerParam.Accept-Language"
-          }
-        ],
-        "responses": {
-          "200": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/User"
-                }
-              }
-            },
-            "description": "Success"
-          },
-          "401": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error.Unauthorized"
-                }
-              }
-            },
-            "description": "Invalid authorization credentials."
-          }
-        },
-        "summary": "Get Profile",
-        "tags": [
-          "User"
-        ]
-      }
-    },
-    "/api/v1/me/login": {
-      "post": {
-        "description": "Login with email and password",
-=======
     "/api/v1/maintenance_types": {
       "post": {
         "description": "Use this method to create MaintenanceType",
->>>>>>> 2dd8e54393563755551a7cca4571f46611a1f68f
         "parameters": [
           {
             "$ref": "#/components/parameters/headerParam.Accept-Language"
           }
         ],
         "requestBody": {
-<<<<<<< HEAD
-          "content": {}
-=======
           "content": {
             "application/json": {
               "schema": {
@@ -3578,18 +3519,13 @@
               }
             }
           }
->>>>>>> 2dd8e54393563755551a7cca4571f46611a1f68f
         },
         "responses": {
           "200": {
             "content": {
               "application/json": {
                 "schema": {
-<<<<<<< HEAD
-                  "$ref": "#/components/schemas/User"
-=======
                   "$ref": "#/components/schemas/MaintenanceType"
->>>>>>> 2dd8e54393563755551a7cca4571f46611a1f68f
                 }
               }
             },
@@ -3626,84 +3562,13 @@
             "description": "User doesn't have permission to access the resource."
           }
         },
-<<<<<<< HEAD
-        "summary": "Login User",
-        "tags": [
-          "User"
-=======
         "summary": "Create MaintenanceType",
         "tags": [
           "MaintenanceType"
->>>>>>> 2dd8e54393563755551a7cca4571f46611a1f68f
         ]
-      }
-    },
-    "/api/v1/me/register": {
-      "post": {
-        "description": "Register a new user",
-        "parameters": [
-          {
-            "$ref": "#/components/parameters/headerParam.Accept-Language"
-          }
-        ],
-        "requestBody": {
-          "content": {}
-        },
-        "responses": {
-          "200": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/User"
-                }
-              }
-            },
-            "description": "Success"
-          },
-          "400": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error.BadRequest"
-                }
-              }
-            },
-            "description": "A validation exception has occurred."
-          },
-          "401": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error.Unauthorized"
-                }
-              }
-            },
-            "description": "Invalid authorization credentials."
-          },
-          "403": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error.Forbidden"
-                }
-              }
-            },
-            "description": "User doesn't have permission to access the resource."
-          }
-        },
-        "summary": "Register User",
-        "tags": [
-          "User"
-        ]
-      }
-    },
-    "/api/v1/reports/asset_conditions": {
+      },
       "get": {
-<<<<<<< HEAD
-        "description": "Use this method to get Report Asset Condition",
-=======
         "description": "Use this method to get list of MaintenanceType",
->>>>>>> 2dd8e54393563755551a7cca4571f46611a1f68f
         "parameters": [
           {
             "$ref": "#/components/parameters/headerParam.Accept-Language"
@@ -3715,7 +3580,7 @@
         "responses": {
           "200": {
             "content": {
-              "text/html": {
+              "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/MaintenanceTypeList"
                 }
@@ -4132,6 +3997,385 @@
         "summary": "Get DistributionAssetsPerDepartment",
         "tags": [
           "DistributionAssetsPerDepartment"
+        ]
+      }
+    },
+    "/api/v1/roles": {
+      "post": {
+        "description": "Use this method to create Role",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/headerParam.Accept-Language"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Role"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Role"
+                }
+              }
+            },
+            "description": "Success"
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error.BadRequest"
+                }
+              }
+            },
+            "description": "A validation exception has occurred."
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error.Unauthorized"
+                }
+              }
+            },
+            "description": "Invalid authorization credentials."
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error.Forbidden"
+                }
+              }
+            },
+            "description": "User doesn't have permission to access the resource."
+          }
+        },
+        "summary": "Create Role",
+        "tags": [
+          "Role"
+        ]
+      },
+      "get": {
+        "description": "Use this method to get list of Role",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/headerParam.Accept-Language"
+          },
+          {
+            "$ref": "#/components/parameters/queryParam.Any"
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RoleList"
+                }
+              }
+            },
+            "description": "Success"
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error.BadRequest"
+                }
+              }
+            },
+            "description": "A validation exception has occurred."
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error.Unauthorized"
+                }
+              }
+            },
+            "description": "Invalid authorization credentials."
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error.Forbidden"
+                }
+              }
+            },
+            "description": "User doesn't have permission to access the resource."
+          }
+        },
+        "summary": "Get Role",
+        "tags": [
+          "Role"
+        ]
+      }
+    },
+    "/api/v1/roles/:id": {
+      "get": {
+        "description": "Use this method to get Role by id",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/pathParam.ID"
+          },
+          {
+            "$ref": "#/components/parameters/headerParam.Accept-Language"
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Role"
+                }
+              }
+            },
+            "description": "Success"
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error.BadRequest"
+                }
+              }
+            },
+            "description": "A validation exception has occurred."
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error.Unauthorized"
+                }
+              }
+            },
+            "description": "Invalid authorization credentials."
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error.Forbidden"
+                }
+              }
+            },
+            "description": "User doesn't have permission to access the resource."
+          }
+        },
+        "summary": "Get Role By ID",
+        "tags": [
+          "Role"
+        ]
+      },
+      "put": {
+        "description": "Use this method to update Role by id",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/pathParam.ID"
+          },
+          {
+            "$ref": "#/components/parameters/headerParam.Accept-Language"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Role"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Role"
+                }
+              }
+            },
+            "description": "Success"
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error.BadRequest"
+                }
+              }
+            },
+            "description": "A validation exception has occurred."
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error.Unauthorized"
+                }
+              }
+            },
+            "description": "Invalid authorization credentials."
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error.Forbidden"
+                }
+              }
+            },
+            "description": "User doesn't have permission to access the resource."
+          }
+        },
+        "summary": "Update Role By ID",
+        "tags": [
+          "Role"
+        ]
+      },
+      "patch": {
+        "description": "Use this method to partially update Role by id",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/pathParam.ID"
+          },
+          {
+            "$ref": "#/components/parameters/headerParam.Accept-Language"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Role"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Role"
+                }
+              }
+            },
+            "description": "Success"
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error.BadRequest"
+                }
+              }
+            },
+            "description": "A validation exception has occurred."
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error.Unauthorized"
+                }
+              }
+            },
+            "description": "Invalid authorization credentials."
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error.Forbidden"
+                }
+              }
+            },
+            "description": "User doesn't have permission to access the resource."
+          }
+        },
+        "summary": "Partially Update Role By ID",
+        "tags": [
+          "Role"
+        ]
+      },
+      "delete": {
+        "description": "Use this method to delete Role by id",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/pathParam.ID"
+          },
+          {
+            "$ref": "#/components/parameters/headerParam.Accept-Language"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Role"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Role"
+                }
+              }
+            },
+            "description": "Success"
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error.BadRequest"
+                }
+              }
+            },
+            "description": "A validation exception has occurred."
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error.Unauthorized"
+                }
+              }
+            },
+            "description": "Invalid authorization credentials."
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error.Forbidden"
+                }
+              }
+            },
+            "description": "User doesn't have permission to access the resource."
+          }
+        },
+        "summary": "Delete Role By ID",
+        "tags": [
+          "Role"
         ]
       }
     },
@@ -5604,7 +5848,7 @@
           "asset": {
             "properties": {
               "attachment": {
-                "name": {
+                "path": {
                   "type": "string"
                 },
                 "properties": {
@@ -5621,7 +5865,7 @@
                   "type": "string"
                 },
                 "properties": {
-                  "name": {
+                  "code": {
                     "type": "string"
                   }
                 },
@@ -5700,42 +5944,24 @@
                 "type": "string"
               },
               "attachment": {
-<<<<<<< HEAD
-                "id": {
-                  "format": "uuid",
-                  "type": "string"
-                },
-                "properties": {
-                  "url": {
-                    "type": "string"
-                  }
-                },
-                "type": "object"
-              },
-              "branch": {
-                "code": {
-                  "type": "string"
-                },
-                "properties": {
-                  "name": {
-=======
                 "name": {
                   "type": "string"
                 },
                 "properties": {
-                  "path": {
+                  "id": {
+                    "format": "uuid",
                     "type": "string"
                   }
                 },
                 "type": "object"
               },
               "branch": {
-                "address": {
+                "name": {
                   "type": "string"
                 },
                 "properties": {
-                  "code": {
->>>>>>> 2dd8e54393563755551a7cca4571f46611a1f68f
+                  "id": {
+                    "format": "uuid",
                     "type": "string"
                   }
                 },
@@ -5745,11 +5971,12 @@
                 "type": "string"
               },
               "department": {
-                "name": {
+                "description": {
                   "type": "string"
                 },
                 "properties": {
-                  "code": {
+                  "id": {
+                    "format": "uuid",
                     "type": "string"
                   }
                 },
@@ -5798,41 +6025,22 @@
                     "asset": {
                       "properties": {
                         "attachment": {
-<<<<<<< HEAD
-                          "properties": {
-                            "name": {
-                              "type": "string"
-                            }
-                          },
-                          "type": "object",
-                          "url": {
-                            "type": "string"
-                          }
-                        },
-                        "category": {
                           "name": {
                             "type": "string"
                           },
                           "properties": {
-=======
-                          "id": {
-                            "format": "uuid",
-                            "type": "string"
-                          },
-                          "properties": {
-                            "name": {
+                            "path": {
                               "type": "string"
                             }
                           },
                           "type": "object"
                         },
                         "category": {
-                          "name": {
+                          "description": {
                             "type": "string"
                           },
                           "properties": {
->>>>>>> 2dd8e54393563755551a7cca4571f46611a1f68f
-                            "description": {
+                            "code": {
                               "type": "string"
                             }
                           },
@@ -5911,11 +6119,7 @@
                           "type": "string"
                         },
                         "attachment": {
-<<<<<<< HEAD
-                          "path": {
-=======
                           "name": {
->>>>>>> 2dd8e54393563755551a7cca4571f46611a1f68f
                             "type": "string"
                           },
                           "properties": {
@@ -5926,12 +6130,7 @@
                           "type": "object"
                         },
                         "branch": {
-<<<<<<< HEAD
                           "code": {
-=======
-                          "id": {
-                            "format": "uuid",
->>>>>>> 2dd8e54393563755551a7cca4571f46611a1f68f
                             "type": "string"
                           },
                           "properties": {
@@ -5945,11 +6144,11 @@
                           "type": "string"
                         },
                         "department": {
-                          "name": {
+                          "code": {
                             "type": "string"
                           },
                           "properties": {
-                            "description": {
+                            "name": {
                               "type": "string"
                             }
                           },
@@ -6364,8 +6563,6 @@
         },
         "type": "object"
       },
-<<<<<<< HEAD
-=======
       "MaintenanceType": {
         "properties": {
           "code": {
@@ -6480,7 +6677,114 @@
         },
         "type": "object"
       },
->>>>>>> 2dd8e54393563755551a7cca4571f46611a1f68f
+      "Role": {
+        "properties": {
+          "acl": {
+            "type": "string"
+          },
+          "created_at": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "id": {
+            "format": "uuid",
+            "type": "string"
+          },
+          "is_active": {
+            "type": "boolean"
+          },
+          "name": {
+            "type": "string"
+          },
+          "updated_at": {
+            "format": "date-time",
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "RoleList": {
+        "properties": {
+          "message": {
+            "type": "string"
+          },
+          "results": {
+            "properties": {
+              "list": {
+                "items": {
+                  "properties": {
+                    "acl": {
+                      "type": "string"
+                    },
+                    "created_at": {
+                      "format": "date-time",
+                      "type": "string"
+                    },
+                    "id": {
+                      "format": "uuid",
+                      "type": "string"
+                    },
+                    "is_active": {
+                      "type": "boolean"
+                    },
+                    "name": {
+                      "type": "string"
+                    },
+                    "updated_at": {
+                      "format": "date-time",
+                      "type": "string"
+                    }
+                  },
+                  "type": "object"
+                },
+                "type": "array"
+              },
+              "pagination": {
+                "properties": {
+                  "links": {
+                    "properties": {
+                      "first": {
+                        "type": "string"
+                      },
+                      "last": {
+                        "type": "string"
+                      },
+                      "next": {
+                        "type": "string"
+                      },
+                      "previous": {
+                        "type": "string"
+                      }
+                    },
+                    "type": "object"
+                  },
+                  "page": {
+                    "type": "integer"
+                  },
+                  "per_page": {
+                    "type": "integer"
+                  },
+                  "total": {
+                    "type": "integer"
+                  },
+                  "total_pages": {
+                    "type": "integer"
+                  }
+                },
+                "type": "object"
+              }
+            },
+            "type": "object"
+          },
+          "status": {
+            "type": "string"
+          },
+          "timestamp": {
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
       "User": {
         "properties": {
           "created_at": {
@@ -6619,6 +6923,9 @@
   "tags": [
     {
       "name": "User"
+    },
+    {
+      "name": "Role"
     },
     {
       "name": "Department"
