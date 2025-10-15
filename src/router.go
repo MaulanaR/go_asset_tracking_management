@@ -11,6 +11,7 @@ import (
 	"github.com/maulanar/go_asset_tracking_management/src/employee"
 	"github.com/maulanar/go_asset_tracking_management/src/employeeasset"
 	"github.com/maulanar/go_asset_tracking_management/src/jobposition"
+	"github.com/maulanar/go_asset_tracking_management/src/maintenancetype"
 	"github.com/maulanar/go_asset_tracking_management/src/reports/assetcondition"
 	"github.com/maulanar/go_asset_tracking_management/src/reports/distributionassetsperdepartment"
 	"github.com/maulanar/go_asset_tracking_management/src/role"
@@ -35,12 +36,11 @@ type routerUtil struct {
 
 func (r *routerUtil) Configure() {
 	app.Server().AddRoute("/api/version", "GET", app.VersionHandler, nil)
-	// app.Server().AddRoute("/api/v1/auth/me", "GET", app.VersionHandler, nil)
 
 	// User Authentication
-	app.Server().AddRoute("/api/v1/me/register", "POST", user.REST().Register, user.OpenAPI().Register())
-	app.Server().AddRoute("/api/v1/me/login", "POST", user.REST().Login, user.OpenAPI().Login())
-	app.Server().AddRoute("/api/v1/me", "GET", user.REST().Profile, user.OpenAPI().Profile())
+	app.Server().AddRoute("/api/v1/auth/register", "POST", user.REST().Register, user.OpenAPI().Register())
+	app.Server().AddRoute("/api/v1/auth/login", "POST", user.REST().Login, user.OpenAPI().Login())
+	app.Server().AddRoute("/api/v1/auth/me", "GET", user.REST().Profile, user.OpenAPI().Profile())
 	app.Server().AddRoute("/api/v1/users", "GET", user.REST().Get, user.OpenAPI().Get())
 	app.Server().AddRoute("/api/v1/users/:id", "DELETE", user.REST().DeleteByID, user.OpenAPI().DeleteByID())
 
@@ -115,6 +115,13 @@ func (r *routerUtil) Configure() {
 
 	app.Server().AddRoute("/api/v1/reports/distribution_assets_per_departments", "GET", distributionassetsperdepartment.REST().Get, distributionassetsperdepartment.OpenAPI().Get())
 	app.Server().AddRoute("/api/v1/reports/asset_conditions", "GET", assetcondition.REST().Get, assetcondition.OpenAPI().Get())
+
+	app.Server().AddRoute("/api/v1/maintenance_types", "POST", maintenancetype.REST().Create, maintenancetype.OpenAPI().Create())
+	app.Server().AddRoute("/api/v1/maintenance_types", "GET", maintenancetype.REST().Get, maintenancetype.OpenAPI().Get())
+	app.Server().AddRoute("/api/v1/maintenance_types/{id}", "GET", maintenancetype.REST().GetByID, maintenancetype.OpenAPI().GetByID())
+	app.Server().AddRoute("/api/v1/maintenance_types/{id}", "PUT", maintenancetype.REST().UpdateByID, maintenancetype.OpenAPI().UpdateByID())
+	app.Server().AddRoute("/api/v1/maintenance_types/{id}", "PATCH", maintenancetype.REST().PartiallyUpdateByID, maintenancetype.OpenAPI().PartiallyUpdateByID())
+	app.Server().AddRoute("/api/v1/maintenance_types/{id}", "DELETE", maintenancetype.REST().DeleteByID, maintenancetype.OpenAPI().DeleteByID())
 
 	// AddRoute : DONT REMOVE THIS COMMENT
 }
