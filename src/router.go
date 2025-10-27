@@ -11,6 +11,7 @@ import (
 	"github.com/maulanar/go_asset_tracking_management/src/employee"
 	"github.com/maulanar/go_asset_tracking_management/src/employeeasset"
 	"github.com/maulanar/go_asset_tracking_management/src/jobposition"
+	"github.com/maulanar/go_asset_tracking_management/src/maintenanceasset"
 	"github.com/maulanar/go_asset_tracking_management/src/maintenancetype"
 	"github.com/maulanar/go_asset_tracking_management/src/reports/assetcondition"
 	"github.com/maulanar/go_asset_tracking_management/src/reports/distributionassetsperdepartment"
@@ -122,6 +123,13 @@ func (r *routerUtil) Configure() {
 	app.Server().AddRoute("/api/v1/maintenance_types/{id}", "PUT", maintenancetype.REST().UpdateByID, maintenancetype.OpenAPI().UpdateByID())
 	app.Server().AddRoute("/api/v1/maintenance_types/{id}", "PATCH", maintenancetype.REST().PartiallyUpdateByID, maintenancetype.OpenAPI().PartiallyUpdateByID())
 	app.Server().AddRoute("/api/v1/maintenance_types/{id}", "DELETE", maintenancetype.REST().DeleteByID, maintenancetype.OpenAPI().DeleteByID())
+
+	app.Server().AddRoute("/api/v1/maintenance_assets", "POST", maintenanceasset.REST().Create, maintenanceasset.OpenAPI().Create())
+	app.Server().AddRoute("/api/v1/maintenance_assets", "GET", maintenanceasset.REST().Get, maintenanceasset.OpenAPI().Get())
+	app.Server().AddRoute("/api/v1/maintenance_assets/{id}", "GET", maintenanceasset.REST().GetByID, maintenanceasset.OpenAPI().GetByID())
+	app.Server().AddRoute("/api/v1/maintenance_assets/{id}", "PUT", maintenanceasset.REST().UpdateByID, maintenanceasset.OpenAPI().UpdateByID())
+	app.Server().AddRoute("/api/v1/maintenance_assets/{id}", "PATCH", maintenanceasset.REST().PartiallyUpdateByID, maintenanceasset.OpenAPI().PartiallyUpdateByID())
+	app.Server().AddRoute("/api/v1/maintenance_assets/{id}", "DELETE", maintenanceasset.REST().DeleteByID, maintenanceasset.OpenAPI().DeleteByID())
 
 	// AddRoute : DONT REMOVE THIS COMMENT
 }

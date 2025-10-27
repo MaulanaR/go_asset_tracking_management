@@ -14,7 +14,7 @@
   "servers": [
     {
       "description": "local",
-      "url": "http://localhost:4001"
+      "url": "http://localhost:8080"
     }
   ],
   "paths": {
@@ -3503,6 +3503,385 @@
         ]
       }
     },
+    "/api/v1/maintenance_assets": {
+      "post": {
+        "description": "Use this method to create MaintenanceAsset",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/headerParam.Accept-Language"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MaintenanceAsset"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MaintenanceAsset"
+                }
+              }
+            },
+            "description": "Success"
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error.BadRequest"
+                }
+              }
+            },
+            "description": "A validation exception has occurred."
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error.Unauthorized"
+                }
+              }
+            },
+            "description": "Invalid authorization credentials."
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error.Forbidden"
+                }
+              }
+            },
+            "description": "User doesn't have permission to access the resource."
+          }
+        },
+        "summary": "Create MaintenanceAsset",
+        "tags": [
+          "MaintenanceAsset"
+        ]
+      },
+      "get": {
+        "description": "Use this method to get list of MaintenanceAsset",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/headerParam.Accept-Language"
+          },
+          {
+            "$ref": "#/components/parameters/queryParam.Any"
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MaintenanceAssetList"
+                }
+              }
+            },
+            "description": "Success"
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error.BadRequest"
+                }
+              }
+            },
+            "description": "A validation exception has occurred."
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error.Unauthorized"
+                }
+              }
+            },
+            "description": "Invalid authorization credentials."
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error.Forbidden"
+                }
+              }
+            },
+            "description": "User doesn't have permission to access the resource."
+          }
+        },
+        "summary": "Get MaintenanceAsset",
+        "tags": [
+          "MaintenanceAsset"
+        ]
+      }
+    },
+    "/api/v1/maintenance_assets/{id}": {
+      "get": {
+        "description": "Use this method to get MaintenanceAsset by id",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/pathParam.ID"
+          },
+          {
+            "$ref": "#/components/parameters/headerParam.Accept-Language"
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MaintenanceAsset"
+                }
+              }
+            },
+            "description": "Success"
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error.BadRequest"
+                }
+              }
+            },
+            "description": "A validation exception has occurred."
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error.Unauthorized"
+                }
+              }
+            },
+            "description": "Invalid authorization credentials."
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error.Forbidden"
+                }
+              }
+            },
+            "description": "User doesn't have permission to access the resource."
+          }
+        },
+        "summary": "Get MaintenanceAsset By ID",
+        "tags": [
+          "MaintenanceAsset"
+        ]
+      },
+      "put": {
+        "description": "Use this method to update MaintenanceAsset by id",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/pathParam.ID"
+          },
+          {
+            "$ref": "#/components/parameters/headerParam.Accept-Language"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MaintenanceAsset"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MaintenanceAsset"
+                }
+              }
+            },
+            "description": "Success"
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error.BadRequest"
+                }
+              }
+            },
+            "description": "A validation exception has occurred."
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error.Unauthorized"
+                }
+              }
+            },
+            "description": "Invalid authorization credentials."
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error.Forbidden"
+                }
+              }
+            },
+            "description": "User doesn't have permission to access the resource."
+          }
+        },
+        "summary": "Update MaintenanceAsset By ID",
+        "tags": [
+          "MaintenanceAsset"
+        ]
+      },
+      "patch": {
+        "description": "Use this method to partially update MaintenanceAsset by id",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/pathParam.ID"
+          },
+          {
+            "$ref": "#/components/parameters/headerParam.Accept-Language"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MaintenanceAsset"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MaintenanceAsset"
+                }
+              }
+            },
+            "description": "Success"
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error.BadRequest"
+                }
+              }
+            },
+            "description": "A validation exception has occurred."
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error.Unauthorized"
+                }
+              }
+            },
+            "description": "Invalid authorization credentials."
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error.Forbidden"
+                }
+              }
+            },
+            "description": "User doesn't have permission to access the resource."
+          }
+        },
+        "summary": "Partially Update MaintenanceAsset By ID",
+        "tags": [
+          "MaintenanceAsset"
+        ]
+      },
+      "delete": {
+        "description": "Use this method to delete MaintenanceAsset by id",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/pathParam.ID"
+          },
+          {
+            "$ref": "#/components/parameters/headerParam.Accept-Language"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MaintenanceAsset"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MaintenanceAsset"
+                }
+              }
+            },
+            "description": "Success"
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error.BadRequest"
+                }
+              }
+            },
+            "description": "A validation exception has occurred."
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error.Unauthorized"
+                }
+              }
+            },
+            "description": "Invalid authorization credentials."
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error.Forbidden"
+                }
+              }
+            },
+            "description": "User doesn't have permission to access the resource."
+          }
+        },
+        "summary": "Delete MaintenanceAsset By ID",
+        "tags": [
+          "MaintenanceAsset"
+        ]
+      }
+    },
     "/api/v1/maintenance_types": {
       "post": {
         "description": "Use this method to create MaintenanceType",
@@ -5852,8 +6231,7 @@
                   "type": "string"
                 },
                 "properties": {
-                  "id": {
-                    "format": "uuid",
+                  "url": {
                     "type": "string"
                   }
                 },
@@ -5865,7 +6243,7 @@
                   "type": "string"
                 },
                 "properties": {
-                  "code": {
+                  "description": {
                     "type": "string"
                   }
                 },
@@ -5948,20 +6326,18 @@
                   "type": "string"
                 },
                 "properties": {
-                  "id": {
-                    "format": "uuid",
+                  "path": {
                     "type": "string"
                   }
                 },
                 "type": "object"
               },
               "branch": {
-                "name": {
+                "address": {
                   "type": "string"
                 },
                 "properties": {
-                  "id": {
-                    "format": "uuid",
+                  "name": {
                     "type": "string"
                   }
                 },
@@ -5971,12 +6347,12 @@
                 "type": "string"
               },
               "department": {
-                "description": {
+                "id": {
+                  "format": "uuid",
                   "type": "string"
                 },
                 "properties": {
-                  "id": {
-                    "format": "uuid",
+                  "code": {
                     "type": "string"
                   }
                 },
@@ -6025,11 +6401,11 @@
                     "asset": {
                       "properties": {
                         "attachment": {
-                          "name": {
+                          "path": {
                             "type": "string"
                           },
                           "properties": {
-                            "path": {
+                            "url": {
                               "type": "string"
                             }
                           },
@@ -6119,7 +6495,7 @@
                           "type": "string"
                         },
                         "attachment": {
-                          "name": {
+                          "path": {
                             "type": "string"
                           },
                           "properties": {
@@ -6130,11 +6506,11 @@
                           "type": "object"
                         },
                         "branch": {
-                          "code": {
+                          "address": {
                             "type": "string"
                           },
                           "properties": {
-                            "address": {
+                            "code": {
                               "type": "string"
                             }
                           },
@@ -6144,7 +6520,8 @@
                           "type": "string"
                         },
                         "department": {
-                          "code": {
+                          "id": {
+                            "format": "uuid",
                             "type": "string"
                           },
                           "properties": {
@@ -6507,6 +6884,603 @@
                     },
                     "name": {
                       "type": "string"
+                    },
+                    "updated_at": {
+                      "format": "date-time",
+                      "type": "string"
+                    }
+                  },
+                  "type": "object"
+                },
+                "type": "array"
+              },
+              "pagination": {
+                "properties": {
+                  "links": {
+                    "properties": {
+                      "first": {
+                        "type": "string"
+                      },
+                      "last": {
+                        "type": "string"
+                      },
+                      "next": {
+                        "type": "string"
+                      },
+                      "previous": {
+                        "type": "string"
+                      }
+                    },
+                    "type": "object"
+                  },
+                  "page": {
+                    "type": "integer"
+                  },
+                  "per_page": {
+                    "type": "integer"
+                  },
+                  "total": {
+                    "type": "integer"
+                  },
+                  "total_pages": {
+                    "type": "integer"
+                  }
+                },
+                "type": "object"
+              }
+            },
+            "type": "object"
+          },
+          "status": {
+            "type": "string"
+          },
+          "timestamp": {
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "MaintenanceAsset": {
+        "properties": {
+          "amount": {
+            "type": "number"
+          },
+          "asset": {
+            "properties": {
+              "assign_date": {
+                "format": "date",
+                "type": "string"
+              },
+              "attachment": {
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  }
+                },
+                "type": "object",
+                "url": {
+                  "type": "string"
+                }
+              },
+              "branch": {
+                "code": {
+                  "type": "string"
+                },
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  }
+                },
+                "type": "object"
+              },
+              "category": {
+                "id": {
+                  "format": "uuid",
+                  "type": "string"
+                },
+                "properties": {
+                  "description": {
+                    "type": "string"
+                  }
+                },
+                "type": "object"
+              },
+              "code": {
+                "type": "string"
+              },
+              "condition": {
+                "id": {
+                  "format": "uuid",
+                  "type": "string"
+                },
+                "properties": {
+                  "code": {
+                    "type": "string"
+                  }
+                },
+                "type": "object"
+              },
+              "current": {
+                "properties": {
+                  "amount": {
+                    "type": "number"
+                  }
+                },
+                "type": "object"
+              },
+              "department": {
+                "description": {
+                  "type": "string"
+                },
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  }
+                },
+                "type": "object"
+              },
+              "depreciation": {
+                "per_month": {
+                  "type": "number"
+                },
+                "properties": {
+                  "amount": {
+                    "type": "number"
+                  }
+                },
+                "type": "object"
+              },
+              "employee": {
+                "is_active": {
+                  "type": "boolean"
+                },
+                "properties": {
+                  "phone": {
+                    "type": "string"
+                  }
+                },
+                "type": "object"
+              },
+              "id": {
+                "format": "uuid",
+                "type": "string"
+              },
+              "input_date": {
+                "format": "date",
+                "type": "string"
+              },
+              "name": {
+                "type": "string"
+              },
+              "price": {
+                "type": "number"
+              },
+              "salvage": {
+                "properties": {
+                  "amount": {
+                    "type": "number"
+                  }
+                },
+                "type": "object"
+              },
+              "status": {
+                "type": "string"
+              }
+            },
+            "type": "object"
+          },
+          "attachment": {
+            "properties": {
+              "id": {
+                "format": "uuid",
+                "type": "string"
+              },
+              "name": {
+                "type": "string"
+              },
+              "path": {
+                "type": "string"
+              },
+              "url": {
+                "type": "string"
+              }
+            },
+            "type": "object"
+          },
+          "code": {
+            "type": "string"
+          },
+          "created_at": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "date": {
+            "format": "date",
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "employee": {
+            "properties": {
+              "address": {
+                "type": "string"
+              },
+              "attachment": {
+                "path": {
+                  "type": "string"
+                },
+                "properties": {
+                  "id": {
+                    "format": "uuid",
+                    "type": "string"
+                  }
+                },
+                "type": "object"
+              },
+              "branch": {
+                "address": {
+                  "type": "string"
+                },
+                "properties": {
+                  "code": {
+                    "type": "string"
+                  }
+                },
+                "type": "object"
+              },
+              "code": {
+                "type": "string"
+              },
+              "department": {
+                "id": {
+                  "format": "uuid",
+                  "type": "string"
+                },
+                "properties": {
+                  "description": {
+                    "type": "string"
+                  }
+                },
+                "type": "object"
+              },
+              "email": {
+                "type": "string"
+              },
+              "id": {
+                "format": "uuid",
+                "type": "string"
+              },
+              "is_active": {
+                "type": "boolean"
+              },
+              "job_position": {
+                "name": {
+                  "type": "string"
+                },
+                "properties": {
+                  "code": {
+                    "type": "string"
+                  }
+                },
+                "type": "object"
+              },
+              "name": {
+                "type": "string"
+              },
+              "phone": {
+                "type": "string"
+              },
+              "type": {
+                "type": "string"
+              }
+            },
+            "type": "object"
+          },
+          "id": {
+            "format": "uuid",
+            "type": "string"
+          },
+          "maintenance_type": {
+            "properties": {
+              "code": {
+                "type": "string"
+              },
+              "description": {
+                "type": "string"
+              },
+              "id": {
+                "format": "uuid",
+                "type": "string"
+              },
+              "is_active": {
+                "type": "boolean"
+              },
+              "name": {
+                "type": "string"
+              }
+            },
+            "type": "object"
+          },
+          "updated_at": {
+            "format": "date-time",
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "MaintenanceAssetList": {
+        "properties": {
+          "message": {
+            "type": "string"
+          },
+          "results": {
+            "properties": {
+              "list": {
+                "items": {
+                  "properties": {
+                    "amount": {
+                      "type": "number"
+                    },
+                    "asset": {
+                      "properties": {
+                        "assign_date": {
+                          "format": "date",
+                          "type": "string"
+                        },
+                        "attachment": {
+                          "id": {
+                            "format": "uuid",
+                            "type": "string"
+                          },
+                          "properties": {
+                            "url": {
+                              "type": "string"
+                            }
+                          },
+                          "type": "object"
+                        },
+                        "branch": {
+                          "code": {
+                            "type": "string"
+                          },
+                          "properties": {
+                            "id": {
+                              "format": "uuid",
+                              "type": "string"
+                            }
+                          },
+                          "type": "object"
+                        },
+                        "category": {
+                          "description": {
+                            "type": "string"
+                          },
+                          "properties": {
+                            "id": {
+                              "format": "uuid",
+                              "type": "string"
+                            }
+                          },
+                          "type": "object"
+                        },
+                        "code": {
+                          "type": "string"
+                        },
+                        "condition": {
+                          "id": {
+                            "format": "uuid",
+                            "type": "string"
+                          },
+                          "properties": {
+                            "code": {
+                              "type": "string"
+                            }
+                          },
+                          "type": "object"
+                        },
+                        "current": {
+                          "properties": {
+                            "amount": {
+                              "type": "number"
+                            }
+                          },
+                          "type": "object"
+                        },
+                        "department": {
+                          "code": {
+                            "type": "string"
+                          },
+                          "properties": {
+                            "name": {
+                              "type": "string"
+                            }
+                          },
+                          "type": "object"
+                        },
+                        "depreciation": {
+                          "per_month": {
+                            "type": "number"
+                          },
+                          "properties": {
+                            "amount": {
+                              "type": "number"
+                            }
+                          },
+                          "type": "object"
+                        },
+                        "employee": {
+                          "name": {
+                            "type": "string"
+                          },
+                          "properties": {
+                            "address": {
+                              "type": "string"
+                            }
+                          },
+                          "type": "object"
+                        },
+                        "id": {
+                          "format": "uuid",
+                          "type": "string"
+                        },
+                        "input_date": {
+                          "format": "date",
+                          "type": "string"
+                        },
+                        "name": {
+                          "type": "string"
+                        },
+                        "price": {
+                          "type": "number"
+                        },
+                        "salvage": {
+                          "properties": {
+                            "amount": {
+                              "type": "number"
+                            }
+                          },
+                          "type": "object"
+                        },
+                        "status": {
+                          "type": "string"
+                        }
+                      },
+                      "type": "object"
+                    },
+                    "attachment": {
+                      "properties": {
+                        "id": {
+                          "format": "uuid",
+                          "type": "string"
+                        },
+                        "name": {
+                          "type": "string"
+                        },
+                        "path": {
+                          "type": "string"
+                        },
+                        "url": {
+                          "type": "string"
+                        }
+                      },
+                      "type": "object"
+                    },
+                    "code": {
+                      "type": "string"
+                    },
+                    "created_at": {
+                      "format": "date-time",
+                      "type": "string"
+                    },
+                    "date": {
+                      "format": "date",
+                      "type": "string"
+                    },
+                    "description": {
+                      "type": "string"
+                    },
+                    "employee": {
+                      "properties": {
+                        "address": {
+                          "type": "string"
+                        },
+                        "attachment": {
+                          "path": {
+                            "type": "string"
+                          },
+                          "properties": {
+                            "name": {
+                              "type": "string"
+                            }
+                          },
+                          "type": "object"
+                        },
+                        "branch": {
+                          "address": {
+                            "type": "string"
+                          },
+                          "properties": {
+                            "id": {
+                              "format": "uuid",
+                              "type": "string"
+                            }
+                          },
+                          "type": "object"
+                        },
+                        "code": {
+                          "type": "string"
+                        },
+                        "department": {
+                          "id": {
+                            "format": "uuid",
+                            "type": "string"
+                          },
+                          "properties": {
+                            "description": {
+                              "type": "string"
+                            }
+                          },
+                          "type": "object"
+                        },
+                        "email": {
+                          "type": "string"
+                        },
+                        "id": {
+                          "format": "uuid",
+                          "type": "string"
+                        },
+                        "is_active": {
+                          "type": "boolean"
+                        },
+                        "job_position": {
+                          "description": {
+                            "type": "string"
+                          },
+                          "properties": {
+                            "id": {
+                              "format": "uuid",
+                              "type": "string"
+                            }
+                          },
+                          "type": "object"
+                        },
+                        "name": {
+                          "type": "string"
+                        },
+                        "phone": {
+                          "type": "string"
+                        },
+                        "type": {
+                          "type": "string"
+                        }
+                      },
+                      "type": "object"
+                    },
+                    "id": {
+                      "format": "uuid",
+                      "type": "string"
+                    },
+                    "maintenance_type": {
+                      "properties": {
+                        "code": {
+                          "type": "string"
+                        },
+                        "description": {
+                          "type": "string"
+                        },
+                        "id": {
+                          "format": "uuid",
+                          "type": "string"
+                        },
+                        "is_active": {
+                          "type": "boolean"
+                        },
+                        "name": {
+                          "type": "string"
+                        }
+                      },
+                      "type": "object"
                     },
                     "updated_at": {
                       "format": "date-time",
@@ -6965,6 +7939,9 @@
     },
     {
       "name": "MaintenanceType"
+    },
+    {
+      "name": "MaintenanceAsset"
     }
   ],
   "externalDocs": {
